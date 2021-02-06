@@ -1,0 +1,26 @@
+<div class="col">
+    <br>
+    <div class="row">
+        <div class="col">
+            <a id="new-team-buton-id" href="#" class="btn btn-primary">Add a new team</a>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col">
+                <h5 id="teams-list-header" class="card-header">Teams</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" *ngFor="let team of teams"><a id="{{'team-element-' + team.teamId}}"
+                            href="#" class="card-link">{{
+                            team.teamFullName }}</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
