@@ -7,10 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public title = 'team-builder-tool';
-
-
-  myfunc(): void {
-    const essai: number = 10;
-    console.log(essai);
-  }
 }
