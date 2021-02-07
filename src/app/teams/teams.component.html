@@ -1,0 +1,51 @@
+<div class="col">
+    <br>
+    <div class="row">
+        <div class="col">
+            <a id="new-team-buton-id" href="#" class="btn btn-primary">Add a new team</a>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col">
+                <h5 id="teams-list-header" class="card-header">Teams</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ul *ngIf="teams.length; else noTeamPresent" class="list-group list-group-flush">
+                    <li class="list-group-item" *ngFor="let team of teams">
+                        <div class="row d-flex align-items-center justify-content-center">
+                            <div class="col">
+                                <a id="{{'team-element-' + team.teamId}}" href="#" class="card-link">
+                                    <div class="text-center">
+                                        {{ team.teamFullName }}
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Team operations">
+                                    <button type="button" class="btn btn-primary">
+                                        <img src="assets/images/eye.svg" class="img-fluid" alt="eye.svg">
+                                    </button>
+                                    <button type="button" class="btn btn-warning">
+                                        <img src="assets/images/pencil.svg" class="img-fluid" alt="pencil.svg">
+                                    </button>
+                                    <button type="button" class="btn btn-danger">
+                                        <img src="assets/images/trash.svg" class="img-fluid" alt="trash.svg">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ng-template #noTeamPresent>
+                    <div class="card-body">
+                        <p class="card-text">No teams created yet!</p>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

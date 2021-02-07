@@ -14,20 +14,21 @@ describe('AppComponent', () => {
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    const appComponent = fixture.componentInstance;
+    expect(appComponent).toBeTruthy();
   });
 
   it(`should have as title 'team-builder-tool'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('team-builder-tool');
+    const appComponent = fixture.componentInstance;
+    expect(appComponent.title).toEqual('team-builder-tool');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('div.container span').textContent).toContain('team-builder-tool app is running!');
+    const appComponent = fixture.componentInstance;
+    expect(compiled.querySelector('div.container h2').textContent).toContain(appComponent.title);
   });
 });
