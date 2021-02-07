@@ -18,17 +18,9 @@ describe('AppComponent', () => {
     expect(appComponent).toBeTruthy();
   });
 
-  it(`should have as title 'team-builder-tool'`, () => {
+  it(`should have as title 'Teams builder tool'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const appComponent = fixture.componentInstance;
-    expect(appComponent.title).toEqual('team-builder-tool');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    const appComponent = fixture.componentInstance;
-    expect(compiled.querySelector('div.container h2').textContent).toContain(appComponent.title);
+    expect(appComponent.title).toEqual('Teams builder tool');
   });
 });
