@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TeamsComponent } from './teams.component';
@@ -8,7 +9,8 @@ describe('TeamsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TeamsComponent]
+      declarations: [TeamsComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
       .compileComponents();
   });
@@ -36,7 +38,7 @@ describe('TeamsComponent', () => {
   it('should render a team full name in the list', () => {
     const compiled = fixture.nativeElement;
     const index: number = 0;
-    expect(compiled.querySelector('a#team-element-' + index).textContent).toContain(teamsComponent.teams[index].teamFullName);
+    expect(compiled.querySelector('div#team-element-' + index).textContent).toContain(teamsComponent.teams[index].teamFullName);
   });
 
   it('should render a new team buton', () => {
