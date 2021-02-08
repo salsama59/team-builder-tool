@@ -16,7 +16,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <ul *ngIf="teams.length; else noTeamPresent" class="list-group list-group-flush">
+                    <ul *ngIf="teams?.length; else noTeamPresent" class="list-group list-group-flush">
                         <li class="list-group-item" *ngFor="let team of teams">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -52,6 +52,6 @@
         </div>
     </div>
     <div class="col">
-        <app-team [currentTeam]="teams[0]"></app-team>
+        <app-team [teamIdToDisplay]=0></app-team>
     </div>
 </div>

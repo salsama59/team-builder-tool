@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Team } from '../models/team.model';
+import { TeamsService } from '../services/teams.service';
 
 @Component({
   selector: 'app-teams',
@@ -8,11 +9,11 @@ import { Team } from '../models/team.model';
 })
 export class TeamsComponent implements OnInit {
 
-  public teams: Array<Team> = new Array<Team>();
+  public teams: Array<Team> | null = null;
+
+  constructor(private teamsService: TeamsService) { }
 
   ngOnInit(): void {
-    this.teams.push(new Team(0, 'my first team', 'MFT'));
-    this.teams.push(new Team(1, 'my second team', 'MST'));
-    this.teams.push(new Team(2, 'my third team', 'MTT'));
+    this.teams = this.teamsService.getTeams();
   }
 }
