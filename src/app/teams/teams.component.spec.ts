@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Team } from '../models/team.model';
 
 import { TeamsComponent } from './teams.component';
 
@@ -18,6 +19,12 @@ describe('TeamsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TeamsComponent);
     teamsComponent = fixture.componentInstance;
+    teamsComponent.teams = [
+      new Team(0, 'my first team', 'MFT'),
+      new Team(1, 'my second team', 'MST'),
+      new Team(2, 'my third team', 'MTT'),
+      new Team(3, 'my fourth team', 'MFTHT')
+    ];
     fixture.detectChanges();
   });
 
@@ -27,7 +34,7 @@ describe('TeamsComponent', () => {
 
   it('should posses 3 teams in it list', () => {
     expect(teamsComponent.teams).toBeDefined();
-    expect(teamsComponent.teams).toHaveSize(3);
+    expect(teamsComponent.teams).toHaveSize(4);
   });
 
   it('should render the team list header', () => {
@@ -38,7 +45,10 @@ describe('TeamsComponent', () => {
   it('should render a team full name in the list', () => {
     const compiled = fixture.nativeElement;
     const index: number = 0;
-    expect(compiled.querySelector('div#team-element-' + index).textContent).toContain(teamsComponent.teams[index].teamFullName);
+    if (teamsComponent.teams) {
+      expect(compiled.querySelector('div#team-element-' + index).textContent).toContain(teamsComponent.teams[index].teamFullName);
+    }
+
   });
 
   it('should render a new team buton', () => {
