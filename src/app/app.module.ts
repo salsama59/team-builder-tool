@@ -7,6 +7,9 @@ import { TeamsComponent } from './teams/teams.component';
 import { TeamComponent } from './teams/team/team.component';
 import { TeamsService } from './services/teams.service';
 
+/**
+ * This class represent the application module
+ */
 @NgModule({
   declarations: [
     AppComponent,
