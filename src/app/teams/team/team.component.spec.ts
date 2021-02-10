@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Team } from 'src/app/models/team.model';
 
 import { TeamComponent } from './team.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('TeamComponent', () => {
   let teamComponent: TeamComponent;
@@ -12,6 +13,24 @@ describe('TeamComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              params: {
+                teamId: 0
+              }
+            },
+            params: of({
+              teamId: 0
+            }),
+          }
+        }
+      ],
       declarations: [TeamComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -21,7 +40,6 @@ describe('TeamComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TeamComponent);
     teamComponent = fixture.componentInstance;
-    teamComponent.currentTeam = new Team(0, 'Full name', "FN");
     fixture.detectChanges();
   });
 
