@@ -16,7 +16,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <ul *ngIf="teams?.length; else noTeamPresent" class="list-group list-group-flush">
+                    <ul id="team-list" *ngIf="teams?.length; else noTeamPresent" class="list-group list-group-flush">
                         <li class="list-group-item" *ngFor="let team of teams">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -28,13 +28,16 @@
                                 </div>
                                 <div class="col">
                                     <div class="btn-group btn-group-sm" role="group" aria-label="Team operations">
-                                        <button type="button" class="btn btn-primary">
+                                        <button id="{{'view-team-button-id-' + team.teamId}}" type="button"
+                                            class="btn btn-primary" (click)="onViewTeamElement(team.teamId)">
                                             <img src="assets/images/eye.svg" class="img-fluid" alt="eye.svg">
                                         </button>
-                                        <button type="button" class="btn btn-warning">
+                                        <button id="{{'edit-team-button-id-' + team.teamId}}" type="button"
+                                            class="btn btn-warning">
                                             <img src="assets/images/pencil.svg" class="img-fluid" alt="pencil.svg">
                                         </button>
-                                        <button type="button" class="btn btn-danger">
+                                        <button id="{{'delete-team-button-id-' + team.teamId}}" type="button"
+                                            class="btn btn-danger">
                                             <img src="assets/images/trash.svg" class="img-fluid" alt="trash.svg">
                                         </button>
                                     </div>
@@ -52,6 +55,6 @@
         </div>
     </div>
     <div class="col">
-        <app-team [teamIdToDisplay]=0></app-team>
+        <router-outlet></router-outlet>
     </div>
 </div>

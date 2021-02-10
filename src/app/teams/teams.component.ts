@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Team } from '../models/team.model';
 import { TeamsService } from '../services/teams.service';
 /**
@@ -21,11 +22,20 @@ export class TeamsComponent implements OnInit {
 
   /**
    * Creates an instance of teams component.
+   * @constructor
    * @param teamsService the teams service injected
    */
-  constructor(private teamsService: TeamsService) { }
+  constructor(private teamsService: TeamsService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.teams = this.teamsService.getTeams();
+  }
+
+  /**
+   * Display the team element given an id by routing the user to the TeamComponent view
+   * @param teamId the team id.
+   */
+  onViewTeamElement(teamId: number): void {
+    this.router.navigate([teamId], { relativeTo: this.activatedRoute });
   }
 }

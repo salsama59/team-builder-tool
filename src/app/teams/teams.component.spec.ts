@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Team } from '../models/team.model';
 
 import { TeamsComponent } from './teams.component';
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe('TeamsComponent', () => {
   let teamsComponent: TeamsComponent;
@@ -10,6 +11,9 @@ describe('TeamsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
       declarations: [TeamsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
