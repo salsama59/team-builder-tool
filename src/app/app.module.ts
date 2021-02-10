@@ -6,6 +6,7 @@ import { HeaderComponent } from './header/header.component';
 import { TeamsComponent } from './teams/teams.component';
 import { TeamComponent } from './teams/team/team.component';
 import { TeamsService } from './services/teams.service';
+import { AppRoutingModule } from './app-routing.module';
 
 /**
  * This class represent the application module
@@ -18,7 +19,8 @@ import { TeamsService } from './services/teams.service';
     TeamComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [TeamsService],
   bootstrap: [AppComponent]
