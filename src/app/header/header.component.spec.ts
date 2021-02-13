@@ -47,6 +47,6 @@ describe('HeaderComponent', () => {
 
   it('should render the app title in the nav bar', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('nav a.navbar-brand').textContent).toContain(headerComponent.headerTitle);
+    expect(compiled.querySelector('nav div.navbar-brand').textContent).toContain(headerComponent.headerTitle);
   });
 });
