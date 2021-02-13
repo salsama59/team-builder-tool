@@ -6,7 +6,7 @@ export class AppPage {
   }
 
   async getTitleText(): Promise<string> {
-    return element(by.css('app-root nav a.navbar-brand')).getText();
+    return element(by.css('app-root nav div.navbar-brand')).getText();
   }
 
   getHeaderHomeTabElement(): ElementFinder {
@@ -43,6 +43,14 @@ export class AppPage {
 
   getTeamElementFormShortNameField(): ElementFinder {
     return element(by.css('app-team form div input#teamShortNameFormInput'));
+  }
+
+  getHomeFeatureCardElement(featureElementId: string) {
+    return element(by.css('app-home div#' + featureElementId));
+  }
+
+  getHomeFeatureButtonElement(featureElementId: string) {
+    return element(by.css('app-home div#' + featureElementId + ' div.card-body a'));
   }
 
   async getElementValueAttribute(element: ElementFinder): Promise<string> {
