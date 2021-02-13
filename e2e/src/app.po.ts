@@ -5,16 +5,12 @@ export class AppPage {
     return browser.get(browser.baseUrl);
   }
 
-  async getTitleText(): Promise<string> {
-    return element(by.css('app-root nav div.navbar-brand')).getText();
+  getTitleElement(): ElementFinder {
+    return element(by.css('app-root nav div.navbar-brand'));
   }
 
   getHeaderHomeTabElement(): ElementFinder {
     return element(by.css('app-header nav div ul li a#home-tab-link'));
-  }
-
-  async getHeaderHomeTabContentText(): Promise<string> {
-    return this.getHeaderHomeTabElement().getText();
   }
 
   getHeaderTeamsTabElement(): ElementFinder {
@@ -51,17 +47,5 @@ export class AppPage {
 
   getHomeFeatureButtonElement(featureElementId: string) {
     return element(by.css('app-home div#' + featureElementId + ' div.card-body a'));
-  }
-
-  async getElementValueAttribute(element: ElementFinder): Promise<string> {
-    return element.getAttribute('value');
-  }
-
-  async getHeaderTeamsTabContentText(): Promise<string> {
-    return this.getHeaderTeamsTabElement().getText();
-  }
-
-  clickOnPageElement(element: ElementFinder): void {
-    element.click();
   }
 }

@@ -1,5 +1,6 @@
 import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
+import { EndToEndTestUtils } from './utils/end-to-end-test-utils.po';
 
 describe('Team builder App home section', () => {
   let page: AppPage;
@@ -11,25 +12,25 @@ describe('Team builder App home section', () => {
 
   it('should display the app title', async () => {
     await page.navigateTo();
-    expect(await page.getTitleText()).toEqual('Teams builder tool');
+    expect(await EndToEndTestUtils.getElementContentText(page.getTitleElement())).toEqual('Teams builder tool');
   });
 
   it('should display the home tab', async () => {
     await page.navigateTo();
-    expect(await page.getHeaderHomeTabContentText()).toEqual('Home');
+    expect(await EndToEndTestUtils.getElementContentText(page.getHeaderHomeTabElement())).toEqual('Home');
   });
 
   it('should display the home view when the Home tab is clicked', async () => {
     await page.navigateTo();
-    page.clickOnPageElement(page.getHeaderHomeTabElement());
+    EndToEndTestUtils.clickOnPageElement(page.getHeaderHomeTabElement());
     expect(await page.getHomeFeatureCardElement('team-feature-element').isPresent());
   });
 
   it('should display the teams view when the teams feature button is clicked', async () => {
     await page.navigateTo();
-    page.clickOnPageElement(page.getHeaderHomeTabElement());
+    EndToEndTestUtils.clickOnPageElement(page.getHeaderHomeTabElement());
     expect(await page.getHomeFeatureCardElement('team-feature-element').isPresent());
-    page.clickOnPageElement(page.getHomeFeatureButtonElement('team-feature-element'));
+    EndToEndTestUtils.clickOnPageElement(page.getHomeFeatureButtonElement('team-feature-element'));
     expect(await page.getTeamListElement().isPresent());
   });
 
@@ -53,20 +54,20 @@ describe('Team builder teams section', () => {
 
   it('should display the teams tab', async () => {
     await page.navigateTo();
-    expect(await page.getHeaderTeamsTabContentText()).toEqual('Teams');
+    expect(await EndToEndTestUtils.getElementContentText(page.getHeaderTeamsTabElement())).toEqual('Teams');
   });
 
   it('should display the team list when the teams tab is clicked', async () => {
     await page.navigateTo();
-    page.clickOnPageElement(page.getHeaderTeamsTabElement());
+    EndToEndTestUtils.clickOnPageElement(page.getHeaderTeamsTabElement());
     expect(await page.getTeamListElement().isPresent());
   });
 
   it('should display the selected team element when the view button is clicked', async () => {
     await page.navigateTo();
-    page.clickOnPageElement(page.getHeaderTeamsTabElement());
+    EndToEndTestUtils.clickOnPageElement(page.getHeaderTeamsTabElement());
     expect(await page.getTeamListElement().isPresent());
-    page.clickOnPageElement(page.getTeamElementViewButton(0));
+    EndToEndTestUtils.clickOnPageElement(page.getTeamElementViewButton(0));
     expect(await page.getTeamElementViewForm().isPresent());
     expect(await page.getTeamElementFormIdField().isPresent());
     expect(await page.getTeamElementFormFullNameField().isPresent());
@@ -74,9 +75,9 @@ describe('Team builder teams section', () => {
     expect(await page.getTeamElementFormIdField().isEnabled()).toBeFalsy();
     expect(await page.getTeamElementFormFullNameField().isEnabled()).toBeFalsy();
     expect(await page.getTeamElementFormShortNameField().isEnabled()).toBeFalsy();
-    expect(await page.getElementValueAttribute(page.getTeamElementFormIdField())).toEqual('0');
-    expect(await page.getElementValueAttribute(page.getTeamElementFormFullNameField())).toEqual('my first team');
-    expect(await page.getElementValueAttribute(page.getTeamElementFormShortNameField())).toEqual('MFT');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getTeamElementFormIdField())).toEqual('0');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getTeamElementFormFullNameField())).toEqual('my first team');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getTeamElementFormShortNameField())).toEqual('MFT');
 
   });
 
