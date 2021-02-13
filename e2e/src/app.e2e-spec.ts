@@ -2,7 +2,7 @@ import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
 import { EndToEndTestUtils } from './utils/end-to-end-test-utils.po';
 
-describe('Team builder App home section', () => {
+describe('Team builder home section', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -18,6 +18,7 @@ describe('Team builder App home section', () => {
   it('should display the home tab', async () => {
     await page.navigateTo();
     expect(await EndToEndTestUtils.getElementContentText(page.getHeaderHomeTabElement())).toEqual('Home');
+    expect(await EndToEndTestUtils.isElementHasClass(page.getHeaderHomeTabElement(), 'active'));
   });
 
   it('should display the home view when the Home tab is clicked', async () => {
@@ -61,6 +62,7 @@ describe('Team builder teams section', () => {
     await page.navigateTo();
     EndToEndTestUtils.clickOnPageElement(page.getHeaderTeamsTabElement());
     expect(await page.getTeamListElement().isPresent());
+    expect(await EndToEndTestUtils.isElementHasClass(page.getHeaderTeamsTabElement(), 'active'));
   });
 
   it('should display the selected team element when the view button is clicked', async () => {
