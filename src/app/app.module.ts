@@ -7,6 +7,7 @@ import { TeamsComponent } from './teams/teams.component';
 import { TeamComponent } from './teams/team/team.component';
 import { TeamsService } from './services/teams.service';
 import { AppRoutingModule } from './app-routing.module';
+import { HomeComponent } from './home/home.component';
 
 /**
  * This class represent the application module
@@ -16,7 +17,8 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     HeaderComponent,
     TeamsComponent,
-    TeamComponent
+    TeamComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
