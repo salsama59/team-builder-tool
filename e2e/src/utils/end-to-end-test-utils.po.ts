@@ -14,4 +14,10 @@ export class EndToEndTestUtils {
         element.click();
     }
 
+    public static async isElementHasClass(element: ElementFinder, searchedClass: string): Promise<boolean> {
+        return element.getAttribute('class').then(result => {
+            return result.includes(searchedClass);
+        });
+    }
+
 }
