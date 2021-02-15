@@ -26,6 +26,10 @@ export class TeamComponent implements OnInit {
    */
   constructor(private teamsService: TeamsService, private activatedRoute: ActivatedRoute) { }
 
+  /**
+   * Initialize the current displayed team by getting the url parameter.
+   * Also a subscribtion to the parameter change is done in order to update the current displayed team whe needed.
+   */
   ngOnInit(): void {
 
     //Get the team id value as soon as possible using the snapshot property, and convert the string value to number with the '+' operator
