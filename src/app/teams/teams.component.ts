@@ -27,6 +27,9 @@ export class TeamsComponent implements OnInit {
    */
   constructor(private teamsService: TeamsService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
+  /**
+   * Initialize the team list.
+   */
   ngOnInit(): void {
     this.teams = this.teamsService.getTeams();
   }

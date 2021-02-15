@@ -8,6 +8,7 @@ import { TeamComponent } from './teams/team/team.component';
 import { TeamsService } from './services/teams.service';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
+import { FooterComponent } from './footer/footer.component';
 
 /**
  * This class represent the application module
@@ -18,7 +19,8 @@ import { HomeComponent } from './home/home.component';
     HeaderComponent,
     TeamsComponent,
     TeamComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
