@@ -48,4 +48,8 @@ export class AppPage {
   getHomeFeatureButtonElement(featureElementId: string) {
     return element(by.css('app-home div#' + featureElementId + ' div.card-body a'));
   }
+
+  getFooterCopyrightElement(copyrightElementId: string) {
+    return element(by.css('app-footer div div#' + copyrightElementId));
+  }
 }

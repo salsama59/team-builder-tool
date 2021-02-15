@@ -1,49 +1,6 @@
-import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
+import { AppPage } from './utils/app.po';
 import { EndToEndTestUtils } from './utils/end-to-end-test-utils.po';
-
-describe('Team builder home section', () => {
-  let page: AppPage;
-
-  beforeEach(() => {
-    page = new AppPage();
-    browser.driver.manage().window().maximize();
-  });
-
-  it('should display the app title', async () => {
-    await page.navigateTo();
-    expect(await EndToEndTestUtils.getElementContentText(page.getTitleElement())).toEqual('Teams builder tool');
-  });
-
-  it('should display the home tab', async () => {
-    await page.navigateTo();
-    expect(await EndToEndTestUtils.getElementContentText(page.getHeaderHomeTabElement())).toEqual('Home');
-    expect(await EndToEndTestUtils.isElementHasClass(page.getHeaderHomeTabElement(), 'active'));
-  });
-
-  it('should display the home view when the Home tab is clicked', async () => {
-    await page.navigateTo();
-    EndToEndTestUtils.clickOnPageElement(page.getHeaderHomeTabElement());
-    expect(await page.getHomeFeatureCardElement('team-feature-element').isPresent());
-  });
-
-  it('should display the teams view when the teams feature button is clicked', async () => {
-    await page.navigateTo();
-    EndToEndTestUtils.clickOnPageElement(page.getHeaderHomeTabElement());
-    expect(await page.getHomeFeatureCardElement('team-feature-element').isPresent());
-    EndToEndTestUtils.clickOnPageElement(page.getHomeFeatureButtonElement('team-feature-element'));
-    expect(await page.getTeamListElement().isPresent());
-  });
-
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
-  });
-});
-
 
 describe('Team builder teams section', () => {
   let page: AppPage;
@@ -51,11 +8,6 @@ describe('Team builder teams section', () => {
   beforeEach(() => {
     page = new AppPage();
     browser.driver.manage().window().maximize();
-  });
-
-  it('should display the teams tab', async () => {
-    await page.navigateTo();
-    expect(await EndToEndTestUtils.getElementContentText(page.getHeaderTeamsTabElement())).toEqual('Teams');
   });
 
   it('should display the team list when the teams tab is clicked', async () => {
