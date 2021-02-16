@@ -9,6 +9,7 @@ import { TeamsService } from './services/teams.service';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
+import { PlayersService } from './services/players.service';
 
 /**
  * This class represent the application module
@@ -26,7 +27,7 @@ import { FooterComponent } from './footer/footer.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [TeamsService],
+  providers: [TeamsService, PlayersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
