@@ -59,7 +59,7 @@ export class TeamsService {
 
   /**
    * Delete a team given an id
-   * @param teamIdToDelete  the team id to delete.
+   * @param teamIdToDelete the team id to delete.
    */
   deleteTeamById(teamIdToDelete: number): void {
     this.teams.splice(teamIdToDelete, 1);
