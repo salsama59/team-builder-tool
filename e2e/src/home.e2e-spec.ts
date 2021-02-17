@@ -19,6 +19,7 @@ describe('Team builder home section', () => {
     await page.navigateTo();
     EndToEndTestUtils.clickOnPageElement(page.getHeaderHomeTabElement());
     expect(await page.getHomeFeatureCardElement('team-feature-element').isPresent());
+    expect(await page.getHomeFeatureCardElement('player-feature-element').isPresent());
   });
 
   it('should display the teams view when the teams feature button is clicked', async () => {
@@ -27,6 +28,14 @@ describe('Team builder home section', () => {
     expect(await page.getHomeFeatureCardElement('team-feature-element').isPresent());
     EndToEndTestUtils.clickOnPageElement(page.getHomeFeatureButtonElement('team-feature-element'));
     expect(await page.getTeamListElement().isPresent());
+  });
+
+  it('should display the players view when the players feature button is clicked', async () => {
+    await page.navigateTo();
+    EndToEndTestUtils.clickOnPageElement(page.getHeaderHomeTabElement());
+    expect(await page.getHomeFeatureCardElement('player-feature-element').isPresent());
+    EndToEndTestUtils.clickOnPageElement(page.getHomeFeatureButtonElement('player-feature-element'));
+    expect(await page.getPlayerListElement().isPresent());
   });
 
   afterEach(async () => {
