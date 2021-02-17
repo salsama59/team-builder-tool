@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { PlayersService } from './services/players.service';
+import { PlayersComponent } from './players/players.component';
 
 /**
  * This class represent the application module
@@ -21,7 +22,8 @@ import { PlayersService } from './services/players.service';
     TeamsComponent,
     TeamComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    PlayersComponent
   ],
   imports: [
     BrowserModule,
