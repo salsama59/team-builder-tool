@@ -17,12 +17,24 @@ export class AppPage {
     return element(by.css('app-header nav div ul li a#teams-tab-link'));
   }
 
+  getHeaderPlayersTabElement(): ElementFinder {
+    return element(by.css('app-header nav div ul li a#players-tab-link'));
+  }
+
   getTeamListElement(): ElementFinder {
     return element(by.css('app-teams div div div div div ul#team-list'));
   }
 
+  getPlayerListElement(): ElementFinder {
+    return element(by.css('app-players div div div div div ul#player-list'));
+  }
+
   getTeamElementViewButton(teamId: number): ElementFinder {
     return element(by.css('app-teams div div div div div ul#team-list > li div div div button#view-team-button-id-' + teamId));
+  }
+
+  getPlayerElementViewButton(playerId: number): ElementFinder {
+    return element(by.css('app-players div div div div div ul#player-list > li div div div button#view-player-button-id-' + playerId));
   }
 
   getTeamElementViewForm(): ElementFinder {

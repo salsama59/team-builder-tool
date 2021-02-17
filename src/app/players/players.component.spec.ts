@@ -1,0 +1,67 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PlayerFieldPositionEnum } from '../enums/player-field-position.enum';
+import { Player } from '../models/player.model';
+
+import { PlayersComponent } from './players.component';
+
+describe('PlayersComponent', () => {
+  let playersComponent: PlayersComponent;
+  let fixture: ComponentFixture<PlayersComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [PlayersComponent]
+    })
+      .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PlayersComponent);
+    playersComponent = fixture.componentInstance;
+    playersComponent.players = [
+      new Player(0, 0, 0, 0, 'Joe', PlayerFieldPositionEnum.CENTER_FIELDER, PlayerFieldPositionEnum.CENTER_FIELDER)
+    ];
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(playersComponent).toBeTruthy();
+  });
+
+  it('should posses 3 players in it list', () => {
+    expect(playersComponent.players).toBeDefined();
+    expect(playersComponent.players).toHaveSize(1);
+  });
+
+  it('should render the player list header', () => {
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('h5#players-list-header').textContent).toContain('players');
+  });
+
+  it('should render a player name in the list', () => {
+    const compiled = fixture.nativeElement;
+    const index: number = 0;
+    if (playersComponent.players) {
+      expect(compiled.querySelector('div#player-name-element-' + index).textContent).toContain(playersComponent.players[index].playerName);
+    }
+  });
+
+  it('should render a player field position in the list', () => {
+    const compiled = fixture.nativeElement;
+    const index: number = 0;
+    if (playersComponent.players) {
+      expect(compiled.querySelector('div#player-field-position-element-' + index).textContent).toContain(playersComponent.players[index].playerFieldPosition);
+    }
+  });
+
+  it('should render a new player buton', () => {
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('a#new-player-buton-id').textContent).toContain("Add a new player");
+  });
+
+  // it('should navigate to view player section', () => {
+  //   const spy = spyOn(router, 'navigate');
+  //   playersComponent.onViewplayerElement(0);
+  //   expect(spy).toHaveBeenCalledWith([0], { relativeTo: activatedRoute });
+  // });
+});
