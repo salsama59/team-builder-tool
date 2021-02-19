@@ -21,18 +21,32 @@ describe('Team builder players section', () => {
     await page.navigateTo();
     EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
     expect(await page.getPlayerListElement().isPresent());
-    expect(await page.getPlayerElementViewButton(0).isPresent());
-    //EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewButton(0));
-    // expect(await page.getPlayerElementViewForm().isPresent());y
-    // expect(await page.getPlayerElementFormIdField().isPresent());
-    // expect(await page.getPlayerElementFormFullNameField().isPresent());
-    // expect(await page.getPlayerElementFormShortNameField().isPresent());
-    // expect(await page.getPlayerElementFormIdField().isEnabled()).toBeFalsy();
-    // expect(await page.getPlayerElementFormFullNameField().isEnabled()).toBeFalsy();
-    // expect(await page.getPlayerElementFormShortNameField().isEnabled()).toBeFalsy();
-    // expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormIdField())).toEqual('0');
-    // expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormFullNameField())).toEqual('my first player');
-    // expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormShortNameField())).toEqual('MFT');
+    EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewButton(0));
+    expect(await page.getPlayerElementViewForm().isPresent());
+
+    expect(await page.getPlayerElementFormPlayerIdField().isPresent());
+    expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent());
+    expect(await page.getPlayerElementFormPlayerStatusIdField().isPresent());
+    expect(await page.getPlayerElementFormPlayerAbilityIdField().isPresent());
+    expect(await page.getPlayerElementFormPlayerNameField().isPresent());
+    expect(await page.getPlayerElementFormPlayerFieldPositionField().isPresent());
+    expect(await page.getPlayerElementFormDefaultPlayerFieldPositionField().isPresent());
+
+    expect(await page.getPlayerElementFormPlayerIdField().isEnabled()).toBeFalsy();
+    expect(await page.getPlayerElementFormPlayerTeamIdField().isEnabled()).toBeFalsy();
+    expect(await page.getPlayerElementFormPlayerStatusIdField().isEnabled()).toBeFalsy();
+    expect(await page.getPlayerElementFormPlayerAbilityIdField().isEnabled()).toBeFalsy();
+    expect(await page.getPlayerElementFormPlayerNameField().isEnabled()).toBeFalsy();
+    expect(await page.getPlayerElementFormPlayerFieldPositionField().isEnabled()).toBeFalsy();
+    expect(await page.getPlayerElementFormDefaultPlayerFieldPositionField().isEnabled()).toBeFalsy();
+
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormPlayerIdField())).toEqual('0');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormPlayerTeamIdField())).toEqual('0');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormPlayerStatusIdField())).toEqual('0');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormPlayerAbilityIdField())).toEqual('0');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormPlayerNameField())).toEqual('Joe');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormPlayerFieldPositionField())).toEqual('CENTER_FIELDER');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getPlayerElementFormDefaultPlayerFieldPositionField())).toEqual('CENTER_FIELDER');
 
   });
 

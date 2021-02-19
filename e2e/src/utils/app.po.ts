@@ -41,6 +41,10 @@ export class AppPage {
     return element(by.css('app-team form'));
   }
 
+  getPlayerElementViewForm(): ElementFinder {
+    return element(by.css('app-player form'));
+  }
+
   getTeamElementFormIdField(): ElementFinder {
     return element(by.css('app-team form div input#teamIdFormInput'));
   }
@@ -51,6 +55,34 @@ export class AppPage {
 
   getTeamElementFormShortNameField(): ElementFinder {
     return element(by.css('app-team form div input#teamShortNameFormInput'));
+  }
+
+  getPlayerElementFormPlayerIdField(): ElementFinder {
+    return element(by.css('app-player form div input#playerIdFormInput'));
+  }
+
+  getPlayerElementFormPlayerTeamIdField(): ElementFinder {
+    return element(by.css('app-player form div input#playerTeamIdFormInput'));
+  }
+
+  getPlayerElementFormPlayerStatusIdField(): ElementFinder {
+    return element(by.css('app-player form div input#playerStatusIdFormInput'));
+  }
+
+  getPlayerElementFormPlayerAbilityIdField(): ElementFinder {
+    return element(by.css('app-player form div input#playerAbilityIdFormInput'));
+  }
+
+  getPlayerElementFormPlayerNameField(): ElementFinder {
+    return element(by.css('app-player form div input#playerNameFormInput'));
+  }
+
+  getPlayerElementFormPlayerFieldPositionField(): ElementFinder {
+    return element(by.css('app-player form div input#playerFieldPositionFormInput'));
+  }
+
+  getPlayerElementFormDefaultPlayerFieldPositionField(): ElementFinder {
+    return element(by.css('app-player form div input#defaultPlayerFieldPositionFormInput'));
   }
 
   getHomeFeatureCardElement(featureElementId: string) {

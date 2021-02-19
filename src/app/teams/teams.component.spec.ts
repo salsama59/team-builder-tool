@@ -7,7 +7,6 @@ import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { TeamComponent } from './team/team.component';
 import { CommonModule } from '@angular/common';
 import { of } from 'rxjs';
-import { HomeComponent } from '../home/home.component';
 
 describe('TeamsComponent', () => {
   let teamsComponent: TeamsComponent;
@@ -21,17 +20,13 @@ describe('TeamsComponent', () => {
         CommonModule,
         RouterTestingModule.withRoutes([
           {
-            path: ''
-            , component: HomeComponent
-          },
-          {
             path: 'teams'
             , component: TeamsComponent
             , children: [{ path: ':teamId', component: TeamComponent }]
           }
         ])
       ],
-      declarations: [TeamsComponent, TeamComponent, HomeComponent],
+      declarations: [TeamsComponent, TeamComponent],
       providers: [
         {
           provide: ActivatedRoute, useValue: {
