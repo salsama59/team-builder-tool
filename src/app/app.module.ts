@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { PlayersService } from './services/players.service';
 import { PlayersComponent } from './players/players.component';
+import { PlayerComponent } from './players/player/player.component';
 
 /**
  * This class represent the application module
@@ -23,7 +24,8 @@ import { PlayersComponent } from './players/players.component';
     TeamComponent,
     HomeComponent,
     FooterComponent,
-    PlayersComponent
+    PlayersComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,

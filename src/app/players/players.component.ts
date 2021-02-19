@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from '../models/player.model';
 import { PlayersService } from '../services/players.service';
 
@@ -25,7 +26,7 @@ export class PlayersComponent implements OnInit {
    * @constructor
    * @param playersService the players service injected
    */
-  constructor(private playersService: PlayersService) { }
+  constructor(private playersService: PlayersService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   /**
    * Initialize the player list.
@@ -39,7 +40,7 @@ export class PlayersComponent implements OnInit {
    * @param playerId the player id.
    */
   onViewplayerElement(playerId: number): void {
-    console.log(playerId);
+    this.router.navigate([playerId], { relativeTo: this.activatedRoute });
   }
 
 }
