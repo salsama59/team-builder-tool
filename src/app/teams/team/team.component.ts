@@ -23,6 +23,7 @@ export class TeamComponent implements OnInit {
    * Creates an instance of team component.
    * @constructor
    * @param teamsService  the teams service injected
+   * @param activatedRoute the activated route
    */
   constructor(private teamsService: TeamsService, private activatedRoute: ActivatedRoute) { }
 
@@ -40,6 +41,6 @@ export class TeamComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       const teamId: number = + params['teamId'];
       this.currentTeam = this.teamsService.getTeamById(teamId);
-    })
+    });
   }
 }
