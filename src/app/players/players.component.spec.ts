@@ -67,7 +67,7 @@ describe('PlayersComponent', () => {
 
   it('should render the player list header', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('h5#players-list-header').textContent).toContain('players');
+    expect(compiled.querySelector('h5#players-list-header').textContent).toContain('Players');
   });
 
   it('should render a player name in the list', () => {
