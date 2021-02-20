@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { PlayerComponent } from './players/player/player.component';
 import { PlayersComponent } from './players/players.component';
+import { StatusesComponent } from './statuses/statuses.component';
 import { TeamComponent } from './teams/team/team.component';
 import { TeamsComponent } from './teams/teams.component';
 
@@ -25,6 +26,10 @@ const appRoutes: Routes = [
     path: 'players'
     , component: PlayersComponent
     , children: [{ path: ':playerId', component: PlayerComponent }]
+  },
+  {
+    path: 'statuses'
+    , component: StatusesComponent
   }
 ];
 

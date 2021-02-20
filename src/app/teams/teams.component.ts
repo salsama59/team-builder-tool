@@ -24,8 +24,10 @@ export class TeamsComponent implements OnInit {
    * Creates an instance of teams component.
    * @constructor
    * @param teamsService the teams service injected
+   * @param router the router injected
+   * @param activatedRoute the activated route injected
    */
-  constructor(private teamsService: TeamsService, private activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private teamsService: TeamsService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   /**
    * Initialize the team list.
