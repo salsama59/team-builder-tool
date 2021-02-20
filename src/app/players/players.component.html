@@ -10,7 +10,7 @@
         <div class="card">
             <div class="row">
                 <div class="col">
-                    <h5 id="players-list-header" class="card-header">players</h5>
+                    <h5 id="players-list-header" class="card-header">Players</h5>
                 </div>
             </div>
             <div class="row">
@@ -19,25 +19,30 @@
                         class="list-group list-group-flush">
                         <li class="list-group-item" *ngFor="let player of players">
 
-                            <div class="row align-items-center">
+                            <div class="row align-items-center w-auto p-3">
                                 <div class="col">
-                                    <div class="row align-items-center">
-                                        <div class="col text-center fw-bold border border-primary">
-                                            Player name
+                                    <div class="row bg-dark text-white">
+                                        <div class="col border border-primary">
+                                            <div class="text-center text-wrap item-font">
+                                                Player name
+                                            </div>
                                         </div>
-                                        <div class="col text-center fw-bold border border-primary">
-                                            Player position
+                                        <div class="col text-center border border-primary">
+                                            <div class="text-center text-wrap item-font">
+                                                Player position
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row align-items-center">
+                                    <div class="row">
                                         <div class="col border border-primary">
-                                            <div id="{{'player-name-element-' + player.playerId}}" class="text-center">
+                                            <div id="{{'player-name-element-' + player.playerId}}"
+                                                class="text-center text-wrap item-font">
                                                 {{ player.playerName }}
                                             </div>
                                         </div>
                                         <div class="col border border-primary">
                                             <div id="{{'player-field-position-element-' + player.playerId}}"
-                                                class="text-center">
+                                                class="text-center text-lowercase text-wrap item-font">
                                                 {{ player.playerFieldPosition }}
                                             </div>
                                         </div>
