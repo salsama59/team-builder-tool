@@ -4,35 +4,35 @@ import { Team } from '../models/team.model';
 import { TeamsService } from './teams.service';
 
 describe('TeamsService', () => {
-  let service: TeamsService;
+  let teamsService: TeamsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TeamsService);
+    teamsService = TestBed.inject(TeamsService);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(teamsService).toBeTruthy();
   });
 
   it('should return a list of team', () => {
-    expect(service.getTeams().length).toBeCloseTo(4);
+    expect(teamsService.getTeams().length).toBeCloseTo(4);
   });
 
   it('should return a team element', () => {
-    expect(service.getTeamById(0)).toEqual(new Team(0, 'my first team', 'MFT'));
+    expect(teamsService.getTeamById(0)).toEqual(new Team(0, 'my first team', 'MFT'));
   });
 
   it('should add a new team element', () => {
     const newAddedTeam: Team = new Team(4, 'my fifth team', 'MFTHT');
-    service.addTeam(newAddedTeam);
-    expect(service.getTeams().length).toBeCloseTo(5);
-    expect(service.getTeams()).toContain(newAddedTeam);
+    teamsService.addTeam(newAddedTeam);
+    expect(teamsService.getTeams().length).toBeCloseTo(5);
+    expect(teamsService.getTeams()).toContain(newAddedTeam);
   });
 
   it('should delete a team element', () => {
-    service.deleteTeamById(0);
-    expect(service.getTeams().length).toBeCloseTo(3);
-    expect(service.getTeams()).not.toContain(new Team(0, 'my first team', 'MFT'));
+    teamsService.deleteTeamById(0);
+    expect(teamsService.getTeams().length).toBeCloseTo(3);
+    expect(teamsService.getTeams()).not.toContain(new Team(0, 'my first team', 'MFT'));
   });
 });
