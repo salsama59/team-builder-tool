@@ -33,4 +33,9 @@ describe('HomeComponent', () => {
     const compiled = fixture.debugElement;
     expect(compiled.query(By.css('#player-feature-element')).nativeElement).toBeTruthy();
   });
+
+  it('should render the statuses feature', () => {
+    const compiled = fixture.debugElement;
+    expect(compiled.query(By.css('#status-feature-element')).nativeElement).toBeTruthy();
+  });
 });

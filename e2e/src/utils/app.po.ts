@@ -21,12 +21,20 @@ export class AppPage {
     return element(by.css('app-header nav div ul li a#players-tab-link'));
   }
 
+  getHeaderStatusesTabElement(): ElementFinder {
+    return element(by.css('app-header nav div ul li a#statuses-tab-link'));
+  }
+
   getTeamListElement(): ElementFinder {
     return element(by.css('app-teams div div div div div ul#team-list'));
   }
 
   getPlayerListElement(): ElementFinder {
     return element(by.css('app-players div div div div div ul#player-list'));
+  }
+
+  getStatusListElement(): ElementFinder {
+    return element(by.css('app-statuses div div div div div ul#status-list'));
   }
 
   getTeamElementViewButton(teamId: number): ElementFinder {
@@ -37,12 +45,20 @@ export class AppPage {
     return element(by.css('app-players div div div div div ul#player-list > li div div div button#view-player-button-id-' + playerId));
   }
 
+  getStatusElementViewButton(statusId: number): ElementFinder {
+    return element(by.css('app-statuses div div div div div ul#status-list > li div div div button#view-status-button-id-' + statusId));
+  }
+
   getTeamElementViewForm(): ElementFinder {
     return element(by.css('app-team form'));
   }
 
   getPlayerElementViewForm(): ElementFinder {
     return element(by.css('app-player form'));
+  }
+
+  getStatusElementViewForm(): ElementFinder {
+    return element(by.css('app-status form'));
   }
 
   getTeamElementFormIdField(): ElementFinder {

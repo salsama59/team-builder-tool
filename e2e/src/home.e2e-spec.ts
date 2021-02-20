@@ -38,6 +38,14 @@ describe('Team builder home section', () => {
     expect(await page.getPlayerListElement().isPresent());
   });
 
+  it('should display the statuses view when the statuses feature button is clicked', async () => {
+    await page.navigateTo();
+    EndToEndTestUtils.clickOnPageElement(page.getHeaderHomeTabElement());
+    expect(await page.getHomeFeatureCardElement('status-feature-element').isPresent());
+    EndToEndTestUtils.clickOnPageElement(page.getHomeFeatureButtonElement('status-feature-element'));
+    expect(await page.getStatusListElement().isPresent());
+  });
+
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
