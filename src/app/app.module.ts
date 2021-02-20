@@ -12,6 +12,8 @@ import { FooterComponent } from './footer/footer.component';
 import { PlayersService } from './services/players.service';
 import { PlayersComponent } from './players/players.component';
 import { PlayerComponent } from './players/player/player.component';
+import { StatusesComponent } from './statuses/statuses.component';
+import { StatusService } from './services/status.service';
 
 /**
  * This class represent the application module
@@ -25,13 +27,14 @@ import { PlayerComponent } from './players/player/player.component';
     HomeComponent,
     FooterComponent,
     PlayersComponent,
-    PlayerComponent
+    PlayerComponent,
+    StatusesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [TeamsService, PlayersService],
+  providers: [TeamsService, PlayersService, StatusService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

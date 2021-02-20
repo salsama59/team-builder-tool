@@ -80,9 +80,9 @@ describe('TeamsComponent', () => {
     }
   });
 
-  it('should render a new team buton', () => {
+  it('should render a new team button', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('a#new-team-buton-id').textContent).toContain("Add a new team");
+    expect(compiled.querySelector('a#new-team-button-id').textContent).toContain("Add a new team");
   });
 
   it('should navigate to view team section', () => {

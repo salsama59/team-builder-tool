@@ -44,7 +44,7 @@ describe('HeaderComponent', () => {
 
   it('should render status tab link', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('a#status-tab-link').textContent).toContain('Status');
+    expect(compiled.querySelector('a#statuses-tab-link').textContent).toContain('Status');
   });
 
   it('should render the app title in the nav bar', () => {

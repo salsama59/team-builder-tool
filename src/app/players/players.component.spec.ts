@@ -86,14 +86,14 @@ describe('PlayersComponent', () => {
     }
   });
 
-  it('should render a new player buton', () => {
+  it('should render a new player button', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('a#new-player-buton-id').textContent).toContain("Add a new player");
+    expect(compiled.querySelector('a#new-player-button-id').textContent).toContain("Add a new player");
   });
 
   it('should navigate to view player section', () => {
     const spy = spyOn(router, 'navigate');
-    playersComponent.onViewplayerElement(0);
+    playersComponent.onViewPlayerElement(0);
     expect(spy).toHaveBeenCalledWith([0], { relativeTo: activatedRoute });
   });
 });

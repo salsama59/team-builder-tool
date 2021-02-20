@@ -25,6 +25,8 @@ export class PlayersComponent implements OnInit {
    * Creates an instance of players component.
    * @constructor
    * @param playersService the players service injected
+   * @param router the router injected
+   * @param activatedRoute the activated route injected
    */
   constructor(private playersService: PlayersService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -39,7 +41,7 @@ export class PlayersComponent implements OnInit {
    * Display the team element given an id by routing the user to the PlayerComponent view
    * @param playerId the player id.
    */
-  onViewplayerElement(playerId: number): void {
+  onViewPlayerElement(playerId: number): void {
     this.router.navigate([playerId], { relativeTo: this.activatedRoute });
   }
 
