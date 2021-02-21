@@ -38,7 +38,7 @@ export class StatusesComponent implements OnInit {
   }
 
   /**
-   * Display the team element given an id by routing the user to the StatusComponent view
+   * Display the status element given an id by routing the user to the StatusComponent view
    * @param statusId the status id.
    */
   onViewStatusElement(statusId: number): void {

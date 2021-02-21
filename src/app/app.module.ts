@@ -14,6 +14,7 @@ import { PlayersComponent } from './players/players.component';
 import { PlayerComponent } from './players/player/player.component';
 import { StatusesComponent } from './statuses/statuses.component';
 import { StatusService } from './services/status.service';
+import { StatusComponent } from './statuses/status/status.component';
 
 /**
  * This class represent the application module
@@ -28,7 +29,8 @@ import { StatusService } from './services/status.service';
     FooterComponent,
     PlayersComponent,
     PlayerComponent,
-    StatusesComponent
+    StatusesComponent,
+    StatusComponent
   ],
   imports: [
     BrowserModule,
