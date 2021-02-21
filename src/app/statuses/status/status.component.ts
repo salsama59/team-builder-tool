@@ -36,7 +36,7 @@ export class StatusComponent implements OnInit {
     const statusId: number = + this.activatedRoute.snapshot.params['statusId'];
     this.currentStatus = this.statusService.getStatusById(statusId);
 
-    //Subscripbe the params property change in case the routing is done in the same page.
+    //Subscribe to the params property change in case the routing is done in the same page.
     this.activatedRoute.params.subscribe((params: Params) => {
       const statusId: number = + params['statusId'];
       this.currentStatus = this.statusService.getStatusById(statusId);

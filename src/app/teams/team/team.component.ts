@@ -37,7 +37,7 @@ export class TeamComponent implements OnInit {
     const teamId: number = + this.activatedRoute.snapshot.params['teamId'];
     this.currentTeam = this.teamsService.getTeamById(teamId);
 
-    //Subscripbe the params property change in case the routing is done in the same page.
+    //Subscribe to the params property change in case the routing is done in the same page.
     this.activatedRoute.params.subscribe((params: Params) => {
       const teamId: number = + params['teamId'];
       this.currentTeam = this.teamsService.getTeamById(teamId);

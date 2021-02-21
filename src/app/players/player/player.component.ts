@@ -36,7 +36,7 @@ export class PlayerComponent implements OnInit {
     const playerId: number = + this.activatedRoute.snapshot.params['playerId'];
     this.currentPlayer = this.playersService.getPlayerById(playerId);
 
-    //Subscripbe the params property change in case the routing is done in the same page.
+    //Subscribe to the params property change in case the routing is done in the same page.
     this.activatedRoute.params.subscribe((params: Params) => {
       const playerId: number = + params['playerId'];
       this.currentPlayer = this.playersService.getPlayerById(playerId);
