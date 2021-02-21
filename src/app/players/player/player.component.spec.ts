@@ -68,7 +68,7 @@ describe('PlayerComponent', () => {
     expect(compiled.query(By.css('#defaultPlayerFieldPositionFormInput')).nativeElement.value).toContain(playerComponent.currentPlayer?.defaultPlayerFieldPosition);
   });
 
-  it('should render the team form in disabled state', () => {
+  it('should render the player form in disabled state', () => {
     const compiled = fixture.debugElement;
     expect(compiled.query(By.css('#playerIdFormInput')).nativeElement.disabled).toBeTruthy();
     expect(compiled.query(By.css('#playerTeamIdFormInput')).nativeElement.disabled).toBeTruthy();

@@ -21,17 +21,44 @@ describe('Team builder statuses section', () => {
     await page.navigateTo();
     EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
     expect(await page.getStatusListElement().isPresent());
-    //EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewButton(0));
-    //expect(await page.getStatusElementViewForm().isPresent());
-    // expect(await page.getTeamElementFormIdField().isPresent());
-    // expect(await page.getTeamElementFormFullNameField().isPresent());
-    // expect(await page.getTeamElementFormShortNameField().isPresent());
-    // expect(await page.getTeamElementFormIdField().isEnabled()).toBeFalsy();
-    // expect(await page.getTeamElementFormFullNameField().isEnabled()).toBeFalsy();
-    // expect(await page.getTeamElementFormShortNameField().isEnabled()).toBeFalsy();
-    // expect(await EndToEndTestUtils.getElementValueAttribute(page.getTeamElementFormIdField())).toEqual('0');
-    // expect(await EndToEndTestUtils.getElementValueAttribute(page.getTeamElementFormFullNameField())).toEqual('my first status');
-    // expect(await EndToEndTestUtils.getElementValueAttribute(page.getTeamElementFormShortNameField())).toEqual('MFT');
+    EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewButton(0));
+    expect(await page.getStatusElementViewForm().isPresent());
+
+    expect(await page.getStatusElementFormStatusIdField().isPresent());
+    expect(await page.getStatusElementFormPlayerIdField().isPresent());
+    expect(await page.getStatusElementFormSpeedField().isPresent());
+    expect(await page.getStatusElementFormStaminaField().isPresent());
+    expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
+    expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
+    expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
+    expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
+    expect(await page.getStatusElementFormBattingPowerField().isPresent());
+    expect(await page.getStatusElementFormPitchingPowerField().isPresent());
+    expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+
+    expect(await page.getStatusElementFormStatusIdField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormPlayerIdField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormSpeedField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormStaminaField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormCatchEfficiencyField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormPitchEfficiencyField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormPassEfficiencyField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormBattingEfficiencyField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormBattingPowerField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormPitchingPowerField().isEnabled()).toBeFalsy();
+    expect(await page.getStatusElementFormPitchingEffectField().isEnabled()).toBeFalsy();
+
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormStatusIdField())).toEqual('0');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormPlayerIdField())).toEqual('0');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormSpeedField())).toEqual('10');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormStaminaField())).toEqual('27');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormCatchEfficiencyField())).toEqual('60.5');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormPitchEfficiencyField())).toEqual('70.5');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormPassEfficiencyField())).toEqual('45');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormBattingEfficiencyField())).toEqual('5');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormBattingPowerField())).toEqual('50');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormPitchingPowerField())).toEqual('78');
+    expect(await EndToEndTestUtils.getElementValueAttribute(page.getStatusElementFormPitchingEffectField())).toEqual('15');
 
   });
 

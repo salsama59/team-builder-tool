@@ -61,6 +61,7 @@ export class AppPage {
     return element(by.css('app-status form'));
   }
 
+
   getTeamElementFormIdField(): ElementFinder {
     return element(by.css('app-team form div input#teamIdFormInput'));
   }
@@ -72,6 +73,7 @@ export class AppPage {
   getTeamElementFormShortNameField(): ElementFinder {
     return element(by.css('app-team form div input#teamShortNameFormInput'));
   }
+
 
   getPlayerElementFormPlayerIdField(): ElementFinder {
     return element(by.css('app-player form div input#playerIdFormInput'));
@@ -99,6 +101,51 @@ export class AppPage {
 
   getPlayerElementFormDefaultPlayerFieldPositionField(): ElementFinder {
     return element(by.css('app-player form div input#defaultPlayerFieldPositionFormInput'));
+  }
+
+
+  getStatusElementFormStatusIdField(): ElementFinder {
+    return element(by.css('app-status form div input#statusIdFormInput'));
+  }
+
+  getStatusElementFormPlayerIdField(): ElementFinder {
+    return element(by.css('app-status form div input#playerIdFormInput'));
+  }
+
+  getStatusElementFormSpeedField(): ElementFinder {
+    return element(by.css('app-status form div input#speedFormInput'));
+  }
+
+  getStatusElementFormStaminaField(): ElementFinder {
+    return element(by.css('app-status form div input#staminaFormInput'));
+  }
+
+  getStatusElementFormCatchEfficiencyField(): ElementFinder {
+    return element(by.css('app-status form div input#catchEfficiencyFormInput'));
+  }
+
+  getStatusElementFormPitchEfficiencyField(): ElementFinder {
+    return element(by.css('app-status form div input#pitchEfficiencyFormInput'));
+  }
+
+  getStatusElementFormPassEfficiencyField(): ElementFinder {
+    return element(by.css('app-status form div input#passEfficiencyFormInput'));
+  }
+
+  getStatusElementFormBattingEfficiencyField(): ElementFinder {
+    return element(by.css('app-status form div input#battingEfficiencyFormInput'));
+  }
+
+  getStatusElementFormBattingPowerField(): ElementFinder {
+    return element(by.css('app-status form div input#battingPowerFormInput'));
+  }
+
+  getStatusElementFormPitchingPowerField(): ElementFinder {
+    return element(by.css('app-status form div input#pitchingPowerFormInput'));
+  }
+
+  getStatusElementFormPitchingEffectField(): ElementFinder {
+    return element(by.css('app-status form div input#pitchingEffectFormInput'));
   }
 
   getHomeFeatureCardElement(featureElementId: string) {

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { PlayerComponent } from './players/player/player.component';
 import { PlayersComponent } from './players/players.component';
+import { StatusComponent } from './statuses/status/status.component';
 import { StatusesComponent } from './statuses/statuses.component';
 import { TeamComponent } from './teams/team/team.component';
 import { TeamsComponent } from './teams/teams.component';
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
   {
     path: 'statuses'
     , component: StatusesComponent
+    , children: [{ path: ':statusId', component: StatusComponent }]
   }
 ];
 
