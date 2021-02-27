@@ -6,9 +6,9 @@ pipeline {
     stage('Install dependencies') {
       steps { sh 'npm install' }
     }
-    stage('Code quality') {
+    /*stage('Code quality') {
         steps { sh 'npm run-script lint' }
-    }
+    }*/
     stage('Tests') {
       parallel {
         stage('Unit tests') {
