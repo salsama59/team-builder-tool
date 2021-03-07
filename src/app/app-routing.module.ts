@@ -14,34 +14,32 @@ import { TeamsComponent } from './teams/teams.component';
  * @public
  */
 const appRoutes: Routes = [
-  {
-    path: ''
-    , component: HomeComponent
-  },
-  {
-    path: 'teams'
-    , component: TeamsComponent
-    , children: [{ path: ':teamId', component: TeamComponent }]
-  },
-  {
-    path: 'players'
-    , component: PlayersComponent
-    , children: [{ path: ':playerId', component: PlayerComponent }]
-  },
-  {
-    path: 'statuses'
-    , component: StatusesComponent
-    , children: [{ path: ':statusId', component: StatusComponent }]
-  }
+	{
+		path: '',
+		component: HomeComponent
+	},
+	{
+		path: 'teams',
+		component: TeamsComponent,
+		children: [{ path: ':teamId', component: TeamComponent }]
+	},
+	{
+		path: 'players',
+		component: PlayersComponent,
+		children: [{ path: ':playerId', component: PlayerComponent }]
+	},
+	{
+		path: 'statuses',
+		component: StatusesComponent,
+		children: [{ path: ':statusId', component: StatusComponent }]
+	}
 ];
 
 /**
  * This class represent the application routing module.
  */
 @NgModule({
-  imports: [
-    RouterModule.forRoot(appRoutes, { useHash: true })
-  ],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(appRoutes, { useHash: true })],
+	exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

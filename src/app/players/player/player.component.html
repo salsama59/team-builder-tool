@@ -1,35 +1,74 @@
 <form>
-    <div class="form-group">
-        <label for="playerIdFormInput">Player id</label>
-        <input type="text" class="form-control" id="playerIdFormInput" value="{{currentPlayer?.playerId}}" disabled>
-    </div>
-    <div class="form-group">
-        <label for="playerTeamIdFormInput">Player team id</label>
-        <input type="text" class="form-control" id="playerTeamIdFormInput" value="{{currentPlayer?.playerTeamId}}"
-            disabled>
-    </div>
-    <div class="form-group">
-        <label for="playerStatusIdFormInput">Player status id</label>
-        <input type="text" class="form-control" id="playerStatusIdFormInput" value="{{currentPlayer?.playerStatusId}}"
-            disabled>
-    </div>
-    <div class="form-group">
-        <label for="playerAbilityIdFormInput">Player ability id</label>
-        <input type="text" class="form-control" id="playerAbilityIdFormInput" value="{{currentPlayer?.playerAbilityId}}"
-            disabled>
-    </div>
-    <div class="form-group">
-        <label for="playerNameFormInput">Player name</label>
-        <input type="text" class="form-control" id="playerNameFormInput" value="{{currentPlayer?.playerName}}" disabled>
-    </div>
-    <div class="form-group">
-        <label for="playerFieldPositionFormInput">Player field position</label>
-        <input type="text" class="form-control" id="playerFieldPositionFormInput"
-            value="{{currentPlayer?.playerFieldPosition}}" disabled>
-    </div>
-    <div class="form-group">
-        <label for="defaultPlayerFieldPositionFormInput">Player default field position</label>
-        <input type="text" class="form-control" id="defaultPlayerFieldPositionFormInput"
-            value="{{currentPlayer?.defaultPlayerFieldPosition}}" disabled>
-    </div>
+	<div class="form-group">
+		<label for="playerIdFormInput">Player id</label>
+		<input
+			type="text"
+			class="form-control"
+			id="playerIdFormInput"
+			value="{{ currentPlayer?.playerId }}"
+			disabled
+		/>
+	</div>
+	<div class="form-group">
+		<label for="playerTeamIdFormInput">Player team id</label>
+		<input
+			type="text"
+			class="form-control"
+			id="playerTeamIdFormInput"
+			value="{{ currentPlayer?.playerTeamId }}"
+			disabled
+		/>
+	</div>
+	<div class="form-group">
+		<label for="playerStatusIdFormInput">Player status id</label>
+		<input
+			type="text"
+			class="form-control"
+			id="playerStatusIdFormInput"
+			value="{{ currentPlayer?.playerStatusId }}"
+			disabled
+		/>
+	</div>
+	<div class="form-group">
+		<label for="playerAbilityIdFormInput">Player ability id</label>
+		<input
+			type="text"
+			class="form-control"
+			id="playerAbilityIdFormInput"
+			value="{{ currentPlayer?.playerAbilityId }}"
+			disabled
+		/>
+	</div>
+	<div class="form-group">
+		<label for="playerNameFormInput">Player name</label>
+		<input
+			type="text"
+			class="form-control"
+			id="playerNameFormInput"
+			value="{{ currentPlayer?.playerName }}"
+			disabled
+		/>
+	</div>
+	<div class="form-group">
+		<label for="playerFieldPositionFormInput">Player field position</label>
+		<input
+			type="text"
+			class="form-control"
+			id="playerFieldPositionFormInput"
+			value="{{ currentPlayer?.playerFieldPosition }}"
+			disabled
+		/>
+	</div>
+	<div class="form-group">
+		<label for="defaultPlayerFieldPositionFormInput"
+			>Player default field position</label
+		>
+		<input
+			type="text"
+			class="form-control"
+			id="defaultPlayerFieldPositionFormInput"
+			value="{{ currentPlayer?.defaultPlayerFieldPosition }}"
+			disabled
+		/>
+	</div>
 </form>
