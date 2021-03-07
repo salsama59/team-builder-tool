@@ -20,23 +20,20 @@ import { StatusComponent } from './statuses/status/status.component';
  * This class represent the application module
  */
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    TeamsComponent,
-    TeamComponent,
-    HomeComponent,
-    FooterComponent,
-    PlayersComponent,
-    PlayerComponent,
-    StatusesComponent,
-    StatusComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [TeamsService, PlayersService, StatusService],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		HeaderComponent,
+		TeamsComponent,
+		TeamComponent,
+		HomeComponent,
+		FooterComponent,
+		PlayersComponent,
+		PlayerComponent,
+		StatusesComponent,
+		StatusComponent
+	],
+	imports: [BrowserModule, AppRoutingModule],
+	providers: [TeamsService, PlayersService, StatusService],
+	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

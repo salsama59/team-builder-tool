@@ -1,59 +1,93 @@
 <div>
-    <a id="new-team-button-id" href="#" class="btn btn-success">
-        Add a new team
-        <img src="assets/images/plus.svg" class="img-fluid icon-medium" alt="plus.svg">
-    </a>
+	<a id="new-team-button-id" href="#" class="btn btn-success">
+		Add a new team
+		<img
+			src="assets/images/plus.svg"
+			class="img-fluid icon-medium"
+			alt="plus.svg"
+		/>
+	</a>
 </div>
-<br>
+<br />
 <div class="row">
-    <div class="col">
-        <div class="card">
-            <div class="row">
-                <div class="col">
-                    <h5 id="teams-list-header" class="card-header">Teams</h5>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <ul id="team-list" *ngIf="teams?.length; else noTeamPresent" class="list-group list-group-flush">
-                        <li class="list-group-item" *ngFor="let team of teams">
-                            <div class="row align-items-center w-auto p-3">
-                                <div class="col">
-                                    <div id="{{'team-element-' + team.teamId}}">
-                                        <div class="text-center item-font">
-                                            {{ team.teamFullName }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="btn-group btn-group-sm" role="group" aria-label="Team operations">
-                                        <button id="{{'view-team-button-id-' + team.teamId}}" type="button"
-                                            class="btn btn-primary" (click)="onViewTeamElement(team.teamId)">
-                                            <img src="assets/images/eye.svg" class="img-fluid" alt="eye.svg">
-                                        </button>
-                                        <button id="{{'edit-team-button-id-' + team.teamId}}" type="button"
-                                            class="btn btn-warning">
-                                            <img src="assets/images/pencil.svg" class="img-fluid" alt="pencil.svg">
-                                        </button>
-                                        <button id="{{'delete-team-button-id-' + team.teamId}}" type="button"
-                                            class="btn btn-danger">
-                                            <img src="assets/images/trash.svg" class="img-fluid" alt="trash.svg">
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <ng-template #noTeamPresent>
-                        <div class="card-body">
-                            <p class="card-text">No teams created yet!</p>
-                        </div>
-                    </ng-template>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <router-outlet></router-outlet>
-    </div>
+	<div class="col">
+		<div class="card">
+			<div class="row">
+				<div class="col">
+					<h5 id="teams-list-header" class="card-header">Teams</h5>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<ul
+						id="team-list"
+						*ngIf="teams?.length; else noTeamPresent"
+						class="list-group list-group-flush"
+					>
+						<li class="list-group-item" *ngFor="let team of teams">
+							<div class="row align-items-center w-auto p-3">
+								<div class="col">
+									<div id="{{ 'team-element-' + team.teamId }}">
+										<div class="text-center item-font">
+											{{ team.teamFullName }}
+										</div>
+									</div>
+								</div>
+								<div class="col">
+									<div
+										class="btn-group btn-group-sm"
+										role="group"
+										aria-label="Team operations"
+									>
+										<button
+											id="{{ 'view-team-button-id-' + team.teamId }}"
+											type="button"
+											class="btn btn-primary"
+											(click)="onViewTeamElement(team.teamId)"
+										>
+											<img
+												src="assets/images/eye.svg"
+												class="img-fluid"
+												alt="eye.svg"
+											/>
+										</button>
+										<button
+											id="{{ 'edit-team-button-id-' + team.teamId }}"
+											type="button"
+											class="btn btn-warning"
+										>
+											<img
+												src="assets/images/pencil.svg"
+												class="img-fluid"
+												alt="pencil.svg"
+											/>
+										</button>
+										<button
+											id="{{ 'delete-team-button-id-' + team.teamId }}"
+											type="button"
+											class="btn btn-danger"
+										>
+											<img
+												src="assets/images/trash.svg"
+												class="img-fluid"
+												alt="trash.svg"
+											/>
+										</button>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ng-template #noTeamPresent>
+						<div class="card-body">
+							<p class="card-text">No teams created yet!</p>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<router-outlet></router-outlet>
+	</div>
 </div>
