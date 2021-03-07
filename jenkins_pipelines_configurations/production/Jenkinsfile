@@ -9,15 +9,11 @@ pipeline {
     stage('Code quality') {
         steps { sh 'npm run-script lint -- --fix' }
     }
-    stage('Tests') {
-      parallel {
-        stage('Unit tests') {
-            steps { sh 'npm run-script test' }
-        }
-        stage('End to end tests') {
-            steps { sh 'npm run-script e2e' }
-        }
-      }
+    stage('Unit tests') {
+        steps { sh 'npm run-script test' }
+    }
+    stage('End to end tests') {
+        steps { sh 'npm run-script e2e' }
     }
     stage('Build') {
       steps { sh 'npm run-script build -- --prod' }
