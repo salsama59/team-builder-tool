@@ -10,7 +10,7 @@ pipeline {
         steps { sh 'npm run-script lint -- --fix' }
     }
     stage('Unit tests') {
-        steps { sh 'npm run-script test' }
+        steps { sh 'npm run-script test -- --watch false' }
     }
     stage('End to end tests') {
         steps { sh 'npm run-script e2e' }
