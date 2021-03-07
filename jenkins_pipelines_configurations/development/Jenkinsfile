@@ -10,13 +10,27 @@ pipeline {
         steps { sh 'npm run-script lint -- --fix' }
     }
     stage('Unit tests') {
-        steps { sh 'npm run-script test' }
+        steps { sh 'npm run-script test -- --watch false' }
     }
     stage('End to end tests') {
         steps { sh 'npm run-script e2e' }
     }
     stage('Build') {
       steps { sh 'npm run-script build -- --prod' }
+    }
+    stage('Compresss') {
+      steps { sh 'tar -zcvf team-builder-tool-archive.tar.gz ./dist/team-builder-tool' }
+    }
+    stage('Deploy') {
+      steps {
+        sshagent(credentials : ['0356a688-d313-49c9-919e-227b95f1f068']) {
+          sh 'scp ./dist/team-builder-tool/team-builder-tool-archive.tar.gz ubuntu@15.236.247.12:/home/apps'
+          sh 'ssh -v ubuntu@15.236.247.12'
+          sh 'cd /home/apps'
+          sh 'tar -zxvf team-builder-tool-archive.tar.gz'
+          sh 'exit'
+        }
+      }
     }
   }
 }
