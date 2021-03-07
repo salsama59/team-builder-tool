@@ -3,6 +3,7 @@
     "arrowParens": "always",
     "bracketSpacing": true,
     "trailingComma": "none",
+    "endOfLine": "lf",
     "overrides": [
         {
             "files": "*.component.html",
