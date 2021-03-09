@@ -21,7 +21,7 @@ pipeline {
     stage('Compresss') {
       steps {
         sh 'cd ./dist' 
-        sh 'tar -zcvf team-builder-tool-archive.tar.gz ./team-builder-tool'
+        sh 'tar -zcvf team-builder-tool-archive.tar.gz team-builder-tool'
       }
     }
     stage('Remote deployment') {
