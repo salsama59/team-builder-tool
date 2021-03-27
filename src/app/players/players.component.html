@@ -1,0 +1,120 @@
+<div>
+	<a id="new-player-button-id" href="#" class="btn btn-success">
+		Add a new player
+		<img
+			src="assets/images/plus.svg"
+			class="img-fluid icon-medium"
+			alt="plus.svg"
+		/>
+	</a>
+</div>
+<br />
+<div class="row">
+	<div class="col">
+		<div class="card">
+			<div class="row">
+				<div class="col">
+					<h5 id="players-list-header" class="card-header">Players</h5>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<ul
+						id="player-list"
+						*ngIf="players?.length; else noPlayerPresent"
+						class="list-group list-group-flush"
+					>
+						<li class="list-group-item" *ngFor="let player of players">
+							<div class="row align-items-center w-auto p-3">
+								<div class="col">
+									<div class="row bg-dark text-white">
+										<div class="col border border-primary">
+											<div class="text-center text-wrap item-font">
+												Player name
+											</div>
+										</div>
+										<div class="col text-center border border-primary">
+											<div class="text-center text-wrap item-font">
+												Player position
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col border border-primary">
+											<div
+												id="{{ 'player-name-element-' + player.playerId }}"
+												class="text-center text-wrap item-font"
+											>
+												{{ player.playerName }}
+											</div>
+										</div>
+										<div class="col border border-primary">
+											<div
+												id="{{
+                          'player-field-position-element-' + player.playerId
+                        }}"
+												class="text-center text-lowercase text-wrap item-font"
+											>
+												{{ player.playerFieldPosition }}
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col">
+									<div
+										class="btn-group btn-group-sm"
+										role="group"
+										aria-label="player operations"
+									>
+										<button
+											id="{{ 'view-player-button-id-' + player.playerId }}"
+											type="button"
+											class="btn btn-primary"
+											(click)="onViewPlayerElement(player.playerId)"
+										>
+											<img
+												src="assets/images/eye.svg"
+												class="img-fluid"
+												alt="eye.svg"
+											/>
+										</button>
+										<button
+											id="{{ 'edit-player-button-id-' + player.playerId }}"
+											type="button"
+											class="btn btn-warning"
+										>
+											<img
+												src="assets/images/pencil.svg"
+												class="img-fluid"
+												alt="pencil.svg"
+											/>
+										</button>
+										<button
+											id="{{ 'delete-player-button-id-' + player.playerId }}"
+											type="button"
+											class="btn btn-danger"
+										>
+											<img
+												src="assets/images/trash.svg"
+												class="img-fluid"
+												alt="trash.svg"
+											/>
+										</button>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ng-template #noPlayerPresent>
+						<div class="card-body">
+							<p class="card-text">No players created yet!</p>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<router-outlet></router-outlet>
+	</div>
+</div>

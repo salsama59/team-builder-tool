@@ -27,7 +27,6 @@ testem.log
 typings/
 
 # e2e
-e2e/*.js
 e2e/*.map
 
 # System Files
@@ -152,5 +151,7 @@ dist
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+documentation/
 
 # End of https://www.toptal.com/developers/gitignore/api/angular,vscode,node

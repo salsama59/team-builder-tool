@@ -1,0 +1,118 @@
+<div>
+	<a id="new-status-button-id" href="#" class="btn btn-success">
+		Add a new status
+		<img
+			src="assets/images/plus.svg"
+			class="img-fluid icon-medium"
+			alt="plus.svg"
+		/>
+	</a>
+</div>
+<br />
+<div class="row">
+	<div class="col">
+		<div class="card">
+			<div class="row">
+				<div class="col">
+					<h5 id="statuses-list-header" class="card-header">Statuses</h5>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<ul
+						id="status-list"
+						*ngIf="statuses?.length; else noStatusPresent"
+						class="list-group list-group-flush"
+					>
+						<li class="list-group-item" *ngFor="let status of statuses">
+							<div class="row align-items-center w-auto p-3">
+								<div class="col">
+									<div class="row bg-dark text-white">
+										<div class="col border border-primary">
+											<div class="text-center text-wrap item-font">
+												Status id
+											</div>
+										</div>
+										<div class="col text-center border border-primary">
+											<div class="text-center text-wrap item-font">
+												Player id
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col border border-primary">
+											<div
+												id="{{ 'status-id-element-' + status.statusId }}"
+												class="text-center text-wrap item-font"
+											>
+												{{ status.statusId }}
+											</div>
+										</div>
+										<div class="col border border-primary">
+											<div
+												id="{{ 'status-player-id-element-' + status.statusId }}"
+												class="text-center text-lowercase text-wrap item-font"
+											>
+												{{ status.playerId }}
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col">
+									<div
+										class="btn-group btn-group-sm"
+										role="group"
+										aria-label="status operations"
+									>
+										<button
+											id="{{ 'view-status-button-id-' + status.statusId }}"
+											type="button"
+											class="btn btn-primary"
+											(click)="onViewStatusElement(status.statusId)"
+										>
+											<img
+												src="assets/images/eye.svg"
+												class="img-fluid"
+												alt="eye.svg"
+											/>
+										</button>
+										<button
+											id="{{ 'edit-status-button-id-' + status.statusId }}"
+											type="button"
+											class="btn btn-warning"
+										>
+											<img
+												src="assets/images/pencil.svg"
+												class="img-fluid"
+												alt="pencil.svg"
+											/>
+										</button>
+										<button
+											id="{{ 'delete-status-button-id-' + status.statusId }}"
+											type="button"
+											class="btn btn-danger"
+										>
+											<img
+												src="assets/images/trash.svg"
+												class="img-fluid"
+												alt="trash.svg"
+											/>
+										</button>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ng-template #noStatusPresent>
+						<div class="card-body">
+							<p class="card-text">No statuses created yet!</p>
+						</div>
+					</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<router-outlet></router-outlet>
+	</div>
+</div>
