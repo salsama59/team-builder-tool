@@ -44,7 +44,17 @@ export class TeamsComponent implements OnInit {
 	 * @param teamId the team id.
 	 */
 	onViewTeamElement(teamId: number): void {
-		void this.router.navigate([teamId], {
+		void this.router.navigate([teamId, 'view'], {
+			relativeTo: this.activatedRoute
+		});
+	}
+
+	/**
+	 * Display the team element given an id ready for edition by routing the user to the TeamComponent view
+	 * @param teamId the team id.
+	 */
+	onEditTeamElement(teamId: number): void {
+		void this.router.navigate([teamId, 'edit'], {
 			relativeTo: this.activatedRoute
 		});
 	}

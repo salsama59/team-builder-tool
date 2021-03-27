@@ -55,6 +55,7 @@
 											id="{{ 'edit-team-button-id-' + team.teamId }}"
 											type="button"
 											class="btn btn-warning"
+											(click)="onEditTeamElement(team.teamId)"
 										>
 											<img
 												src="assets/images/pencil.svg"

@@ -21,7 +21,7 @@ const appRoutes: Routes = [
 	{
 		path: 'teams',
 		component: TeamsComponent,
-		children: [{ path: ':teamId', component: TeamComponent }]
+		children: [{ path: ':teamId/:mode', component: TeamComponent }]
 	},
 	{
 		path: 'players',

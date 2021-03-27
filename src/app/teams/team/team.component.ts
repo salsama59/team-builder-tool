@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ValidatorConstants } from 'src/app/constants/validator-constant';
 import { Team } from 'src/app/models/team.model';
+import { FormValidationService } from 'src/app/services/form-validation.service';
 import { TeamsService } from 'src/app/services/teams.service';
 
 /**
@@ -19,29 +22,89 @@ export class TeamComponent implements OnInit {
 	public currentTeam: Team | null = null;
 
 	/**
+	 * Team reactive form object
+	 */
+	public teamForm!: FormGroup;
+
+	/**
+	 * Determines whether in view mode or edit mode
+	 */
+	public isInViewMode: boolean = false;
+
+	/**
+	 * Validator constants of team component
+	 */
+	public validatorConstants = ValidatorConstants;
+
+	/**
 	 * Creates an instance of team component.
 	 * @constructor
 	 * @param teamsService  the teams service injected
 	 * @param activatedRoute the activated route
+	 * @param changeDetectorRef the component change detector
+	 * @param formValidationService the form validation service
+	 * @param router the router to navigate throught pages
 	 */
 	constructor(
 		private teamsService: TeamsService,
-		private activatedRoute: ActivatedRoute
+		private activatedRoute: ActivatedRoute,
+		private changeDetectorRef: ChangeDetectorRef,
+		public formValidationService: FormValidationService,
+		private router: Router
 	) {}
 
 	/**
-	 * Initialize the current displayed team by getting the url parameter.
+	 * Initialize the current displayed team by getting the url parameters.
 	 * Also a subscribtion to the parameter change is done in order to update the current displayed team whe needed.
 	 */
 	ngOnInit(): void {
-		//Get the team id value as soon as possible using the snapshot property, and convert the string value to number with the '+' operator
-		const teamId: number = +this.activatedRoute.snapshot.params['teamId'];
-		this.currentTeam = this.teamsService.getTeamById(teamId);
-
 		//Subscribe to the params property change in case the routing is done in the same page.
 		this.activatedRoute.params.subscribe((params: Params) => {
+			//Get the team id value as soon as possible using the snapshot property, and convert the string value to number with the '+' operator
 			const teamId: number = +params['teamId'];
+			const mode: string = params['mode'];
 			this.currentTeam = this.teamsService.getTeamById(teamId);
+			this.isInViewMode = mode === 'view';
+
+			this.teamForm = new FormGroup({
+				teamId: new FormControl(this.currentTeam.teamId, Validators.required),
+				teamFullName: new FormControl(
+					this.currentTeam.teamFullName,
+					Validators.required
+				),
+				teamShortName: new FormControl(this.currentTeam.teamShortName, [
+					Validators.required,
+					Validators.maxLength(6)
+				])
+			});
+
+			//Detect changes on the form group (workaround to avoid the detection bug)
+			this.changeDetectorRef.detectChanges();
+			if (this.isInViewMode) {
+				this.teamForm.disable();
+			} else {
+				this.teamForm.enable();
+			}
+		});
+	}
+
+	/**
+	 * Determines what to do during submit :
+	 * - Update the team element displayed throught the form.
+	 * - Navigate Back to the team list.
+	 */
+	onSubmit(): void {
+		//Map the team object with the form values
+		const teamToEdit: Team = new Team(
+			this.teamForm.value.teamId,
+			this.teamForm.value.teamFullName,
+			this.teamForm.value.teamShortName
+		);
+		this.teamsService.updateTeam(teamToEdit);
+
+		//Navigate back to the team list
+		void this.router.navigate(['../../'], {
+			relativeTo: this.activatedRoute
 		});
 	}
 }
