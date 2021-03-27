@@ -50,18 +50,17 @@ describe('PlayersService', () => {
 	});
 
 	it('should delete a player element', () => {
+		const playerToBeDeleted: Player = service.getPlayerById(0);
 		service.deletePlayerById(0);
 		expect(service.getPlayers().length).toBeCloseTo(0);
-		expect(service.getPlayers()).not.toContain(
-			new Player(
-				0,
-				0,
-				0,
-				0,
-				'Joe',
-				PlayerFieldPositionEnum.CENTER_FIELDER,
-				PlayerFieldPositionEnum.CENTER_FIELDER
-			)
-		);
+		expect(service.getPlayers()).not.toContain(playerToBeDeleted);
+	});
+
+	it('should update a player element', () => {
+		const playerToUpdate: Player = service.getPlayerById(0);
+		playerToUpdate.playerName = 'new player name';
+		playerToUpdate.playerFieldPosition = PlayerFieldPositionEnum.SHORT_STOP;
+		service.updatePlayer(playerToUpdate);
+		expect(service.getPlayers()).toContain(playerToUpdate);
 	});
 });

@@ -23,16 +23,32 @@ describe('FooterComponent', () => {
 	});
 
 	it('should calculate the current year on intialization', () => {
-		expect(footerComponent.copyrightDate).toEqual(
+		expect(footerComponent.copyrightCurrentDate).toEqual(
 			new Date().getFullYear().toString()
 		);
 	});
 
-	it('should display the copyright', () => {
+	it('should display the copyright with same start year and current year', () => {
 		const currentYear: string = new Date().getFullYear().toString();
 		const compiled = fixture.nativeElement;
 		expect(compiled.querySelector('#app-copyright').textContent).toContain(
 			'© Copyright ' + currentYear
+		);
+	});
+
+	it('should display the copyright with same start year and current year', () => {
+		const currentYear: string = new Date().getFullYear().toString();
+		footerComponent.copyrightStartDate = '2019';
+		footerComponent.ngOnInit();
+		fixture.detectChanges();
+		const compiled = fixture.nativeElement;
+		expect(compiled.querySelector('#app-copyright').textContent).toContain(
+			'© Copyright ' +
+				footerComponent.copyrightStartDate +
+				'-' +
+				currentYear +
+				' ' +
+				footerComponent.developerName
 		);
 	});
 });

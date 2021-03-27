@@ -1,162 +1,188 @@
 import { browser, by, element, ElementFinder } from 'protractor';
 
 export class AppPage {
-  async navigateTo(): Promise<unknown> {
-    return browser.get(browser.baseUrl);
-  }
+	async navigateTo(): Promise<unknown> {
+		return browser.get(browser.baseUrl);
+	}
 
-  getTitleElement(): ElementFinder {
-    return element(by.css('app-root nav div.navbar-brand'));
-  }
+	getTitleElement(): ElementFinder {
+		return element(by.css('app-root nav div.navbar-brand'));
+	}
 
-  getHeaderHomeTabElement(): ElementFinder {
-    return element(by.css('app-header nav div ul li a#home-tab-link'));
-  }
+	getHeaderHomeTabElement(): ElementFinder {
+		return element(by.css('app-header nav div ul li a#home-tab-link'));
+	}
 
-  getHeaderTeamsTabElement(): ElementFinder {
-    return element(by.css('app-header nav div ul li a#teams-tab-link'));
-  }
+	getHeaderTeamsTabElement(): ElementFinder {
+		return element(by.css('app-header nav div ul li a#teams-tab-link'));
+	}
 
-  getHeaderPlayersTabElement(): ElementFinder {
-    return element(by.css('app-header nav div ul li a#players-tab-link'));
-  }
+	getHeaderPlayersTabElement(): ElementFinder {
+		return element(by.css('app-header nav div ul li a#players-tab-link'));
+	}
 
-  getHeaderStatusesTabElement(): ElementFinder {
-    return element(by.css('app-header nav div ul li a#statuses-tab-link'));
-  }
+	getHeaderStatusesTabElement(): ElementFinder {
+		return element(by.css('app-header nav div ul li a#statuses-tab-link'));
+	}
 
-  getTeamListElement(): ElementFinder {
-    return element(by.css('app-teams div div div div div ul#team-list'));
-  }
+	getTeamListElement(): ElementFinder {
+		return element(by.css('app-teams div div div div div ul#team-list'));
+	}
 
-  getPlayerListElement(): ElementFinder {
-    return element(by.css('app-players div div div div div ul#player-list'));
-  }
+	getPlayerListElement(): ElementFinder {
+		return element(by.css('app-players div div div div div ul#player-list'));
+	}
 
-  getStatusListElement(): ElementFinder {
-    return element(by.css('app-statuses div div div div div ul#status-list'));
-  }
+	getStatusListElement(): ElementFinder {
+		return element(by.css('app-statuses div div div div div ul#status-list'));
+	}
 
-  getTeamElementViewButton(teamId: number): ElementFinder {
-    return element(by.css('app-teams div div div div div ul#team-list > li div div div button#view-team-button-id-' + teamId));
-  }
+	getTeamElementViewButton(teamId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-teams div div div div div ul#team-list > li div div div button#view-team-button-id-' +
+					teamId
+			)
+		);
+	}
 
-  getPlayerElementViewButton(playerId: number): ElementFinder {
-    return element(by.css('app-players div div div div div ul#player-list > li div div div button#view-player-button-id-' + playerId));
-  }
+	getPlayerElementViewButton(playerId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-players div div div div div ul#player-list > li div div div button#view-player-button-id-' +
+					playerId
+			)
+		);
+	}
 
-  getStatusElementViewButton(statusId: number): ElementFinder {
-    return element(by.css('app-statuses div div div div div ul#status-list > li div div div button#view-status-button-id-' + statusId));
-  }
+	getStatusElementViewButton(statusId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-statuses div div div div div ul#status-list > li div div div button#view-status-button-id-' +
+					statusId
+			)
+		);
+	}
 
-  getTeamElementViewForm(): ElementFinder {
-    return element(by.css('app-team form'));
-  }
+	getTeamElementViewForm(): ElementFinder {
+		return element(by.css('app-team form'));
+	}
 
-  getPlayerElementViewForm(): ElementFinder {
-    return element(by.css('app-player form'));
-  }
+	getPlayerElementViewForm(): ElementFinder {
+		return element(by.css('app-player form'));
+	}
 
-  getStatusElementViewForm(): ElementFinder {
-    return element(by.css('app-status form'));
-  }
+	getStatusElementViewForm(): ElementFinder {
+		return element(by.css('app-status form'));
+	}
 
+	getTeamElementFormIdField(): ElementFinder {
+		return element(by.css('app-team form div input#teamIdFormInput'));
+	}
 
-  getTeamElementFormIdField(): ElementFinder {
-    return element(by.css('app-team form div input#teamIdFormInput'));
-  }
+	getTeamElementFormFullNameField(): ElementFinder {
+		return element(by.css('app-team form div input#teamFullNameFormInput'));
+	}
 
-  getTeamElementFormFullNameField(): ElementFinder {
-    return element(by.css('app-team form div input#teamFullNameFormInput'));
-  }
+	getTeamElementFormShortNameField(): ElementFinder {
+		return element(by.css('app-team form div input#teamShortNameFormInput'));
+	}
 
-  getTeamElementFormShortNameField(): ElementFinder {
-    return element(by.css('app-team form div input#teamShortNameFormInput'));
-  }
+	getPlayerElementFormPlayerIdField(): ElementFinder {
+		return element(by.css('app-player form div input#playerIdFormInput'));
+	}
 
+	getPlayerElementFormPlayerTeamIdField(): ElementFinder {
+		return element(by.css('app-player form div input#playerTeamIdFormInput'));
+	}
 
-  getPlayerElementFormPlayerIdField(): ElementFinder {
-    return element(by.css('app-player form div input#playerIdFormInput'));
-  }
+	getPlayerElementFormPlayerStatusIdField(): ElementFinder {
+		return element(by.css('app-player form div input#playerStatusIdFormInput'));
+	}
 
-  getPlayerElementFormPlayerTeamIdField(): ElementFinder {
-    return element(by.css('app-player form div input#playerTeamIdFormInput'));
-  }
+	getPlayerElementFormPlayerAbilityIdField(): ElementFinder {
+		return element(
+			by.css('app-player form div input#playerAbilityIdFormInput')
+		);
+	}
 
-  getPlayerElementFormPlayerStatusIdField(): ElementFinder {
-    return element(by.css('app-player form div input#playerStatusIdFormInput'));
-  }
+	getPlayerElementFormPlayerNameField(): ElementFinder {
+		return element(by.css('app-player form div input#playerNameFormInput'));
+	}
 
-  getPlayerElementFormPlayerAbilityIdField(): ElementFinder {
-    return element(by.css('app-player form div input#playerAbilityIdFormInput'));
-  }
+	getPlayerElementFormPlayerFieldPositionField(): ElementFinder {
+		return element(
+			by.css('app-player form div input#playerFieldPositionFormInput')
+		);
+	}
 
-  getPlayerElementFormPlayerNameField(): ElementFinder {
-    return element(by.css('app-player form div input#playerNameFormInput'));
-  }
+	getPlayerElementFormDefaultPlayerFieldPositionField(): ElementFinder {
+		return element(
+			by.css('app-player form div input#defaultPlayerFieldPositionFormInput')
+		);
+	}
 
-  getPlayerElementFormPlayerFieldPositionField(): ElementFinder {
-    return element(by.css('app-player form div input#playerFieldPositionFormInput'));
-  }
+	getStatusElementFormStatusIdField(): ElementFinder {
+		return element(by.css('app-status form div input#statusIdFormInput'));
+	}
 
-  getPlayerElementFormDefaultPlayerFieldPositionField(): ElementFinder {
-    return element(by.css('app-player form div input#defaultPlayerFieldPositionFormInput'));
-  }
+	getStatusElementFormPlayerIdField(): ElementFinder {
+		return element(by.css('app-status form div input#playerIdFormInput'));
+	}
 
+	getStatusElementFormSpeedField(): ElementFinder {
+		return element(by.css('app-status form div input#speedFormInput'));
+	}
 
-  getStatusElementFormStatusIdField(): ElementFinder {
-    return element(by.css('app-status form div input#statusIdFormInput'));
-  }
+	getStatusElementFormStaminaField(): ElementFinder {
+		return element(by.css('app-status form div input#staminaFormInput'));
+	}
 
-  getStatusElementFormPlayerIdField(): ElementFinder {
-    return element(by.css('app-status form div input#playerIdFormInput'));
-  }
+	getStatusElementFormCatchEfficiencyField(): ElementFinder {
+		return element(
+			by.css('app-status form div input#catchEfficiencyFormInput')
+		);
+	}
 
-  getStatusElementFormSpeedField(): ElementFinder {
-    return element(by.css('app-status form div input#speedFormInput'));
-  }
+	getStatusElementFormPitchEfficiencyField(): ElementFinder {
+		return element(
+			by.css('app-status form div input#pitchEfficiencyFormInput')
+		);
+	}
 
-  getStatusElementFormStaminaField(): ElementFinder {
-    return element(by.css('app-status form div input#staminaFormInput'));
-  }
+	getStatusElementFormPassEfficiencyField(): ElementFinder {
+		return element(by.css('app-status form div input#passEfficiencyFormInput'));
+	}
 
-  getStatusElementFormCatchEfficiencyField(): ElementFinder {
-    return element(by.css('app-status form div input#catchEfficiencyFormInput'));
-  }
+	getStatusElementFormBattingEfficiencyField(): ElementFinder {
+		return element(
+			by.css('app-status form div input#battingEfficiencyFormInput')
+		);
+	}
 
-  getStatusElementFormPitchEfficiencyField(): ElementFinder {
-    return element(by.css('app-status form div input#pitchEfficiencyFormInput'));
-  }
+	getStatusElementFormBattingPowerField(): ElementFinder {
+		return element(by.css('app-status form div input#battingPowerFormInput'));
+	}
 
-  getStatusElementFormPassEfficiencyField(): ElementFinder {
-    return element(by.css('app-status form div input#passEfficiencyFormInput'));
-  }
+	getStatusElementFormPitchingPowerField(): ElementFinder {
+		return element(by.css('app-status form div input#pitchingPowerFormInput'));
+	}
 
-  getStatusElementFormBattingEfficiencyField(): ElementFinder {
-    return element(by.css('app-status form div input#battingEfficiencyFormInput'));
-  }
+	getStatusElementFormPitchingEffectField(): ElementFinder {
+		return element(by.css('app-status form div input#pitchingEffectFormInput'));
+	}
 
-  getStatusElementFormBattingPowerField(): ElementFinder {
-    return element(by.css('app-status form div input#battingPowerFormInput'));
-  }
+	getHomeFeatureCardElement(featureElementId: string): ElementFinder {
+		return element(by.css('app-home div#' + featureElementId));
+	}
 
-  getStatusElementFormPitchingPowerField(): ElementFinder {
-    return element(by.css('app-status form div input#pitchingPowerFormInput'));
-  }
+	getHomeFeatureButtonElement(featureElementId: string): ElementFinder {
+		return element(
+			by.css('app-home div#' + featureElementId + ' div.card-body a')
+		);
+	}
 
-  getStatusElementFormPitchingEffectField(): ElementFinder {
-    return element(by.css('app-status form div input#pitchingEffectFormInput'));
-  }
-
-  getHomeFeatureCardElement(featureElementId: string) {
-    return element(by.css('app-home div#' + featureElementId));
-  }
-
-  getHomeFeatureButtonElement(featureElementId: string) {
-    return element(by.css('app-home div#' + featureElementId + ' div.card-body a'));
-  }
-
-  getFooterCopyrightElement(copyrightElementId: string) {
-    return element(by.css('app-footer div div#' + copyrightElementId));
-  }
+	getFooterElement(copyrightElementId: string): ElementFinder {
+		return element(by.css('app-footer div div#' + copyrightElementId));
+	}
 }

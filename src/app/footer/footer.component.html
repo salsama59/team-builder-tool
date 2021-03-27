@@ -1,7 +1,12 @@
 <footer>
 	<div class="container">
-		<div id="app-copyright" class="text-muted text-center">
-			&copy; Copyright {{ copyrightDate }}
+		<div class="row">
+			<div id="app-version" class="text-muted text-center col">
+				Version : {{ applicationVersion }}
+			</div>
+			<div id="app-copyright" class="text-muted text-center col">
+				&copy; Copyright {{getCopyrigthSentenceDisplay()}} {{ developerName }}
+			</div>
 		</div>
 	</div>
 </footer>

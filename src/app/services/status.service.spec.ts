@@ -45,10 +45,17 @@ describe('StatusService', () => {
 	});
 
 	it('should delete a status element', () => {
+		const statusToBeDeleted: Status = statusService.getStatusById(0);
 		statusService.deleteStatusById(0);
 		expect(statusService.getStatuses().length).toBeCloseTo(0);
-		expect(statusService.getStatuses()).not.toContain(
-			new Status(0, 0, 10, 27, 60.5, 70.5, 45, 5, 50, 78, 15)
-		);
+		expect(statusService.getStatuses()).not.toContain(statusToBeDeleted);
+	});
+
+	it('should update a status element', () => {
+		const statusToBeUpdated: Status = statusService.getStatusById(0);
+		statusToBeUpdated.speed = 0;
+		statusToBeUpdated.stamina = 0;
+		statusService.updateStatus(statusToBeUpdated);
+		expect(statusService.getStatuses()).toContain(statusToBeUpdated);
 	});
 });
