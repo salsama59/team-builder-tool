@@ -33,10 +33,10 @@ describe('TeamsComponent', () => {
 					useValue: {
 						params: of({}),
 						queryParams: of({}),
-						snapshot: { params: { teamId: '0' } },
+						snapshot: { params: { teamId: '0', mode: 'view' } },
 						url: of([
 							new UrlSegment('/', {}),
-							new UrlSegment('teams', { teamId: '0' })
+							new UrlSegment('teams', { teamId: '0', mode: 'view' })
 						]),
 						fragment: of('/teams')
 					}
@@ -98,6 +98,16 @@ describe('TeamsComponent', () => {
 	it('should navigate to view team section', () => {
 		const spy = spyOn(router, 'navigate');
 		teamsComponent.onViewTeamElement(0);
-		expect(spy).toHaveBeenCalledWith([0], { relativeTo: activatedRoute });
+		expect(spy).toHaveBeenCalledWith([0, 'view'], {
+			relativeTo: activatedRoute
+		});
+	});
+
+	it('should navigate to edit team section', () => {
+		const spy = spyOn(router, 'navigate');
+		teamsComponent.onEditTeamElement(0);
+		expect(spy).toHaveBeenCalledWith([0, 'edit'], {
+			relativeTo: activatedRoute
+		});
 	});
 });

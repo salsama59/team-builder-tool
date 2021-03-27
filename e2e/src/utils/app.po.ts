@@ -41,7 +41,16 @@ export class AppPage {
 		return element(
 			by.css(
 				'app-teams div div div div div ul#team-list > li div div div button#view-team-button-id-' +
-					teamId
+					teamId.toString()
+			)
+		);
+	}
+
+	getTeamElementEditButton(teamId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-teams div div div div div ul#team-list > li div div div button#edit-team-button-id-' +
+					teamId.toString()
 			)
 		);
 	}
@@ -50,7 +59,7 @@ export class AppPage {
 		return element(
 			by.css(
 				'app-players div div div div div ul#player-list > li div div div button#view-player-button-id-' +
-					playerId
+					playerId.toString()
 			)
 		);
 	}
@@ -59,7 +68,7 @@ export class AppPage {
 		return element(
 			by.css(
 				'app-statuses div div div div div ul#status-list > li div div div button#view-status-button-id-' +
-					statusId
+					statusId.toString()
 			)
 		);
 	}
@@ -86,6 +95,10 @@ export class AppPage {
 
 	getTeamElementFormShortNameField(): ElementFinder {
 		return element(by.css('app-team form div input#teamShortNameFormInput'));
+	}
+
+	getTeamElementFormSubmitButton(): ElementFinder {
+		return element(by.css('app-team form button#teamSubmitButton'));
 	}
 
 	getPlayerElementFormPlayerIdField(): ElementFinder {
