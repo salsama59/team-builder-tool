@@ -33,10 +33,17 @@ describe('TeamsService', () => {
 	});
 
 	it('should delete a team element', () => {
+		const teamToBeDeleted: Team = teamsService.getTeamById(0);
 		teamsService.deleteTeamById(0);
 		expect(teamsService.getTeams().length).toBeCloseTo(3);
-		expect(teamsService.getTeams()).not.toContain(
-			new Team(0, 'my first team', 'MFT')
-		);
+		expect(teamsService.getTeams()).not.toContain(teamToBeDeleted);
+	});
+
+	it('should update a team element', () => {
+		const teamToBeUpdated: Team = teamsService.getTeamById(0);
+		teamToBeUpdated.teamFullName = 'Completely random name';
+		teamToBeUpdated.teamShortName = 'SHORT';
+		teamsService.updateTeam(teamToBeUpdated);
+		expect(teamsService.getTeams()).toContain(teamToBeUpdated);
 	});
 });
