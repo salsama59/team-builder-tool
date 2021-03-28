@@ -101,7 +101,13 @@ export class TeamComponent implements OnInit {
 			this.teamForm.value.teamShortName
 		);
 		this.teamsService.updateTeam(teamToEdit);
+		this.onCancelEdit();
+	}
 
+	/**
+	 * Navigate back to team list view relative to the current route
+	 */
+	onCancelEdit(): void {
 		//Navigate back to the team list
 		void this.router.navigate(['../../'], {
 			relativeTo: this.activatedRoute
