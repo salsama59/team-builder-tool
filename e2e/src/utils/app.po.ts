@@ -93,12 +93,34 @@ export class AppPage {
 		return element(by.css('app-team form div input#teamFullNameFormInput'));
 	}
 
+	getTeamElementFormFullNameRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-team form div span#teamFullNameRequiredErrorMessage')
+		);
+	}
+
 	getTeamElementFormShortNameField(): ElementFinder {
 		return element(by.css('app-team form div input#teamShortNameFormInput'));
 	}
 
+	getTeamElementFormShortNameRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-team form div span#teamShortNameRequiredErrorMessage')
+		);
+	}
+
+	getTeamElementFormShortNameMaxLengthErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-team form div span#teamShortNameMaxLengthErrorMessage')
+		);
+	}
+
 	getTeamElementFormSubmitButton(): ElementFinder {
 		return element(by.css('app-team form button#teamSubmitButton'));
+	}
+
+	getTeamElementFormCancelButton(): ElementFinder {
+		return element(by.css('app-team form button#teamCancelButton'));
 	}
 
 	getPlayerElementFormPlayerIdField(): ElementFinder {
