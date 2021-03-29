@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Team } from '../models/team.model';
 import { TeamsService } from '../services/teams.service';
 /**
@@ -11,13 +12,18 @@ import { TeamsService } from '../services/teams.service';
 	templateUrl: './teams.component.html',
 	styleUrls: ['./teams.component.css']
 })
-export class TeamsComponent implements OnInit {
+export class TeamsComponent implements OnInit, OnDestroy {
 	/**
 	 * The team list that will be displayed.
 	 * @type {Array<Team> | null}
 	 * @public
 	 */
 	public teams: Array<Team> | null = null;
+
+	/**
+	 * Teams changed subscription of teams component
+	 */
+	private teamsChangedSubscription!: Subscription;
 
 	/**
 	 * Creates an instance of teams component.
@@ -37,6 +43,18 @@ export class TeamsComponent implements OnInit {
 	 */
 	ngOnInit(): void {
 		this.teams = this.teamsService.getTeams();
+		this.teamsChangedSubscription = this.teamsService.teamsChanged.subscribe(
+			(newTeams) => {
+				this.teams = newTeams;
+			}
+		);
+	}
+
+	/**
+	 * Unsubscribe to the teams changed subscription
+	 */
+	ngOnDestroy(): void {
+		this.teamsChangedSubscription.unsubscribe();
 	}
 
 	/**
@@ -55,6 +73,15 @@ export class TeamsComponent implements OnInit {
 	 */
 	onEditTeamElement(teamId: number): void {
 		void this.router.navigate([teamId, 'edit'], {
+			relativeTo: this.activatedRoute
+		});
+	}
+
+	/**
+	 * Display the new team creation form by routing the user to the TeamComponent view
+	 */
+	onCreateTeamElement(): void {
+		void this.router.navigate(['create'], {
 			relativeTo: this.activatedRoute
 		});
 	}

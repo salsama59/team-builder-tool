@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Team } from '../models/team.model';
 
 /**
@@ -21,6 +22,11 @@ export class TeamsService {
 	];
 
 	/**
+	 * Teams changed of teams service
+	 */
+	public teamsChanged: Subject<Array<Team>> = new Subject<Array<Team>>();
+
+	/**
 	 * Get a team given an id
 	 * @param teamId the team id to get
 	 * @returns a team corresponding to the id.
@@ -39,10 +45,13 @@ export class TeamsService {
 
 	/**
 	 * Add a team to the team list
-	 * @param teamToAdd  the team element to add
+	 * @param teamToAdd the team element to add
 	 */
 	addTeam(teamToAdd: Team): void {
+		const nextTeamId = this.teams.length;
+		teamToAdd.teamId = nextTeamId;
 		this.teams.push(teamToAdd);
+		this.teamsChanged.next(this.getTeams());
 	}
 
 	/**
@@ -52,6 +61,7 @@ export class TeamsService {
 	 */
 	updateTeam(teamToUpdate: Team): Team {
 		this.teams[teamToUpdate.teamId] = teamToUpdate;
+		this.teamsChanged.next(this.getTeams());
 		return this.getTeamById(teamToUpdate.teamId);
 	}
 
@@ -61,5 +71,6 @@ export class TeamsService {
 	 */
 	deleteTeamById(teamIdToDelete: number): void {
 		this.teams.splice(teamIdToDelete, 1);
+		this.teamsChanged.next(this.getTeams());
 	}
 }
