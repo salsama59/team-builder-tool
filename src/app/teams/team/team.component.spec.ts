@@ -25,7 +25,10 @@ describe('TeamComponent', () => {
 						{
 							path: 'teams',
 							component: TeamsComponent,
-							children: [{ path: ':teamId/:mode', component: TeamComponent }]
+							children: [
+								{ path: ':teamId/:mode', component: TeamComponent },
+								{ path: ':mode', component: TeamComponent }
+							]
 						}
 					]),
 					ReactiveFormsModule
@@ -78,7 +81,10 @@ describe('TeamComponent', () => {
 						{
 							path: 'teams',
 							component: TeamsComponent,
-							children: [{ path: ':teamId/:mode', component: TeamComponent }]
+							children: [
+								{ path: ':teamId/:mode', component: TeamComponent },
+								{ path: ':mode', component: TeamComponent }
+							]
 						}
 					]),
 					ReactiveFormsModule
@@ -146,7 +152,10 @@ describe('TeamComponent', () => {
 						{
 							path: 'teams',
 							component: TeamsComponent,
-							children: [{ path: ':teamId/:mode', component: TeamComponent }]
+							children: [
+								{ path: ':teamId/:mode', component: TeamComponent },
+								{ path: ':mode', component: TeamComponent }
+							]
 						}
 					]),
 					ReactiveFormsModule
@@ -216,6 +225,116 @@ describe('TeamComponent', () => {
 		});
 
 		it('should return to team list when clicking on cancel button during edit mode', () => {
+			const compiled = fixture.debugElement;
+			compiled.nativeElement.querySelector('#teamCancelButton').click();
+			expect(true).toBeTruthy();
+		});
+	});
+
+	describe('create mode', () => {
+		beforeEach(async () => {
+			await TestBed.configureTestingModule({
+				imports: [
+					RouterTestingModule.withRoutes([
+						{
+							path: 'teams',
+							component: TeamsComponent,
+							children: [
+								{ path: ':teamId/:mode', component: TeamComponent },
+								{ path: ':mode', component: TeamComponent }
+							]
+						}
+					]),
+					ReactiveFormsModule
+				],
+				providers: [
+					{
+						provide: ActivatedRoute,
+						useValue: {
+							params: of({ teamId: '0', mode: 'create' }),
+							queryParams: of({}),
+							snapshot: { params: { teamId: '0', mode: 'create' } },
+							url: of([
+								new UrlSegment('/', {}),
+								new UrlSegment('teams', { teamId: '0', mode: 'create' })
+							]),
+							fragment: of('/teams')
+						}
+					},
+					{
+						provide: Location
+					}
+				],
+				declarations: [TeamComponent],
+				schemas: [CUSTOM_ELEMENTS_SCHEMA]
+			}).compileComponents();
+		});
+
+		beforeEach(() => {
+			fixture = TestBed.createComponent(TeamComponent);
+			teamComponent = fixture.componentInstance;
+			router = TestBed.inject(Router);
+			activatedRoute = TestBed.inject(ActivatedRoute);
+			location = TestBed.inject(Location);
+			fixture.detectChanges();
+		});
+
+		it('should render the team form without values during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.nativeElement.querySelector('#teamFullNameFormInput').value
+			).toEqual('');
+			expect(
+				compiled.nativeElement.querySelector('#teamShortNameFormInput').value
+			).toEqual('');
+		});
+
+		it('should render the team form in enabled state during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.nativeElement.querySelector('#teamFullNameFormInput').disabled
+			).toBeFalsy();
+			expect(
+				compiled.nativeElement.querySelector('#teamShortNameFormInput').disabled
+			).toBeFalsy();
+			expect(
+				compiled.nativeElement.querySelector('#teamSubmitButton').disabled
+			).toBeTruthy();
+			expect(
+				compiled.nativeElement.querySelector('#teamCancelButton').disabled
+			).toBeFalsy();
+		});
+
+		it('should return to team list when clicking on save button during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.nativeElement.querySelector('#teamSubmitButton').disabled
+			).toBeTruthy();
+
+			compiled.nativeElement.querySelector('#teamFullNameFormInput').value =
+				'test';
+			compiled.nativeElement
+				.querySelector('#teamFullNameFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('#teamShortNameFormInput').value =
+				'TTT';
+			compiled.nativeElement
+				.querySelector('#teamShortNameFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('form').click();
+
+			fixture.detectChanges();
+
+			expect(
+				compiled.nativeElement.querySelector('#teamSubmitButton').disabled
+			).toBeFalsy();
+
+			compiled.nativeElement.querySelector('#teamSubmitButton').click();
+		});
+
+		it('should return to team list when clicking on cancel button during create mode', () => {
 			const compiled = fixture.debugElement;
 			compiled.nativeElement.querySelector('#teamCancelButton').click();
 			expect(true).toBeTruthy();

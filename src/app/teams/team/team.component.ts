@@ -85,8 +85,6 @@ export class TeamComponent implements OnInit {
 					this.initializeForm(-1, null, null);
 					break;
 				}
-				default:
-					break;
 			}
 			//Detect changes on the form group (workaround to avoid the detection bug)
 			this.changeDetectorRef.detectChanges();
