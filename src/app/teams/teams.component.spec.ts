@@ -7,6 +7,7 @@ import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { TeamComponent } from './team/team.component';
 import { CommonModule } from '@angular/common';
 import { of } from 'rxjs';
+import { TeamsService } from '../services/teams.service';
 
 describe('TeamsComponent', () => {
 	let teamsComponent: TeamsComponent;
@@ -65,6 +66,13 @@ describe('TeamsComponent', () => {
 		expect(teamsComponent).toBeTruthy();
 	});
 
+	it('should init teamsChangedSubscription', () => {
+		teamsComponent.ngOnInit();
+		const teamsService = TestBed.inject(TeamsService);
+		teamsService.addTeam(new Team(4, 'test name', 'TN'));
+		expect(true).toBeTruthy();
+	});
+
 	it('should posses 3 teams in it list', () => {
 		expect(teamsComponent.teams).toBeDefined();
 		expect(teamsComponent.teams).toHaveSize(4);
@@ -107,6 +115,14 @@ describe('TeamsComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		teamsComponent.onEditTeamElement(0);
 		expect(spy).toHaveBeenCalledWith([0, 'edit'], {
+			relativeTo: activatedRoute
+		});
+	});
+
+	it('should navigate to create team section', () => {
+		const spy = spyOn(router, 'navigate');
+		teamsComponent.onCreateTeamElement();
+		expect(spy).toHaveBeenCalledWith(['create'], {
 			relativeTo: activatedRoute
 		});
 	});

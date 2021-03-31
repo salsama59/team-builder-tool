@@ -32,6 +32,11 @@ export class TeamComponent implements OnInit {
 	public isInViewMode: boolean = false;
 
 	/**
+	 * Determines whether in create mode
+	 */
+	public isInCreateMode: boolean = false;
+
+	/**
 	 * Validator constants of team component
 	 */
 	public validatorConstants = ValidatorConstants;
@@ -54,30 +59,33 @@ export class TeamComponent implements OnInit {
 	) {}
 
 	/**
-	 * Initialize the current displayed team by getting the url parameters.
+	 * Initialize the current displayed team form by getting the url parameters.
 	 * Also a subscribtion to the parameter change is done in order to update the current displayed team whe needed.
 	 */
 	ngOnInit(): void {
 		//Subscribe to the params property change in case the routing is done in the same page.
 		this.activatedRoute.params.subscribe((params: Params) => {
-			//Get the team id value as soon as possible using the snapshot property, and convert the string value to number with the '+' operator
-			const teamId: number = +params['teamId'];
 			const mode: string = params['mode'];
-			this.currentTeam = this.teamsService.getTeamById(teamId);
 			this.isInViewMode = mode === 'view';
-
-			this.teamForm = new FormGroup({
-				teamId: new FormControl(this.currentTeam.teamId, Validators.required),
-				teamFullName: new FormControl(
-					this.currentTeam.teamFullName,
-					Validators.required
-				),
-				teamShortName: new FormControl(this.currentTeam.teamShortName, [
-					Validators.required,
-					Validators.maxLength(6)
-				])
-			});
-
+			this.isInCreateMode = mode === 'create';
+			switch (mode) {
+				case 'view':
+				case 'edit': {
+					//Get the team id value as soon as possible using the snapshot property, and convert the string value to number with the '+' operator
+					const teamId: number = +params['teamId'];
+					this.currentTeam = this.teamsService.getTeamById(teamId);
+					this.initializeForm(
+						this.currentTeam.teamId,
+						this.currentTeam.teamFullName,
+						this.currentTeam.teamShortName
+					);
+					break;
+				}
+				case 'create': {
+					this.initializeForm(-1, null, null);
+					break;
+				}
+			}
 			//Detect changes on the form group (workaround to avoid the detection bug)
 			this.changeDetectorRef.detectChanges();
 			if (this.isInViewMode) {
@@ -89,8 +97,29 @@ export class TeamComponent implements OnInit {
 	}
 
 	/**
+	 * Initializes the team form group given the fields value
+	 * @param teamId the team id
+	 * @param teamFullName the team full name
+	 * @param teamShortName the team short name
+	 */
+	private initializeForm(
+		teamId: number | null,
+		teamFullName: string | null,
+		teamShortName: string | null
+	) {
+		this.teamForm = new FormGroup({
+			teamId: new FormControl(teamId, Validators.required),
+			teamFullName: new FormControl(teamFullName, Validators.required),
+			teamShortName: new FormControl(teamShortName, [
+				Validators.required,
+				Validators.maxLength(6)
+			])
+		});
+	}
+
+	/**
 	 * Determines what to do during submit :
-	 * - Update the team element displayed throught the form.
+	 * - Update or create a team element.
 	 * - Navigate Back to the team list.
 	 */
 	onSubmit(): void {
@@ -100,17 +129,29 @@ export class TeamComponent implements OnInit {
 			this.teamForm.value.teamFullName,
 			this.teamForm.value.teamShortName
 		);
-		this.teamsService.updateTeam(teamToEdit);
-		this.onCancelEdit();
+
+		if (this.isInCreateMode) {
+			this.teamsService.addTeam(teamToEdit);
+		} else {
+			this.teamsService.updateTeam(teamToEdit);
+		}
+
+		this.onCancel();
 	}
 
 	/**
 	 * Navigate back to team list view relative to the current route
 	 */
-	onCancelEdit(): void {
+	onCancel(): void {
 		//Navigate back to the team list
-		void this.router.navigate(['../../'], {
-			relativeTo: this.activatedRoute
-		});
+		if (!this.isInCreateMode) {
+			void this.router.navigate(['../../'], {
+				relativeTo: this.activatedRoute
+			});
+		} else {
+			void this.router.navigate(['../'], {
+				relativeTo: this.activatedRoute
+			});
+		}
 	}
 }

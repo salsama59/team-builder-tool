@@ -55,6 +55,10 @@ export class AppPage {
 		);
 	}
 
+	getTeamElementCreateButton(): ElementFinder {
+		return element(by.css('app-teams div a#new-team-button-id'));
+	}
+
 	getPlayerElementViewButton(playerId: number): ElementFinder {
 		return element(
 			by.css(
