@@ -126,4 +126,10 @@ describe('TeamsComponent', () => {
 			relativeTo: activatedRoute
 		});
 	});
+
+	it('should delete the selected team', () => {
+		expect(teamsComponent.teams).toHaveSize(4);
+		teamsComponent.onDeleteTeamElement(0);
+		expect(teamsComponent.teams).toHaveSize(3);
+	});
 });

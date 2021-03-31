@@ -483,6 +483,23 @@ describe('Team builder teams section', () => {
 		).toBeTruthy();
 	});
 
+	it('should delete the selected team element when the delete button is clicked', async () => {
+		await page.navigateTo();
+		EndToEndTestUtils.clickOnPageElement(page.getHeaderTeamsTabElement());
+		expect(await page.getTeamListElement().isPresent());
+		const initialTeamElementList = page.getTeamListElement().all(by.css('li'));
+
+		void initialTeamElementList.count().then((initialCount: number) => {
+			EndToEndTestUtils.clickOnPageElement(page.getTeamElementDeleteButton(0));
+			const currentTeamElementList = page
+				.getTeamListElement()
+				.all(by.css('li'));
+			void currentTeamElementList.count().then((currentCount: number) => {
+				expect(currentCount).toBeLessThan(initialCount);
+			});
+		});
+	});
+
 	afterEach(async () => {
 		// Assert that there are no errors emitted from the browser
 		const logs = await browser.manage().logs().get(logging.Type.BROWSER);

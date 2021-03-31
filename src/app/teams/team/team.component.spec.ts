@@ -4,7 +4,7 @@ import { TeamComponent } from './team.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
+import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TeamsComponent } from '../teams.component';
@@ -13,9 +13,6 @@ import { Location } from '@angular/common';
 describe('TeamComponent', () => {
 	let teamComponent: TeamComponent;
 	let fixture: ComponentFixture<TeamComponent>;
-	let router: Router;
-	let activatedRoute: ActivatedRoute;
-	let location: Location;
 
 	describe('Generic behaviour', () => {
 		beforeEach(async () => {
@@ -56,8 +53,6 @@ describe('TeamComponent', () => {
 		beforeEach(() => {
 			fixture = TestBed.createComponent(TeamComponent);
 			teamComponent = fixture.componentInstance;
-			router = TestBed.inject(Router);
-			activatedRoute = TestBed.inject(ActivatedRoute);
 			fixture.detectChanges();
 		});
 
@@ -112,8 +107,6 @@ describe('TeamComponent', () => {
 		beforeEach(() => {
 			fixture = TestBed.createComponent(TeamComponent);
 			teamComponent = fixture.componentInstance;
-			router = TestBed.inject(Router);
-			activatedRoute = TestBed.inject(ActivatedRoute);
 			fixture.detectChanges();
 		});
 
@@ -186,9 +179,6 @@ describe('TeamComponent', () => {
 		beforeEach(() => {
 			fixture = TestBed.createComponent(TeamComponent);
 			teamComponent = fixture.componentInstance;
-			router = TestBed.inject(Router);
-			activatedRoute = TestBed.inject(ActivatedRoute);
-			location = TestBed.inject(Location);
 			fixture.detectChanges();
 		});
 
@@ -273,9 +263,6 @@ describe('TeamComponent', () => {
 		beforeEach(() => {
 			fixture = TestBed.createComponent(TeamComponent);
 			teamComponent = fixture.componentInstance;
-			router = TestBed.inject(Router);
-			activatedRoute = TestBed.inject(ActivatedRoute);
-			location = TestBed.inject(Location);
 			fixture.detectChanges();
 		});
 
