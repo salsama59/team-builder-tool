@@ -55,6 +55,15 @@ export class AppPage {
 		);
 	}
 
+	getTeamElementDeleteButton(teamId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-teams div div div div div ul#team-list > li div div div button#delete-team-button-id-' +
+					teamId.toString()
+			)
+		);
+	}
+
 	getTeamElementCreateButton(): ElementFinder {
 		return element(by.css('app-teams div a#new-team-button-id'));
 	}
