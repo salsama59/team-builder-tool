@@ -1,5 +1,9 @@
 <div>
-	<a id="new-team-button-id" href="#" class="btn btn-success">
+	<a
+		id="new-team-button-id"
+		class="btn btn-success"
+		(click)="onCreateTeamElement()"
+	>
 		Add a new team
 		<img
 			src="assets/images/plus.svg"
@@ -24,7 +28,10 @@
 						*ngIf="teams?.length; else noTeamPresent"
 						class="list-group list-group-flush"
 					>
-						<li class="list-group-item" *ngFor="let team of teams">
+						<li
+							class="list-group-item"
+							*ngFor="let team of teams; let i = index"
+						>
 							<div class="row align-items-center w-auto p-3">
 								<div class="col">
 									<div id="{{ 'team-element-' + team.teamId }}">
@@ -55,6 +62,7 @@
 											id="{{ 'edit-team-button-id-' + team.teamId }}"
 											type="button"
 											class="btn btn-warning"
+											(click)="onEditTeamElement(team.teamId)"
 										>
 											<img
 												src="assets/images/pencil.svg"
@@ -66,6 +74,7 @@
 											id="{{ 'delete-team-button-id-' + team.teamId }}"
 											type="button"
 											class="btn btn-danger"
+											(click)="onDeleteTeamElement(i)"
 										>
 											<img
 												src="assets/images/trash.svg"

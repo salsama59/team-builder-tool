@@ -41,16 +41,38 @@ export class AppPage {
 		return element(
 			by.css(
 				'app-teams div div div div div ul#team-list > li div div div button#view-team-button-id-' +
-					teamId
+					teamId.toString()
 			)
 		);
+	}
+
+	getTeamElementEditButton(teamId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-teams div div div div div ul#team-list > li div div div button#edit-team-button-id-' +
+					teamId.toString()
+			)
+		);
+	}
+
+	getTeamElementDeleteButton(teamId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-teams div div div div div ul#team-list > li div div div button#delete-team-button-id-' +
+					teamId.toString()
+			)
+		);
+	}
+
+	getTeamElementCreateButton(): ElementFinder {
+		return element(by.css('app-teams div a#new-team-button-id'));
 	}
 
 	getPlayerElementViewButton(playerId: number): ElementFinder {
 		return element(
 			by.css(
 				'app-players div div div div div ul#player-list > li div div div button#view-player-button-id-' +
-					playerId
+					playerId.toString()
 			)
 		);
 	}
@@ -59,7 +81,7 @@ export class AppPage {
 		return element(
 			by.css(
 				'app-statuses div div div div div ul#status-list > li div div div button#view-status-button-id-' +
-					statusId
+					statusId.toString()
 			)
 		);
 	}
@@ -84,8 +106,34 @@ export class AppPage {
 		return element(by.css('app-team form div input#teamFullNameFormInput'));
 	}
 
+	getTeamElementFormFullNameRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-team form div span#teamFullNameRequiredErrorMessage')
+		);
+	}
+
 	getTeamElementFormShortNameField(): ElementFinder {
 		return element(by.css('app-team form div input#teamShortNameFormInput'));
+	}
+
+	getTeamElementFormShortNameRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-team form div span#teamShortNameRequiredErrorMessage')
+		);
+	}
+
+	getTeamElementFormShortNameMaxLengthErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-team form div span#teamShortNameMaxLengthErrorMessage')
+		);
+	}
+
+	getTeamElementFormSubmitButton(): ElementFinder {
+		return element(by.css('app-team form button#teamSubmitButton'));
+	}
+
+	getTeamElementFormCancelButton(): ElementFinder {
+		return element(by.css('app-team form button#teamCancelButton'));
 	}
 
 	getPlayerElementFormPlayerIdField(): ElementFinder {

@@ -1,12 +1,11 @@
-<form>
-	<div class="form-group">
+<form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+	<div *ngIf="isInViewMode" class="form-group">
 		<label for="teamIdFormInput">Team id</label>
 		<input
 			type="text"
 			class="form-control"
 			id="teamIdFormInput"
-			value="{{ currentTeam?.teamId }}"
-			disabled
+			formControlName="teamId"
 		/>
 	</div>
 	<div class="form-group">
@@ -15,9 +14,19 @@
 			type="text"
 			class="form-control"
 			id="teamFullNameFormInput"
-			value="{{ currentTeam?.teamFullName }}"
-			disabled
+			formControlName="teamFullName"
+			[ngClass]="{'is-invalid': !teamForm.get('teamFullName')!.valid && teamForm.get('teamFullName')!.touched}"
 		/>
+		<span
+			*ngIf="!teamForm.get('teamFullName')!.valid && teamForm.get('teamFullName')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="teamFullNameRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(teamForm.get('teamFullName'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="teamShortNameFormInput">Team short name</label>
@@ -25,8 +34,42 @@
 			type="text"
 			class="form-control"
 			id="teamShortNameFormInput"
-			value="{{ currentTeam?.teamShortName }}"
-			disabled
+			formControlName="teamShortName"
+			[ngClass]="{'is-invalid': !teamForm.get('teamShortName')!.valid && teamForm.get('teamShortName')!.touched}"
 		/>
+		<span
+			*ngIf="!teamForm.get('teamShortName')!.valid && teamForm.get('teamShortName')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="teamShortNameMaxLengthErrorMessage"
+				*ngIf="formValidationService.hasErrorType(teamForm.get('teamShortName'), validatorConstants.MAX_LENGTH_ERROR_TYPE)"
+				>The length is greater than 6</span
+			>
+			<span
+				id="teamShortNameRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(teamForm.get('teamShortName'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+		</span>
 	</div>
+	<button
+		*ngIf="!isInViewMode"
+		id="teamSubmitButton"
+		class="btn btn-success mr-1"
+		type="submit"
+		[disabled]="teamForm.invalid"
+	>
+		Save
+	</button>
+
+	<button
+		*ngIf="!isInViewMode"
+		id="teamCancelButton"
+		class="btn btn-danger ml-1"
+		type="button"
+		(click)="onCancel()"
+	>
+		Cancel
+	</button>
 </form>

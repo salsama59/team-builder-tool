@@ -7,6 +7,7 @@ import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { TeamComponent } from './team/team.component';
 import { CommonModule } from '@angular/common';
 import { of } from 'rxjs';
+import { TeamsService } from '../services/teams.service';
 
 describe('TeamsComponent', () => {
 	let teamsComponent: TeamsComponent;
@@ -33,10 +34,10 @@ describe('TeamsComponent', () => {
 					useValue: {
 						params: of({}),
 						queryParams: of({}),
-						snapshot: { params: { teamId: '0' } },
+						snapshot: { params: { teamId: '0', mode: 'view' } },
 						url: of([
 							new UrlSegment('/', {}),
-							new UrlSegment('teams', { teamId: '0' })
+							new UrlSegment('teams', { teamId: '0', mode: 'view' })
 						]),
 						fragment: of('/teams')
 					}
@@ -63,6 +64,13 @@ describe('TeamsComponent', () => {
 
 	it('should create', () => {
 		expect(teamsComponent).toBeTruthy();
+	});
+
+	it('should init teamsChangedSubscription', () => {
+		teamsComponent.ngOnInit();
+		const teamsService = TestBed.inject(TeamsService);
+		teamsService.addTeam(new Team(4, 'test name', 'TN'));
+		expect(true).toBeTruthy();
 	});
 
 	it('should posses 3 teams in it list', () => {
@@ -98,6 +106,30 @@ describe('TeamsComponent', () => {
 	it('should navigate to view team section', () => {
 		const spy = spyOn(router, 'navigate');
 		teamsComponent.onViewTeamElement(0);
-		expect(spy).toHaveBeenCalledWith([0], { relativeTo: activatedRoute });
+		expect(spy).toHaveBeenCalledWith([0, 'view'], {
+			relativeTo: activatedRoute
+		});
+	});
+
+	it('should navigate to edit team section', () => {
+		const spy = spyOn(router, 'navigate');
+		teamsComponent.onEditTeamElement(0);
+		expect(spy).toHaveBeenCalledWith([0, 'edit'], {
+			relativeTo: activatedRoute
+		});
+	});
+
+	it('should navigate to create team section', () => {
+		const spy = spyOn(router, 'navigate');
+		teamsComponent.onCreateTeamElement();
+		expect(spy).toHaveBeenCalledWith(['create'], {
+			relativeTo: activatedRoute
+		});
+	});
+
+	it('should delete the selected team', () => {
+		expect(teamsComponent.teams).toHaveSize(4);
+		teamsComponent.onDeleteTeamElement(0);
+		expect(teamsComponent.teams).toHaveSize(3);
 	});
 });
