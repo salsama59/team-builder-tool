@@ -31,8 +31,11 @@ export class TeamsService {
 	 * @param teamId the team id to get
 	 * @returns a team corresponding to the id.
 	 */
-	getTeamById(teamId: number): Team {
-		return this.teams[teamId];
+	getTeamById(teamId: number): Team | null {
+		const resultTeam: Team | undefined = this.teams.find(
+			(team) => team.teamId === teamId
+		);
+		return resultTeam ? resultTeam : null;
 	}
 
 	/**
@@ -62,7 +65,7 @@ export class TeamsService {
 	updateTeam(teamToUpdate: Team): Team {
 		this.teams[teamToUpdate.teamId] = teamToUpdate;
 		this.teamsChanged.next(this.getTeams());
-		return this.getTeamById(teamToUpdate.teamId);
+		return this.teams[teamToUpdate.teamId];
 	}
 
 	/**

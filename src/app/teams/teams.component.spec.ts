@@ -128,8 +128,12 @@ describe('TeamsComponent', () => {
 	});
 
 	it('should delete the selected team', () => {
+		const spy = spyOn(router, 'navigate');
 		expect(teamsComponent.teams).toHaveSize(4);
 		teamsComponent.onDeleteTeamElement(0);
 		expect(teamsComponent.teams).toHaveSize(3);
+		expect(spy).toHaveBeenCalledWith(['.'], {
+			relativeTo: activatedRoute
+		});
 	});
 });

@@ -74,11 +74,15 @@ export class TeamComponent implements OnInit {
 					//Get the team id value as soon as possible using the snapshot property, and convert the string value to number with the '+' operator
 					const teamId: number = +params['teamId'];
 					this.currentTeam = this.teamsService.getTeamById(teamId);
-					this.initializeForm(
-						this.currentTeam.teamId,
-						this.currentTeam.teamFullName,
-						this.currentTeam.teamShortName
-					);
+					if (this.currentTeam) {
+						this.initializeForm(
+							this.currentTeam.teamId,
+							this.currentTeam.teamFullName,
+							this.currentTeam.teamShortName
+						);
+					} else {
+						this.initializeForm(-1, null, null);
+					}
 					break;
 				}
 				case 'create': {

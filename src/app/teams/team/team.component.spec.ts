@@ -68,6 +68,54 @@ describe('TeamComponent', () => {
 		});
 	});
 
+	describe('Specific error behaviour', () => {
+		beforeEach(async () => {
+			await TestBed.configureTestingModule({
+				imports: [
+					RouterTestingModule.withRoutes([
+						{
+							path: 'teams',
+							component: TeamsComponent,
+							children: [
+								{ path: ':teamId/:mode', component: TeamComponent },
+								{ path: ':mode', component: TeamComponent }
+							]
+						}
+					]),
+					ReactiveFormsModule
+				],
+				providers: [
+					{
+						provide: ActivatedRoute,
+						useValue: {
+							params: of({ teamId: '-1', mode: 'view' }),
+							queryParams: of({}),
+							snapshot: { params: { teamId: '-1', mode: 'view' } },
+							url: of([
+								new UrlSegment('/', {}),
+								new UrlSegment('teams', { teamId: '-1', mode: 'view' })
+							]),
+							fragment: of('/teams')
+						}
+					}
+				],
+				declarations: [TeamComponent],
+				schemas: [CUSTOM_ELEMENTS_SCHEMA]
+			}).compileComponents();
+		});
+
+		beforeEach(() => {
+			fixture = TestBed.createComponent(TeamComponent);
+			teamComponent = fixture.componentInstance;
+			fixture.detectChanges();
+		});
+
+		it('should create', () => {
+			//Just a test for the purpose of when a wron teamId is sent as parameter
+			expect(true).toBeTruthy();
+		});
+	});
+
 	describe('view mode', () => {
 		beforeEach(async () => {
 			await TestBed.configureTestingModule({
