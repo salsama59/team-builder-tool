@@ -88,9 +88,13 @@ export class TeamsComponent implements OnInit, OnDestroy {
 
 	/**
 	 * Delete the a team element given it's index.
+	 * Reload the current view
 	 * @param teamIndex the team index
 	 */
 	onDeleteTeamElement(teamIndex: number): void {
 		this.teamsService.deleteTeamById(teamIndex);
+		void this.router.navigate(['.'], {
+			relativeTo: this.activatedRoute
+		});
 	}
 }

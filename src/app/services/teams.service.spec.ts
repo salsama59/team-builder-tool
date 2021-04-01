@@ -25,6 +25,10 @@ describe('TeamsService', () => {
 		);
 	});
 
+	it('should return no team element', () => {
+		expect(teamsService.getTeamById(-1)).toEqual(null);
+	});
+
 	it('should add a new team element', () => {
 		const newAddedTeam: Team = new Team(4, 'my fifth team', 'MFTHT');
 		teamsService.addTeam(newAddedTeam);
@@ -33,17 +37,21 @@ describe('TeamsService', () => {
 	});
 
 	it('should delete a team element', () => {
-		const teamToBeDeleted: Team = teamsService.getTeamById(0);
-		teamsService.deleteTeamById(0);
-		expect(teamsService.getTeams().length).toBeCloseTo(3);
-		expect(teamsService.getTeams()).not.toContain(teamToBeDeleted);
+		const teamToBeDeleted: Team | null = teamsService.getTeamById(0);
+		if (teamToBeDeleted) {
+			teamsService.deleteTeamById(0);
+			expect(teamsService.getTeams().length).toBeCloseTo(3);
+			expect(teamsService.getTeams()).not.toContain(teamToBeDeleted);
+		}
 	});
 
 	it('should update a team element', () => {
-		const teamToBeUpdated: Team = teamsService.getTeamById(0);
-		teamToBeUpdated.teamFullName = 'Completely random name';
-		teamToBeUpdated.teamShortName = 'SHORT';
-		teamsService.updateTeam(teamToBeUpdated);
-		expect(teamsService.getTeams()).toContain(teamToBeUpdated);
+		const teamToBeUpdated: Team | null = teamsService.getTeamById(0);
+		if (teamToBeUpdated) {
+			teamToBeUpdated.teamFullName = 'Completely random name';
+			teamToBeUpdated.teamShortName = 'SHORT';
+			teamsService.updateTeam(teamToBeUpdated);
+			expect(teamsService.getTeams()).toContain(teamToBeUpdated);
+		}
 	});
 });
