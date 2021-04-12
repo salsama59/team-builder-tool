@@ -22,7 +22,7 @@ export class TeamsService {
 	];
 
 	/**
-	 * Teams changed of teams service
+	 * Teams changed event
 	 */
 	public teamsChanged: Subject<Array<Team>> = new Subject<Array<Team>>();
 

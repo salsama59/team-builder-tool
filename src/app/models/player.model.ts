@@ -11,7 +11,9 @@ export class Player {
 	 * @param playerTeamId the player team id
 	 * @param playerStatusId the player status id
 	 * @param playerAbilityId the player abiity id
-	 * @param playerName the player name
+	 * @param playerFirstName the player first name
+	 * @param playerLastName the player last name
+	 * @param playerUniformNumber the player uniform number
 	 * @param playerFieldPosition the player field position
 	 * @param defaultPlayerFieldPosition the player default field position
 	 */
@@ -20,7 +22,9 @@ export class Player {
 		public playerTeamId: number,
 		public playerStatusId: number,
 		public playerAbilityId: number,
-		public playerName: string,
+		public playerFirstName: string,
+		public playerLastName: string,
+		public playerUniformNumber: string,
 		public playerFieldPosition: PlayerFieldPositionEnum,
 		public defaultPlayerFieldPosition: PlayerFieldPositionEnum
 	) {}
