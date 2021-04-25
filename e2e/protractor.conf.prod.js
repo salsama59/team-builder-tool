@@ -11,11 +11,15 @@ exports.config = {
 	allScriptsTimeout: 11000,
 	specs: ["./src/**/*.e2e-spec.ts"],
 	capabilities: {
-		browserName: "chrome"
+		browserName: "chrome",
+		chromeOptions: {
+			// binary: process.env.CHROME_BIN,
+			args: ["--headless", "--no-sandbox", "--window-size=1400x800"]
+		}
 	},
 	directConnect: true,
 	SELENIUM_PROMISE_MANAGER: false,
-	baseUrl: "http://localhost:4200/",
+	baseUrl: "http://localhost:6200/",
 	framework: "jasmine",
 	jasmineNodeOpts: {
 		showColors: true,
