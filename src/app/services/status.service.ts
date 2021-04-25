@@ -14,7 +14,7 @@ export class StatusService {
 	 * @private
 	 */
 	private status: Array<Status> = [
-		new Status(0, 0, 10, 27, 60.5, 70.5, 45, 5, 50, 78, 15)
+		new Status(0, 0, 'test', 10, 27, 60.5, 70.5, 45, 5, 50, 78, 15)
 	];
 
 	/**

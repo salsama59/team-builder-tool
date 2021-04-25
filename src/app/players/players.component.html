@@ -30,7 +30,7 @@
 									<div class="row bg-dark text-white">
 										<div class="col border border-primary">
 											<div class="text-center text-wrap item-font">
-												Player name
+												Player first name
 											</div>
 										</div>
 										<div class="col text-center border border-primary">
@@ -45,7 +45,7 @@
 												id="{{ 'player-name-element-' + player.playerId }}"
 												class="text-center text-wrap item-font"
 											>
-												{{ player.playerName }}
+												{{ player.playerFirstName }}
 											</div>
 										</div>
 										<div class="col border border-primary">
@@ -82,6 +82,7 @@
 											id="{{ 'edit-player-button-id-' + player.playerId }}"
 											type="button"
 											class="btn btn-warning"
+											(click)="onEditPlayerElement(player.playerId)"
 										>
 											<img
 												src="assets/images/pencil.svg"

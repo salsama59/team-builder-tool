@@ -37,4 +37,20 @@ describe('FormValidationService', () => {
 			)
 		).toBeFalsy();
 	});
+
+	it('should get an error type', () => {
+		expect(
+			formValidationService.getError(
+				formGroup.get('testControl'),
+				ValidatorConstants.REQUIRED_ERROR_TYPE
+			)
+		).toBeTruthy();
+
+		expect(
+			formValidationService.getError(
+				formGroup.get('anotherTestControl'),
+				ValidatorConstants.REQUIRED_ERROR_TYPE
+			)
+		).toBeFalsy();
+	});
 });

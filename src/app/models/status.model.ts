@@ -7,6 +7,7 @@ export class Status {
 	 * @constructor
 	 * @param statusId  the status id
 	 * @param playerId the player id
+	 * @param profileName the profile name
 	 * @param speed the player speed
 	 * @param stamina the player stamina
 	 * @param catchEfficiency the player catch efficiency
@@ -20,6 +21,7 @@ export class Status {
 	constructor(
 		public statusId: number,
 		public playerId: number,
+		public profileName: string,
 		public speed: number,
 		public stamina: number,
 		public catchEfficiency: number,

@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { PlayerFieldPositionEnum } from '../enums/player-field-position.enum';
 import { Player } from '../models/player.model';
+import { PlayersService } from '../services/players.service';
 import { PlayerComponent } from './player/player.component';
 
 import { PlayersComponent } from './players.component';
@@ -60,6 +61,8 @@ describe('PlayersComponent', () => {
 				0,
 				0,
 				'Joe',
+				'Stanford',
+				'00',
 				PlayerFieldPositionEnum.CENTER_FIELDER,
 				PlayerFieldPositionEnum.CENTER_FIELDER
 			)
@@ -71,9 +74,28 @@ describe('PlayersComponent', () => {
 		expect(playersComponent).toBeTruthy();
 	});
 
+	it('should init playersChangedSubscription', () => {
+		playersComponent.ngOnInit();
+		const playersService = TestBed.inject(PlayersService);
+		playersService.addPlayer(
+			new Player(
+				1,
+				0,
+				0,
+				0,
+				'Joe',
+				'Stanford',
+				'00',
+				PlayerFieldPositionEnum.SHORT_STOP,
+				PlayerFieldPositionEnum.SHORT_STOP
+			)
+		);
+		expect(true).toBeTruthy();
+	});
+
 	it('should posses a player in it list', () => {
 		expect(playersComponent.players).toBeDefined();
-		expect(playersComponent.players).toHaveSize(1);
+		expect(playersComponent.players).toHaveSize(3);
 	});
 
 	it('should render the player list header', () => {
@@ -90,7 +112,7 @@ describe('PlayersComponent', () => {
 			expect(
 				compiled.querySelector('div#player-name-element-' + index.toString())
 					.textContent
-			).toContain(playersComponent.players[index].playerName);
+			).toContain(playersComponent.players[index].playerFirstName);
 		}
 	});
 
@@ -116,6 +138,16 @@ describe('PlayersComponent', () => {
 	it('should navigate to view player section', () => {
 		const spy = spyOn(router, 'navigate');
 		playersComponent.onViewPlayerElement(0);
-		expect(spy).toHaveBeenCalledWith([0], { relativeTo: activatedRoute });
+		expect(spy).toHaveBeenCalledWith([0, 'view'], {
+			relativeTo: activatedRoute
+		});
+	});
+
+	it('should navigate to edit player section', () => {
+		const spy = spyOn(router, 'navigate');
+		playersComponent.onEditPlayerElement(0);
+		expect(spy).toHaveBeenCalledWith([0, 'edit'], {
+			relativeTo: activatedRoute
+		});
 	});
 });
