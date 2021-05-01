@@ -7,7 +7,6 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { PlayersComponent } from '../players.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TeamsService } from 'src/app/services/teams.service';
 
 describe('PlayerComponent', () => {
 	let playerComponent: PlayerComponent;
@@ -389,6 +388,273 @@ describe('PlayerComponent', () => {
 		});
 
 		it('should return to player list when clicking on cancel button during edit mode', () => {
+			const compiled = fixture.debugElement;
+			compiled.nativeElement.querySelector('#playerCancelButton').click();
+			expect(true).toBeTruthy();
+		});
+	});
+
+	describe('create mode', () => {
+		beforeEach(async () => {
+			await TestBed.configureTestingModule({
+				imports: [
+					RouterTestingModule.withRoutes([
+						{
+							path: 'players',
+							component: PlayersComponent,
+							children: [
+								{ path: ':playerId/:mode', component: PlayerComponent },
+								{ path: ':mode', component: PlayerComponent }
+							]
+						}
+					]),
+					ReactiveFormsModule
+				],
+				providers: [
+					{
+						provide: ActivatedRoute,
+						useValue: {
+							params: of({ playerId: '0', mode: 'create' }),
+							queryParams: of({}),
+							snapshot: { params: { playerId: '0', mode: 'create' } },
+							url: of([
+								new UrlSegment('/', {}),
+								new UrlSegment('players', { playerId: '0', mode: 'create' })
+							]),
+							fragment: of('/players')
+						}
+					}
+				],
+				declarations: [PlayerComponent],
+				schemas: [CUSTOM_ELEMENTS_SCHEMA]
+			}).compileComponents();
+		});
+
+		beforeEach(() => {
+			fixture = TestBed.createComponent(PlayerComponent);
+			playerComponent = fixture.componentInstance;
+			fixture.detectChanges();
+		});
+
+		it('should render the player form without values during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.query(By.css('#playerTeamIdFormInput')).nativeElement.value
+			).toEqual('-1');
+			expect(
+				compiled.query(By.css('#playerStatusIdFormInput')).nativeElement.value
+			).toEqual('-1');
+			expect(
+				compiled.query(By.css('#playerAbilityIdFormInput')).nativeElement.value
+			).toEqual('-1');
+			expect(
+				compiled.query(By.css('#playerFirstNameFormInput')).nativeElement.value
+			).toEqual('');
+			expect(
+				compiled.query(By.css('#playerLastNameFormInput')).nativeElement.value
+			).toEqual('');
+			expect(
+				compiled.query(By.css('#playerUniformNumberFormInput')).nativeElement
+					.value
+			).toEqual('');
+			expect(
+				compiled.query(By.css('#playerFieldPositionFormInput')).nativeElement
+					.value
+			).toEqual('');
+			expect(
+				compiled.query(By.css('#defaultPlayerFieldPositionFormInput'))
+					.nativeElement.value
+			).toEqual('');
+		});
+
+		it('should render the player form in enabled state during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.query(By.css('#playerTeamIdFormInput')).nativeElement.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#playerStatusIdFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#playerAbilityIdFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#playerFirstNameFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#playerLastNameFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#playerUniformNumberFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#playerFieldPositionFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#defaultPlayerFieldPositionFormInput'))
+					.nativeElement.disabled
+			).toBeFalsy();
+		});
+
+		it('should return to player list when clicking on save button during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.nativeElement.querySelector('#playerSubmitButton').disabled
+			).toBeTruthy();
+
+			compiled.nativeElement.querySelector('#playerTeamIdFormInput').value =
+				'2';
+			compiled.nativeElement
+				.querySelector('#playerTeamIdFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('#playerStatusIdFormInput').value =
+				'0';
+			compiled.nativeElement
+				.querySelector('#playerStatusIdFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('#playerAbilityIdFormInput').value =
+				'0';
+			compiled.nativeElement
+				.querySelector('#playerAbilityIdFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('#playerFirstNameFormInput').value =
+				'Thomas';
+			compiled.nativeElement
+				.querySelector('#playerFirstNameFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('#playerLastNameFormInput').value =
+				'THORN';
+			compiled.nativeElement
+				.querySelector('#playerLastNameFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector(
+				'#playerUniformNumberFormInput'
+			).value = '357';
+			compiled.nativeElement
+				.querySelector('#playerUniformNumberFormInput')
+				.dispatchEvent(new Event('input'));
+
+			const playerFieldPositionSelectElement = compiled.nativeElement.querySelector(
+				'select#playerFieldPositionFormInput'
+			);
+			playerFieldPositionSelectElement.value =
+				playerFieldPositionSelectElement.options[0].value;
+			playerFieldPositionSelectElement.dispatchEvent(new Event('change'));
+
+			const playerDefaultFieldPositionSelectElement = compiled.nativeElement.querySelector(
+				'select#defaultPlayerFieldPositionFormInput'
+			);
+			playerDefaultFieldPositionSelectElement.value =
+				playerDefaultFieldPositionSelectElement.options[0].value;
+			playerDefaultFieldPositionSelectElement.dispatchEvent(
+				new Event('change')
+			);
+
+			compiled.nativeElement.querySelector('form').click();
+
+			fixture.detectChanges();
+
+			expect(
+				compiled.nativeElement.querySelector('#playerSubmitButton').disabled
+			).toBeFalsy();
+
+			compiled.nativeElement.querySelector('#playerSubmitButton').click();
+		});
+
+		it('should display an error message for the player uniform number when the number is not unique during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.nativeElement.querySelector('#playerSubmitButton').disabled
+			).toBeTruthy();
+
+			compiled.nativeElement.querySelector('#playerTeamIdFormInput').value =
+				'1';
+			compiled.nativeElement
+				.querySelector('#playerTeamIdFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector(
+				'#playerUniformNumberFormInput'
+			).value = '00';
+			compiled.nativeElement
+				.querySelector('#playerUniformNumberFormInput')
+				.dispatchEvent(new Event('input'));
+
+			const playerFieldPositionSelectElement = compiled.nativeElement.querySelector(
+				'select#playerFieldPositionFormInput'
+			);
+			playerFieldPositionSelectElement.value = null;
+			playerFieldPositionSelectElement.dispatchEvent(new Event('change'));
+
+			compiled.nativeElement.querySelector('form').click();
+
+			fixture.detectChanges();
+
+			expect(
+				compiled.nativeElement.querySelector('#playerSubmitButton').disabled
+			).toBeTruthy();
+		});
+
+		it('should validate the player uniform number when the playerId control is undefined during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.nativeElement.querySelector('#playerSubmitButton').disabled
+			).toBeTruthy();
+
+			compiled.nativeElement.querySelector('#playerTeamIdFormInput').value =
+				'1';
+			compiled.nativeElement
+				.querySelector('#playerTeamIdFormInput')
+				.dispatchEvent(new Event('input'));
+
+			playerComponent.playerForm.removeControl('playerId');
+
+			compiled.nativeElement.querySelector(
+				'#playerUniformNumberFormInput'
+			).value = '02';
+			compiled.nativeElement
+				.querySelector('#playerUniformNumberFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('form').click();
+
+			fixture.detectChanges();
+
+			expect(
+				compiled.nativeElement.querySelector('#playerSubmitButton').disabled
+			).toBeTruthy();
+		});
+
+		it('should select a status id from the autocomplete list during create mode', () => {
+			const playerStatusIdInput: HTMLInputElement = fixture.nativeElement.querySelector(
+				'#playerStatusIdFormInput'
+			);
+			playerComponent.playerForm.removeControl('playerStatusId');
+			playerComponent.onSelectStatus(playerStatusIdInput, 0);
+			expect(true).toBeTruthy();
+		});
+
+		it('should select a team id from the autocomplete list during create mode', () => {
+			const playerTeamIdInput: HTMLInputElement = fixture.nativeElement.querySelector(
+				'#playerTeamIdFormInput'
+			);
+			playerComponent.playerForm.removeControl('playerTeamId');
+			playerComponent.onSelectTeam(playerTeamIdInput, 0);
+			expect(true).toBeTruthy();
+		});
+
+		it('should return to player list when clicking on cancel button during create mode', () => {
 			const compiled = fixture.debugElement;
 			compiled.nativeElement.querySelector('#playerCancelButton').click();
 			expect(true).toBeTruthy();

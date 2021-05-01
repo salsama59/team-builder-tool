@@ -150,4 +150,12 @@ describe('PlayersComponent', () => {
 			relativeTo: activatedRoute
 		});
 	});
+
+	it('should navigate to create player section', () => {
+		const spy = spyOn(router, 'navigate');
+		playersComponent.onCreatePlayerElement();
+		expect(spy).toHaveBeenCalledWith(['create'], {
+			relativeTo: activatedRoute
+		});
+	});
 });

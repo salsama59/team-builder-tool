@@ -54,14 +54,14 @@ describe('PlayersService', () => {
 	});
 
 	it('should delete a player element', () => {
-		const playerToBeDeleted: Player = service.getPlayerById(0);
+		const playerToBeDeleted: Player = <Player>service.getPlayerById(0);
 		service.deletePlayerById(0);
 		expect(service.getPlayers().length).toBeCloseTo(2);
 		expect(service.getPlayers()).not.toContain(playerToBeDeleted);
 	});
 
 	it('should update a player element', () => {
-		const playerToUpdate: Player = service.getPlayerById(0);
+		const playerToUpdate: Player = <Player>service.getPlayerById(0);
 		playerToUpdate.playerLastName = 'new player name';
 		playerToUpdate.playerFieldPosition = PlayerFieldPositionEnum.SHORT_STOP;
 		service.updatePlayer(playerToUpdate);
