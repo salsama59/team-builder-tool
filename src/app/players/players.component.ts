@@ -77,4 +77,13 @@ export class PlayersComponent implements OnInit, OnDestroy {
 			relativeTo: this.activatedRoute
 		});
 	}
+
+	/**
+	 * Display the new player creation form by routing the user to the PlayerComponent view
+	 */
+	onCreatePlayerElement(): void {
+		void this.router.navigate(['create'], {
+			relativeTo: this.activatedRoute
+		});
+	}
 }

@@ -61,8 +61,11 @@ export class PlayersService {
 	 * @param playerId the player id to get
 	 * @returns a player corresponding to the id
 	 */
-	getPlayerById(playerId: number): Player {
-		return this.players[playerId];
+	getPlayerById(playerId: number): Player | null {
+		const resultPlayer: Player | undefined = this.players.find(
+			(player) => player.playerId === playerId
+		);
+		return resultPlayer ? resultPlayer : null;
 	}
 
 	/**
@@ -78,6 +81,8 @@ export class PlayersService {
 	 * @param playerToAdd the player element to add
 	 */
 	addPlayer(playerToAdd: Player): void {
+		const nextPlayerId = this.players.length;
+		playerToAdd.playerId = nextPlayerId;
 		this.players.push(playerToAdd);
 		this.playersChanged.next(this.getPlayers());
 	}
@@ -90,7 +95,7 @@ export class PlayersService {
 	updatePlayer(playerToUpdate: Player): Player {
 		this.players[playerToUpdate.playerId] = playerToUpdate;
 		this.playersChanged.next(this.getPlayers());
-		return this.getPlayerById(playerToUpdate.playerId);
+		return this.players[playerToUpdate.playerId];
 	}
 
 	/**

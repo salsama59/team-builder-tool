@@ -21,6 +21,20 @@
 			[ngClass]="{'is-invalid': !playerForm.get('playerTeamId')!.valid && playerForm.get('playerTeamId')!.touched}"
 			(keyup)="onTeamIdFieldKeyup(playerTeamIdFieldReference.value)"
 		/>
+		<div *ngIf="filteredTeamList.length > 0" class="custom-dropdown-menu">
+			<div *ngFor="let team of filteredTeamList; let i = index">
+				<a
+					class="dropdown-item"
+					[ngClass]="{'last-border': i === filteredTeamList.length - 1, 'first-border': i === 0}"
+					(click)="onSelectTeam(playerTeamIdFieldReference, team.teamId)"
+					>{{team.teamId}} - {{team.teamFullName}} - {{team.teamShortName}}</a
+				>
+				<div
+					*ngIf="i < filteredTeamList.length - 1"
+					class="dropdown-divider"
+				></div>
+			</div>
+		</div>
 		<span
 			*ngIf="!playerForm.get('playerTeamId')!.valid && playerForm.get('playerTeamId')!.touched"
 			class="invalid-feedback form-text"
@@ -37,21 +51,6 @@
 				>This player team id do not exists!</span
 			>
 		</span>
-		<div *ngIf="filteredTeamList.length > 0" class="custom-dropdown-menu">
-			<div *ngFor="let team of filteredTeamList; let i = index">
-				<a
-					#teamElementReference
-					class="dropdown-item"
-					[ngClass]="{'last-border': i === filteredTeamList.length - 1, 'first-border': i === 0}"
-					(click)="onSelectTeam(playerTeamIdFieldReference, team.teamId)"
-					>{{team.teamId}} - {{team.teamFullName}} - {{team.teamShortName}}</a
-				>
-				<div
-					*ngIf="i < filteredTeamList.length - 1"
-					class="dropdown-divider"
-				></div>
-			</div>
-		</div>
 	</div>
 	<div class="form-group">
 		<label for="playerStatusIdFormInput">Player status id</label>
@@ -64,6 +63,20 @@
 			[ngClass]="{'is-invalid': !playerForm.get('playerStatusId')!.valid && playerForm.get('playerStatusId')!.touched}"
 			(keyup)="onStatusIdFieldKeyup(playerStatusIdFieldReference.value)"
 		/>
+		<div *ngIf="filteredStatusList.length > 0" class="custom-dropdown-menu">
+			<div *ngFor="let status of filteredStatusList; let i = index">
+				<a
+					class="dropdown-item"
+					[ngClass]="{'last-border': i === filteredStatusList.length - 1, 'first-border': i === 0}"
+					(click)="onSelectStatus(playerStatusIdFieldReference, status.statusId)"
+					>{{status.statusId}} - {{status.profileName}}</a
+				>
+				<div
+					*ngIf="i < filteredStatusList.length - 1"
+					class="dropdown-divider"
+				></div>
+			</div>
+		</div>
 		<span
 			*ngIf="!playerForm.get('playerStatusId')!.valid && playerForm.get('playerStatusId')!.touched"
 			class="invalid-feedback form-text"
@@ -80,21 +93,6 @@
 				>This player status id do not exists!</span
 			>
 		</span>
-		<div *ngIf="filteredStatusList.length > 0" class="custom-dropdown-menu">
-			<div *ngFor="let status of filteredStatusList; let i = index">
-				<a
-					#teamElementReference
-					class="dropdown-item"
-					[ngClass]="{'last-border': i === filteredStatusList.length - 1, 'first-border': i === 0}"
-					(click)="onSelectStatus(playerStatusIdFieldReference, status.statusId)"
-					>{{status.statusId}} - {{status.profileName}}</a
-				>
-				<div
-					*ngIf="i < filteredStatusList.length - 1"
-					class="dropdown-divider"
-				></div>
-			</div>
-		</div>
 	</div>
 	<div class="form-group">
 		<label for="playerAbilityIdFormInput">Player ability id</label>
