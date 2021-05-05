@@ -267,8 +267,8 @@ export class PlayerComponent implements OnInit {
 		teamId: number
 	): void {
 		playerTeamIdFieldReference.value = teamId.toString();
+		this.playerForm.get('playerTeamId')?.setValue(teamId.toString());
 		this.filteredTeamList.splice(0, this.filteredTeamList.length);
-		this.playerForm.updateValueAndValidity();
 	}
 
 	/**
@@ -318,8 +318,8 @@ export class PlayerComponent implements OnInit {
 		statusId: number
 	): void {
 		playerStatusIdFieldReference.value = statusId.toString();
+		this.playerForm.get('playerStatusId')?.setValue(statusId.toString());
 		this.filteredStatusList.splice(0, this.filteredStatusList.length);
-		this.playerForm.updateValueAndValidity();
 	}
 
 	/**
@@ -402,11 +402,17 @@ export class PlayerComponent implements OnInit {
 		if (!control.value) {
 			return null;
 		} else {
+			if (!this.playerForm) {
+				return null;
+			}
+			const currentPlayerTeamId: number = +this.playerForm.get('playerTeamId')
+				?.value;
+			const currentPlayerId: number = +this.playerForm.get('playerId')?.value;
 			const currentPlayerTeamMates: Array<Player> = this.getAvailablePlayerList().filter(
 				(player) => {
 					return (
-						player.playerTeamId === this.currentPlayer?.playerTeamId &&
-						player.playerId !== this.currentPlayer?.playerId
+						player.playerTeamId === currentPlayerTeamId &&
+						player.playerId !== currentPlayerId
 					);
 				}
 			);

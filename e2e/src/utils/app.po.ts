@@ -280,6 +280,16 @@ export class AppPage {
 		);
 	}
 
+	getPlayerElementFormPlayerFieldPositionListElement(
+		elementIndex: number
+	): ElementFinder {
+		return element
+			.all(
+				by.css('app-player form div select#playerFieldPositionFormInput option')
+			)
+			.get(elementIndex);
+	}
+
 	getPlayerElementFormPlayerFieldPositionRequiredErrorMessageBloc(): ElementFinder {
 		return element(
 			by.css('app-player form div span#playerFieldPositionRequiredErrorMessage')
@@ -290,6 +300,18 @@ export class AppPage {
 		return element(
 			by.css('app-player form div select#defaultPlayerFieldPositionFormInput')
 		);
+	}
+
+	getPlayerElementFormDefaultPlayerFieldPositionListElement(
+		elementIndex: number
+	): ElementFinder {
+		return element
+			.all(
+				by.css(
+					'app-player form div select#defaultPlayerFieldPositionFormInput option'
+				)
+			)
+			.get(elementIndex);
 	}
 
 	getPlayerElementFormSubmitButton(): ElementFinder {
