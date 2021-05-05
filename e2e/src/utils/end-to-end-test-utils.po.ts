@@ -1,4 +1,10 @@
-import { ElementFinder, browser, Key } from 'protractor';
+import {
+	ElementFinder,
+	browser,
+	Key,
+	WebElement,
+	WebElementPromise
+} from 'protractor';
 
 export class EndToEndTestUtils {
 	public static async getElementValueAttribute(
@@ -41,5 +47,11 @@ export class EndToEndTestUtils {
 			EndToEndTestUtils.clearInputTextElement(element);
 		}
 		void element.sendKeys(input);
+	}
+
+	public static scrollToElementElement(element: ElementFinder): void {
+		void browser.executeScript((args: Element[]) => {
+			args[0].scrollIntoView();
+		}, element.getWebElement());
 	}
 }
