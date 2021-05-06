@@ -1431,6 +1431,37 @@ describe('Team builder players section', () => {
 		).toBeTruthy();
 	});
 
+	it('should delete the selected player element when the delete button is clicked', async () => {
+		await page.navigateTo();
+		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
+		expect(await page.getPlayerListElement().isPresent());
+		const initialPlayerElementList = page
+			.getPlayerListElement()
+			.all(by.css('li'));
+
+		void initialPlayerElementList
+			.count()
+			.then((initialCount: number) => {
+				EndToEndTestUtils.clickOnPageElement(
+					page.getPlayerElementDeleteButton(0)
+				);
+				const currentPlayerElementList = page
+					.getPlayerListElement()
+					.all(by.css('li'));
+				void currentPlayerElementList
+					.count()
+					.then((currentCount: number) => {
+						expect(currentCount).toBeLessThan(initialCount);
+					})
+					.catch(() => {
+						return false;
+					});
+			})
+			.catch(() => {
+				return false;
+			});
+	});
+
 	afterEach(async () => {
 		// Assert that there are no errors emitted from the browser
 		const logs = await browser.manage().logs().get(logging.Type.BROWSER);
