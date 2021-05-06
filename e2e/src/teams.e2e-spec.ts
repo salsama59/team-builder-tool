@@ -320,26 +320,31 @@ describe('Team builder teams section', () => {
 
 		const teamElementList = page.getTeamListElement().all(by.css('li'));
 
-		void teamElementList.count().then(async (count: number) => {
-			EndToEndTestUtils.clickOnPageElement(
-				page.getTeamElementViewButton(count)
-			);
-			expect(await page.getTeamElementViewForm().isPresent());
-			expect(await page.getTeamElementFormFullNameField().isPresent());
-			expect(await page.getTeamElementFormShortNameField().isPresent());
+		void teamElementList
+			.count()
+			.then(async (count: number) => {
+				EndToEndTestUtils.clickOnPageElement(
+					page.getTeamElementViewButton(count)
+				);
+				expect(await page.getTeamElementViewForm().isPresent());
+				expect(await page.getTeamElementFormFullNameField().isPresent());
+				expect(await page.getTeamElementFormShortNameField().isPresent());
 
-			expect(
-				await EndToEndTestUtils.getElementValueAttribute(
-					page.getTeamElementFormFullNameField()
-				)
-			).toEqual(newTeamFullName);
+				expect(
+					await EndToEndTestUtils.getElementValueAttribute(
+						page.getTeamElementFormFullNameField()
+					)
+				).toEqual(newTeamFullName);
 
-			expect(
-				await EndToEndTestUtils.getElementValueAttribute(
-					page.getTeamElementFormShortNameField()
-				)
-			).toEqual(newTeamShortName);
-		});
+				expect(
+					await EndToEndTestUtils.getElementValueAttribute(
+						page.getTeamElementFormShortNameField()
+					)
+				).toEqual(newTeamShortName);
+			})
+			.catch((result) => {
+				expect(result).toBeTruthy();
+			});
 	});
 
 	it('should cancel the team creation when the cancel button is clicked in create mode', async () => {

@@ -1,33 +1,98 @@
-<form>
-	<div class="form-group">
+<form [formGroup]="playerForm" (ngSubmit)="onSubmit()">
+	<div *ngIf="isInViewMode" class="form-group">
 		<label for="playerIdFormInput">Player id</label>
 		<input
 			type="text"
 			class="form-control"
 			id="playerIdFormInput"
-			value="{{ currentPlayer?.playerId }}"
-			disabled
+			formControlName="playerId"
+			[ngClass]="{'is-invalid': !playerForm.get('playerId')!.valid && playerForm.get('playerId')!.touched}"
 		/>
 	</div>
 	<div class="form-group">
 		<label for="playerTeamIdFormInput">Player team id</label>
 		<input
+			autocomplete="off"
+			#playerTeamIdFieldReference
 			type="text"
 			class="form-control"
 			id="playerTeamIdFormInput"
-			value="{{ currentPlayer?.playerTeamId }}"
-			disabled
+			formControlName="playerTeamId"
+			[ngClass]="{'is-invalid': !playerForm.get('playerTeamId')!.valid && playerForm.get('playerTeamId')!.touched}"
+			(keyup)="onTeamIdFieldKeyup(playerTeamIdFieldReference.value)"
 		/>
+		<div *ngIf="filteredTeamList.length > 0" class="custom-dropdown-menu">
+			<div *ngFor="let team of filteredTeamList; let i = index">
+				<a
+					class="dropdown-item"
+					[ngClass]="{'last-border': i === filteredTeamList.length - 1, 'first-border': i === 0}"
+					(click)="onSelectTeam(playerTeamIdFieldReference, team.teamId)"
+					>{{team.teamId}} - {{team.teamFullName}} - {{team.teamShortName}}</a
+				>
+				<div
+					*ngIf="i < filteredTeamList.length - 1"
+					class="dropdown-divider"
+				></div>
+			</div>
+		</div>
+		<span
+			*ngIf="!playerForm.get('playerTeamId')!.valid && playerForm.get('playerTeamId')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="playerTeamIdRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerTeamId'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+			<span
+				id="playerTeamIdNotExistsErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerTeamId'), validatorConstants.PLAYER_TEAM_ID_VALID_ERROR_TYPE
+				)"
+				>This player team id do not exists!</span
+			>
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="playerStatusIdFormInput">Player status id</label>
 		<input
+			#playerStatusIdFieldReference
 			type="text"
 			class="form-control"
 			id="playerStatusIdFormInput"
-			value="{{ currentPlayer?.playerStatusId }}"
-			disabled
+			formControlName="playerStatusId"
+			[ngClass]="{'is-invalid': !playerForm.get('playerStatusId')!.valid && playerForm.get('playerStatusId')!.touched}"
+			(keyup)="onStatusIdFieldKeyup(playerStatusIdFieldReference.value)"
 		/>
+		<div *ngIf="filteredStatusList.length > 0" class="custom-dropdown-menu">
+			<div *ngFor="let status of filteredStatusList; let i = index">
+				<a
+					class="dropdown-item"
+					[ngClass]="{'last-border': i === filteredStatusList.length - 1, 'first-border': i === 0}"
+					(click)="onSelectStatus(playerStatusIdFieldReference, status.statusId)"
+					>{{status.statusId}} - {{status.profileName}}</a
+				>
+				<div
+					*ngIf="i < filteredStatusList.length - 1"
+					class="dropdown-divider"
+				></div>
+			</div>
+		</div>
+		<span
+			*ngIf="!playerForm.get('playerStatusId')!.valid && playerForm.get('playerStatusId')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="playerStatusIdRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerStatusId'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+			<span
+				id="playerStatusIdNotExistsErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerStatusId'), validatorConstants.PLAYER_STATUS_ID_VALID_ERROR_TYPE
+				)"
+				>This player status id do not exists!</span
+			>
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="playerAbilityIdFormInput">Player ability id</label>
@@ -35,40 +100,190 @@
 			type="text"
 			class="form-control"
 			id="playerAbilityIdFormInput"
-			value="{{ currentPlayer?.playerAbilityId }}"
-			disabled
+			formControlName="playerAbilityId"
+			[ngClass]="{'is-invalid': !playerForm.get('playerAbilityId')!.valid && playerForm.get('playerAbilityId')!.touched}"
 		/>
+		<span
+			*ngIf="!playerForm.get('playerAbilityId')!.valid && playerForm.get('playerAbilityId')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="playerAbilityIdRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerAbilityId'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+		</span>
 	</div>
 	<div class="form-group">
-		<label for="playerNameFormInput">Player name</label>
+		<label for="playerFirstNameFormInput">Player first name</label>
 		<input
 			type="text"
 			class="form-control"
-			id="playerNameFormInput"
-			value="{{ currentPlayer?.playerName }}"
-			disabled
+			id="playerFirstNameFormInput"
+			formControlName="playerFirstName"
+			[ngClass]="{'is-invalid': !playerForm.get('playerFirstName')!.valid && playerForm.get('playerFirstName')!.touched}"
 		/>
+		<span
+			*ngIf="!playerForm.get('playerFirstName')!.valid && playerForm.get('playerFirstName')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="playerFirstNameRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerFirstName'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+		</span>
+	</div>
+	<div class="form-group">
+		<label for="playerLastNameFormInput">Player last name</label>
+		<input
+			type="text"
+			class="form-control"
+			id="playerLastNameFormInput"
+			formControlName="playerLastName"
+			[ngClass]="{'is-invalid': !playerForm.get('playerLastName')!.valid && playerForm.get('playerLastName')!.touched}"
+		/>
+		<span
+			*ngIf="!playerForm.get('playerLastName')!.valid && playerForm.get('playerLastName')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="playerLastNameRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerLastName'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+		</span>
+	</div>
+	<div class="form-group">
+		<label for="playerUniformNumberFormInput">Player uniform number</label>
+		<input
+			type="text"
+			class="form-control"
+			id="playerUniformNumberFormInput"
+			formControlName="playerUniformNumber"
+			[ngClass]="{'is-invalid': !playerForm.get('playerUniformNumber')!.valid && playerForm.get('playerUniformNumber')!.touched}"
+		/>
+		<span
+			*ngIf="!playerForm.get('playerUniformNumber')!.valid && playerForm.get('playerUniformNumber')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="playerUniformNumberRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerUniformNumber'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+			<span
+				id="playerUniformNumberMinLengthErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerUniformNumber'), validatorConstants.MIN_LENGTH_ERROR_TYPE) && !formValidationService.hasErrorType(playerForm.get('playerUniformNumber'), validatorConstants.PATTERN_ERROR_TYPE)"
+				>This player uniform number length must be greater or equals than
+				{{formValidationService.getError(playerForm.get('playerUniformNumber'),
+				validatorConstants.MIN_LENGTH_ERROR_TYPE)!.requiredLength}}</span
+			>
+			<span
+				id="playerUniformNumberMaxLengthErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerUniformNumber'), validatorConstants.MAX_LENGTH_ERROR_TYPE) && !formValidationService.hasErrorType(playerForm.get('playerUniformNumber'), validatorConstants.PATTERN_ERROR_TYPE)"
+				>This player uniform number length must be lower or equals
+				{{formValidationService.getError(playerForm.get('playerUniformNumber'),
+				validatorConstants.MAX_LENGTH_ERROR_TYPE)!.requiredLength}}</span
+			>
+			<span
+				id="playerUniformNumberPatternErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerUniformNumber'), validatorConstants.PATTERN_ERROR_TYPE)"
+			>
+				This player uniform number must respect the following pattern :
+				{{formValidationService.getError(playerForm.get('playerUniformNumber'),
+				validatorConstants.PATTERN_ERROR_TYPE)!.requiredPattern}}</span
+			>
+			<span
+				id="playerUniformNumberUniqueErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerUniformNumber'), validatorConstants.PLAYER_UNIFORM_NUMBER_VALID_ERROR_TYPE)"
+			>
+				This player uniform number must be unique inside the team</span
+			>
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="playerFieldPositionFormInput">Player field position</label>
-		<input
-			type="text"
-			class="form-control"
+		<select
 			id="playerFieldPositionFormInput"
-			value="{{ currentPlayer?.playerFieldPosition }}"
-			disabled
-		/>
+			class="form-control"
+			formControlName="playerFieldPosition"
+			[ngClass]="{'is-invalid': !playerForm.get('playerFieldPosition')!.valid && playerForm.get('playerFieldPosition')!.touched}"
+		>
+			<option
+				*ngFor="let playerFieldPosition of getPlayerFieldPositionList()"
+				[value]="playerFieldPosition"
+			>
+				{{ playerFieldPosition }}
+			</option>
+		</select>
+		<span
+			*ngIf="!playerForm.get('playerFieldPosition')!.valid && playerForm.get('playerFieldPosition')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="playerFieldPositionRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerFieldPosition'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+			<span
+				id="playerFieldPositionDoNotExistsErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('playerFieldPosition'), validatorConstants.FIELD_POSITION_VALID_ERROR_TYPE)"
+				>This player field position do not exits!</span
+			>
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="defaultPlayerFieldPositionFormInput"
 			>Player default field position</label
 		>
-		<input
-			type="text"
-			class="form-control"
+		<select
 			id="defaultPlayerFieldPositionFormInput"
-			value="{{ currentPlayer?.defaultPlayerFieldPosition }}"
-			disabled
-		/>
+			class="form-control"
+			formControlName="defaultPlayerFieldPosition"
+			[ngClass]="{'is-invalid': !playerForm.get('defaultPlayerFieldPosition')!.valid && playerForm.get('defaultPlayerFieldPosition')!.touched}"
+		>
+			<option
+				*ngFor="let playerFieldPosition of getPlayerFieldPositionList()"
+				[value]="playerFieldPosition"
+			>
+				{{ playerFieldPosition }}
+			</option>
+		</select>
+		<span
+			*ngIf="!playerForm.get('defaultPlayerFieldPosition')!.valid && playerForm.get('defaultPlayerFieldPosition')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="defaultPlayerFieldPositionRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('defaultPlayerFieldPosition'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+			<span
+				id="defaultPlayerFieldPositionDoNotExistsErrorMessage"
+				*ngIf="formValidationService.hasErrorType(playerForm.get('defaultPlayerFieldPosition'), validatorConstants.FIELD_POSITION_VALID_ERROR_TYPE)"
+				>This default player field position do not exits!</span
+			>
+		</span>
 	</div>
+
+	<button
+		*ngIf="!isInViewMode"
+		id="playerSubmitButton"
+		class="btn btn-success mr-1"
+		type="submit"
+		[disabled]="playerForm.invalid"
+	>
+		Save
+	</button>
+
+	<button
+		*ngIf="!isInViewMode"
+		id="playerCancelButton"
+		class="btn btn-danger ml-1"
+		type="button"
+		(click)="onCancel()"
+	>
+		Cancel
+	</button>
 </form>

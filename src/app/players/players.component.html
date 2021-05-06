@@ -1,5 +1,9 @@
 <div>
-	<a id="new-player-button-id" href="#" class="btn btn-success">
+	<a
+		id="new-player-button-id"
+		class="btn btn-success"
+		(click)="onCreatePlayerElement()"
+	>
 		Add a new player
 		<img
 			src="assets/images/plus.svg"
@@ -24,13 +28,16 @@
 						*ngIf="players?.length; else noPlayerPresent"
 						class="list-group list-group-flush"
 					>
-						<li class="list-group-item" *ngFor="let player of players">
+						<li
+							class="list-group-item"
+							*ngFor="let player of players; let i = index"
+						>
 							<div class="row align-items-center w-auto p-3">
 								<div class="col">
 									<div class="row bg-dark text-white">
 										<div class="col border border-primary">
 											<div class="text-center text-wrap item-font">
-												Player name
+												Player first name
 											</div>
 										</div>
 										<div class="col text-center border border-primary">
@@ -45,7 +52,7 @@
 												id="{{ 'player-name-element-' + player.playerId }}"
 												class="text-center text-wrap item-font"
 											>
-												{{ player.playerName }}
+												{{ player.playerFirstName }}
 											</div>
 										</div>
 										<div class="col border border-primary">
@@ -82,6 +89,7 @@
 											id="{{ 'edit-player-button-id-' + player.playerId }}"
 											type="button"
 											class="btn btn-warning"
+											(click)="onEditPlayerElement(player.playerId)"
 										>
 											<img
 												src="assets/images/pencil.svg"
@@ -93,6 +101,7 @@
 											id="{{ 'delete-player-button-id-' + player.playerId }}"
 											type="button"
 											class="btn btn-danger"
+											(click)="onDeletePlayerElement(i)"
 										>
 											<img
 												src="assets/images/trash.svg"

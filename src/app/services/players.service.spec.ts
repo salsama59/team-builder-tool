@@ -17,7 +17,7 @@ describe('PlayersService', () => {
 	});
 
 	it('should return a list of player', () => {
-		expect(service.getPlayers().length).toBeCloseTo(1);
+		expect(service.getPlayers().length).toBeCloseTo(3);
 	});
 
 	it('should return a player element', () => {
@@ -28,6 +28,8 @@ describe('PlayersService', () => {
 				0,
 				0,
 				'Joe',
+				'Stanford',
+				'00',
 				PlayerFieldPositionEnum.CENTER_FIELDER,
 				PlayerFieldPositionEnum.CENTER_FIELDER
 			)
@@ -41,24 +43,26 @@ describe('PlayersService', () => {
 			0,
 			0,
 			'Joe',
+			'Stanford',
+			'00',
 			PlayerFieldPositionEnum.LEFT_FIELDER,
 			PlayerFieldPositionEnum.SHORT_STOP
 		);
 		service.addPlayer(newAddedPlayer);
-		expect(service.getPlayers().length).toBeCloseTo(2);
+		expect(service.getPlayers().length).toBeCloseTo(4);
 		expect(service.getPlayers()).toContain(newAddedPlayer);
 	});
 
 	it('should delete a player element', () => {
-		const playerToBeDeleted: Player = service.getPlayerById(0);
+		const playerToBeDeleted: Player = <Player>service.getPlayerById(0);
 		service.deletePlayerById(0);
-		expect(service.getPlayers().length).toBeCloseTo(0);
+		expect(service.getPlayers().length).toBeCloseTo(2);
 		expect(service.getPlayers()).not.toContain(playerToBeDeleted);
 	});
 
 	it('should update a player element', () => {
-		const playerToUpdate: Player = service.getPlayerById(0);
-		playerToUpdate.playerName = 'new player name';
+		const playerToUpdate: Player = <Player>service.getPlayerById(0);
+		playerToUpdate.playerLastName = 'new player name';
 		playerToUpdate.playerFieldPosition = PlayerFieldPositionEnum.SHORT_STOP;
 		service.updatePlayer(playerToUpdate);
 		expect(service.getPlayers()).toContain(playerToUpdate);

@@ -29,7 +29,10 @@ const appRoutes: Routes = [
 	{
 		path: 'players',
 		component: PlayersComponent,
-		children: [{ path: ':playerId', component: PlayerComponent }]
+		children: [
+			{ path: ':playerId/:mode', component: PlayerComponent },
+			{ path: ':mode', component: PlayerComponent }
+		]
 	},
 	{
 		path: 'statuses',

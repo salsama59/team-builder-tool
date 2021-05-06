@@ -77,6 +77,28 @@ export class AppPage {
 		);
 	}
 
+	getPlayerElementEditButton(playerId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-players div div div div div ul#player-list > li div div div button#edit-player-button-id-' +
+					playerId.toString()
+			)
+		);
+	}
+
+	getPlayerElementDeleteButton(playerId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-players div div div div div ul#player-list > li div div div button#delete-player-button-id-' +
+					playerId.toString()
+			)
+		);
+	}
+
+	getPlayerElementCreateButton(): ElementFinder {
+		return element(by.css('app-players div a#new-player-button-id'));
+	}
+
 	getStatusElementViewButton(statusId: number): ElementFinder {
 		return element(
 			by.css(
@@ -140,12 +162,42 @@ export class AppPage {
 		return element(by.css('app-player form div input#playerIdFormInput'));
 	}
 
+	getPlayerElementFormPlayerIdRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerIdRequiredErrorMessage')
+		);
+	}
+
 	getPlayerElementFormPlayerTeamIdField(): ElementFinder {
 		return element(by.css('app-player form div input#playerTeamIdFormInput'));
 	}
 
+	getPlayerElementFormPlayerTeamIdRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerTeamIdRequiredErrorMessage')
+		);
+	}
+
+	getPlayerElementFormPlayerTeamIdPlayerTeamIdNotExistsErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerTeamIdNotExistsErrorMessage')
+		);
+	}
+
 	getPlayerElementFormPlayerStatusIdField(): ElementFinder {
 		return element(by.css('app-player form div input#playerStatusIdFormInput'));
+	}
+
+	getPlayerElementFormPlayerStatusIdRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerStatusIdRequiredErrorMessage')
+		);
+	}
+
+	getPlayerElementFormPlayerStatusIdPlayerStatusIdNotExistsErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerStatusIdNotExistsErrorMessage')
+		);
 	}
 
 	getPlayerElementFormPlayerAbilityIdField(): ElementFinder {
@@ -154,20 +206,120 @@ export class AppPage {
 		);
 	}
 
-	getPlayerElementFormPlayerNameField(): ElementFinder {
-		return element(by.css('app-player form div input#playerNameFormInput'));
+	getPlayerElementFormPlayerAbilityIdRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerAbilityIdRequiredErrorMessage')
+		);
+	}
+
+	getPlayerElementFormPlayerFirstNameField(): ElementFinder {
+		return element(
+			by.css('app-player form div input#playerFirstNameFormInput')
+		);
+	}
+
+	getPlayerElementFormPlayerFirstNameRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerFirstNameRequiredErrorMessage')
+		);
+	}
+
+	getPlayerElementFormPlayerLastNameField(): ElementFinder {
+		return element(by.css('app-player form div input#playerLastNameFormInput'));
+	}
+
+	getPlayerElementFormPlayerLastNameRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerLastNameRequiredErrorMessage')
+		);
+	}
+
+	getPlayerElementFormPlayerUniformNumberField(): ElementFinder {
+		return element(
+			by.css('app-player form div input#playerUniformNumberFormInput')
+		);
+	}
+
+	getPlayerElementFormPlayerUniformNumberRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerUniformNumberRequiredErrorMessage')
+		);
+	}
+
+	getPlayerElementFormPlayerUniformNumberMinLengthErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css(
+				'app-player form div span#playerUniformNumberMinLengthErrorMessage'
+			)
+		);
+	}
+
+	getPlayerElementFormPlayerUniformNumberMaxLengthErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css(
+				'app-player form div span#playerUniformNumberMaxLengthErrorMessage'
+			)
+		);
+	}
+
+	getPlayerElementFormPlayerUniformNumberPatternErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerUniformNumberPatternErrorMessage')
+		);
+	}
+
+	getPlayerElementFormPlayerUniformNumberUniqueErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerUniformNumberUniqueErrorMessage')
+		);
 	}
 
 	getPlayerElementFormPlayerFieldPositionField(): ElementFinder {
 		return element(
-			by.css('app-player form div input#playerFieldPositionFormInput')
+			by.css('app-player form div select#playerFieldPositionFormInput')
+		);
+	}
+
+	getPlayerElementFormPlayerFieldPositionListElement(
+		elementIndex: number
+	): ElementFinder {
+		return element
+			.all(
+				by.css('app-player form div select#playerFieldPositionFormInput option')
+			)
+			.get(elementIndex);
+	}
+
+	getPlayerElementFormPlayerFieldPositionRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-player form div span#playerFieldPositionRequiredErrorMessage')
 		);
 	}
 
 	getPlayerElementFormDefaultPlayerFieldPositionField(): ElementFinder {
 		return element(
-			by.css('app-player form div input#defaultPlayerFieldPositionFormInput')
+			by.css('app-player form div select#defaultPlayerFieldPositionFormInput')
 		);
+	}
+
+	getPlayerElementFormDefaultPlayerFieldPositionListElement(
+		elementIndex: number
+	): ElementFinder {
+		return element
+			.all(
+				by.css(
+					'app-player form div select#defaultPlayerFieldPositionFormInput option'
+				)
+			)
+			.get(elementIndex);
+	}
+
+	getPlayerElementFormSubmitButton(): ElementFinder {
+		return element(by.css('app-player form button#playerSubmitButton'));
+	}
+
+	getPlayerElementFormCancelButton(): ElementFinder {
+		return element(by.css('app-player form button#playerCancelButton'));
 	}
 
 	getStatusElementFormStatusIdField(): ElementFinder {

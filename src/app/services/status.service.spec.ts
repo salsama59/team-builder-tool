@@ -21,7 +21,7 @@ describe('StatusService', () => {
 
 	it('should return a status element', () => {
 		expect(statusService.getStatusById(0)).toEqual(
-			new Status(0, 0, 10, 27, 60.5, 70.5, 45, 5, 50, 78, 15)
+			new Status(0, 0, 'test', 10, 27, 60.5, 70.5, 45, 5, 50, 78, 15)
 		);
 	});
 
@@ -29,6 +29,7 @@ describe('StatusService', () => {
 		const newAddedStatus: Status = new Status(
 			1,
 			1,
+			'essai',
 			10,
 			30,
 			6.5,
