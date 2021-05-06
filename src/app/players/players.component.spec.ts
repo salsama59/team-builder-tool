@@ -158,4 +158,14 @@ describe('PlayersComponent', () => {
 			relativeTo: activatedRoute
 		});
 	});
+
+	it('should delete the selected player', () => {
+		const spy = spyOn(router, 'navigate');
+		expect(playersComponent.players).toHaveSize(3);
+		playersComponent.onDeletePlayerElement(0);
+		expect(playersComponent.players).toHaveSize(2);
+		expect(spy).toHaveBeenCalledWith(['.'], {
+			relativeTo: activatedRoute
+		});
+	});
 });
