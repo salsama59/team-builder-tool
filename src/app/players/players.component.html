@@ -28,7 +28,10 @@
 						*ngIf="players?.length; else noPlayerPresent"
 						class="list-group list-group-flush"
 					>
-						<li class="list-group-item" *ngFor="let player of players">
+						<li
+							class="list-group-item"
+							*ngFor="let player of players; let i = index"
+						>
 							<div class="row align-items-center w-auto p-3">
 								<div class="col">
 									<div class="row bg-dark text-white">
@@ -98,6 +101,7 @@
 											id="{{ 'delete-player-button-id-' + player.playerId }}"
 											type="button"
 											class="btn btn-danger"
+											(click)="onDeletePlayerElement(i)"
 										>
 											<img
 												src="assets/images/trash.svg"

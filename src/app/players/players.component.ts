@@ -86,4 +86,16 @@ export class PlayersComponent implements OnInit, OnDestroy {
 			relativeTo: this.activatedRoute
 		});
 	}
+
+	/**
+	 * Delete the a player element given it's index.
+	 * Reload the current view
+	 * @param playerIndex the player index
+	 */
+	onDeletePlayerElement(playerIndex: number): void {
+		this.playersService.deletePlayerById(playerIndex);
+		void this.router.navigate(['.'], {
+			relativeTo: this.activatedRoute
+		});
+	}
 }
