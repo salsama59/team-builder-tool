@@ -13,4 +13,11 @@ export class HomeComponent {
 		window.location.href =
 			'market://details?id=fr.oney.mobile.mescomptes&hl=fr&gl=US';
 	}
+
+	onRedirectAfterSometimesToStore() {
+		setTimeout(() => {
+			window.location.href =
+				'market://details?id=fr.oney.mobile.mescomptes&hl=fr&gl=US';
+		}, 5000);
+	}
 }
