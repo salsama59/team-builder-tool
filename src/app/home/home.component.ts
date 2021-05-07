@@ -8,4 +8,9 @@ import { Component } from '@angular/core';
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.css']
 })
-export class HomeComponent {}
+export class HomeComponent {
+	onRedirectToStore() {
+		window.location.href =
+			'market://details?id=fr.oney.mobile.mescomptes&hl=fr&gl=US';
+	}
+}

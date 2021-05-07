@@ -28,3 +28,20 @@
 		>
 	</div>
 </div>
+<div id="intent" class="card">
+	<h5 class="card-header">Test intent</h5>
+	<div class="card-body">
+		<h6 class="card-title">Two way intent use</h6>
+		<p class="card-text">
+			Click on the first button will not work, on the second will work on mobile
+		</p>
+		<a class="btn btn-danger mr-3" (click)="onRedirectToStore()"
+			>javascript redirect</a
+		>
+		<a
+			href="market://details?id=fr.oney.mobile.mescomptes&hl=fr&gl=US"
+			class="btn btn-success"
+			>user gesture redirect</a
+		>
+	</div>
+</div>
