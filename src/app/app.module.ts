@@ -13,7 +13,7 @@ import { PlayersService } from './services/players.service';
 import { PlayersComponent } from './players/players.component';
 import { PlayerComponent } from './players/player/player.component';
 import { StatusesComponent } from './statuses/statuses.component';
-import { StatusService } from './services/status.service';
+import { StatusesService } from './services/statuses.service';
 import { StatusComponent } from './statuses/status/status.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -34,7 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 		StatusComponent
 	],
 	imports: [BrowserModule, ReactiveFormsModule, AppRoutingModule],
-	providers: [TeamsService, PlayersService, StatusService],
+	providers: [TeamsService, PlayersService, StatusesService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}
