@@ -75,8 +75,8 @@ describe('PlayersComponent', () => {
 	});
 
 	it('should init playersChangedSubscription', () => {
-		playersComponent.ngOnInit();
 		const playersService = TestBed.inject(PlayersService);
+		expect(playersComponent.players).toHaveSize(3);
 		playersService.addPlayer(
 			new Player(
 				1,
@@ -90,7 +90,7 @@ describe('PlayersComponent', () => {
 				PlayerFieldPositionEnum.SHORT_STOP
 			)
 		);
-		expect(true).toBeTruthy();
+		expect(playersComponent.players).toHaveSize(4);
 	});
 
 	it('should posses a player in it list', () => {
