@@ -1,29 +1,38 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Status } from '../models/status.model';
 
 /**
- * This class represent the status service providing various operation over the status resource.
+ * This class represent the statuses service providing various operation over the status resource.
  */
 @Injectable({
 	providedIn: 'root'
 })
-export class StatusService {
+export class StatusesService {
 	/**
 	 * The status list.
 	 * @type {Array<Status>}
 	 * @private
 	 */
-	private status: Array<Status> = [
+	private statuses: Array<Status> = [
 		new Status(0, 0, 'test', 10, 27, 60.5, 70.5, 45, 5, 50, 78, 15)
 	];
+
+	/**
+	 * Statuses changed event
+	 */
+	public statusesChanged: Subject<Array<Status>> = new Subject<Array<Status>>();
 
 	/**
 	 * Get a status given an id
 	 * @param statusId the status id to get
 	 * @returns a status corresponding to the id.
 	 */
-	getStatusById(statusId: number): Status {
-		return this.status[statusId];
+	getStatusById(statusId: number): Status | null {
+		const resultStatus: Status | undefined = this.statuses.find(
+			(status) => status.statusId === statusId
+		);
+		return resultStatus ? resultStatus : null;
 	}
 
 	/**
@@ -31,7 +40,7 @@ export class StatusService {
 	 * @returns a status list
 	 */
 	getStatuses(): Array<Status> {
-		return this.status.slice();
+		return this.statuses.slice();
 	}
 
 	/**
@@ -39,7 +48,10 @@ export class StatusService {
 	 * @param statusToAdd  the status element to add
 	 */
 	addStatus(statusToAdd: Status): void {
-		this.status.push(statusToAdd);
+		const nextStatusId = this.statuses.length;
+		statusToAdd.statusId = nextStatusId;
+		this.statuses.push(statusToAdd);
+		this.statusesChanged.next(this.getStatuses());
 	}
 
 	/**
@@ -48,8 +60,9 @@ export class StatusService {
 	 * @returns the status updated.
 	 */
 	updateStatus(statusToUpdate: Status): Status {
-		this.status[statusToUpdate.statusId] = statusToUpdate;
-		return this.getStatusById(statusToUpdate.statusId);
+		this.statuses[statusToUpdate.statusId] = statusToUpdate;
+		this.statusesChanged.next(this.getStatuses());
+		return this.statuses[statusToUpdate.statusId];
 	}
 
 	/**
@@ -57,6 +70,7 @@ export class StatusService {
 	 * @param statusIdToDelete the status id to delete.
 	 */
 	deleteStatusById(statusIdToDelete: number): void {
-		this.status.splice(statusIdToDelete, 1);
+		this.statuses.splice(statusIdToDelete, 1);
+		this.statusesChanged.next(this.getStatuses());
 	}
 }

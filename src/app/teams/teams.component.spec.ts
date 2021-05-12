@@ -67,10 +67,10 @@ describe('TeamsComponent', () => {
 	});
 
 	it('should init teamsChangedSubscription', () => {
-		teamsComponent.ngOnInit();
 		const teamsService = TestBed.inject(TeamsService);
+		expect(teamsComponent.teams).toHaveSize(4);
 		teamsService.addTeam(new Team(4, 'test name', 'TN'));
-		expect(true).toBeTruthy();
+		expect(teamsComponent.teams).toHaveSize(5);
 	});
 
 	it('should posses 3 teams in it list', () => {

@@ -80,6 +80,7 @@
 											id="{{ 'edit-status-button-id-' + status.statusId }}"
 											type="button"
 											class="btn btn-warning"
+											(click)="onEditStatusElement(status.statusId)"
 										>
 											<img
 												src="assets/images/pencil.svg"

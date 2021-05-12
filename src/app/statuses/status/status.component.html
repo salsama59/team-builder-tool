@@ -1,23 +1,40 @@
-<form>
-	<div class="form-group">
+<form [formGroup]="statusForm" (ngSubmit)="onSubmit()">
+	<div *ngIf="isInViewMode" class="form-group">
 		<label for="statusIdFormInput">Status id</label>
 		<input
 			type="text"
 			class="form-control"
 			id="statusIdFormInput"
-			value="{{ currentStatus?.statusId }}"
-			disabled
+			formControlName="statusId"
+			[ngClass]="{'is-invalid': !statusForm.get('statusId')!.valid && statusForm.get('statusId')!.touched}"
 		/>
 	</div>
 	<div class="form-group">
 		<label for="playerIdFormInput">Player id</label>
 		<input
+			autocomplete="off"
+			#playerIdFieldReference
 			type="text"
 			class="form-control"
 			id="playerIdFormInput"
-			value="{{ currentStatus?.playerId }}"
-			disabled
+			formControlName="playerId"
+			(keyup)="onPlayerIdFieldKeyup(playerIdFieldReference.value)"
 		/>
+		<div *ngIf="filteredPlayerList.length > 0" class="custom-dropdown-menu">
+			<div *ngFor="let player of filteredPlayerList; let i = index">
+				<a
+					class="dropdown-item"
+					[ngClass]="{'last-border': i === filteredPlayerList.length - 1, 'first-border': i === 0}"
+					(click)="onSelectPlayer(playerIdFieldReference, player.playerId)"
+					>{{player.playerId}} - {{player.playerFirstName}} -
+					{{player.playerLastName}}</a
+				>
+				<div
+					*ngIf="i < filteredPlayerList.length - 1"
+					class="dropdown-divider"
+				></div>
+			</div>
+		</div>
 	</div>
 	<div class="form-group">
 		<label for="profileNameFormInput">Profile name</label>
@@ -25,98 +42,215 @@
 			type="text"
 			class="form-control"
 			id="profileNameFormInput"
-			value="{{ currentStatus?.profileName }}"
-			disabled
+			formControlName="profileName"
+			[ngClass]="{'is-invalid': !statusForm.get('profileName')!.valid && statusForm.get('profileName')!.touched}"
 		/>
+		<span
+			*ngIf="!statusForm.get('profileName')!.valid && statusForm.get('profileName')!.touched"
+			class="invalid-feedback form-text"
+		>
+			<span
+				id="profileNameRequiredErrorMessage"
+				*ngIf="formValidationService.hasErrorType(statusForm.get('profileName'), validatorConstants.REQUIRED_ERROR_TYPE)"
+				>This field is required!</span
+			>
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="speedFormInput">Speed</label>
 		<input
-			type="text"
-			class="form-control"
+			#speedInputReference
+			type="range"
+			class="custom-range"
+			min="0"
+			max="100"
+			step="0.5"
+			aria-describedby="speedHelpBlock"
 			id="speedFormInput"
-			value="{{ currentStatus?.speed }}"
-			disabled
+			formControlName="speed"
 		/>
+		<span id="speedHelpBlock" class="form-text text-center font-weight-bolder">
+			{{speedInputReference.value}}
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="staminaFormInput">Stamina</label>
 		<input
-			type="text"
-			class="form-control"
+			#staminaInputReference
+			type="range"
+			class="custom-range"
+			min="0"
+			max="100"
+			step="0.5"
+			aria-describedby="staminaHelpBlock"
 			id="staminaFormInput"
-			value="{{ currentStatus?.stamina }}"
-			disabled
+			formControlName="stamina"
 		/>
+		<span
+			id="staminaHelpBlock"
+			class="form-text text-center font-weight-bolder"
+		>
+			{{staminaInputReference.value}}
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="catchEfficiencyFormInput">Catch efficiency</label>
 		<input
-			type="text"
-			class="form-control"
+			#catchEfficiencyReference
+			type="range"
+			class="custom-range"
+			min="0"
+			max="100"
+			step="0.5"
+			aria-describedby="catchEfficiencyHelpBlock"
 			id="catchEfficiencyFormInput"
-			value="{{ currentStatus?.catchEfficiency }}"
-			disabled
+			formControlName="catchEfficiency"
 		/>
+		<span
+			id="catchEfficiencyHelpBlock"
+			class="form-text text-center font-weight-bolder"
+		>
+			{{catchEfficiencyReference.value}}
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="pitchEfficiencyFormInput">Pitch efficiency</label>
 		<input
-			type="text"
-			class="form-control"
+			#pitchEfficiencyReference
+			type="range"
+			class="custom-range"
+			min="0"
+			max="100"
+			step="0.5"
+			aria-describedby="pitchEfficiencyHelpBlock"
 			id="pitchEfficiencyFormInput"
-			value="{{ currentStatus?.pitchEfficiency }}"
-			disabled
+			formControlName="pitchEfficiency"
 		/>
+		<span
+			id="pitchEfficiencyHelpBlock"
+			class="form-text text-center font-weight-bolder"
+		>
+			{{pitchEfficiencyReference.value}}
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="passEfficiencyFormInput">Pass efficiency</label>
 		<input
-			type="text"
-			class="form-control"
+			#passEfficiencyReference
+			type="range"
+			class="custom-range"
+			min="0"
+			max="100"
+			step="0.5"
+			aria-describedby="passEfficiencyHelpBlock"
 			id="passEfficiencyFormInput"
-			value="{{ currentStatus?.passEfficiency }}"
-			disabled
+			formControlName="passEfficiency"
 		/>
+		<span
+			id="passEfficiencyHelpBlock"
+			class="form-text text-center font-weight-bolder"
+		>
+			{{passEfficiencyReference.value}}
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="battingEfficiencyFormInput">Batting efficiency</label>
 		<input
-			type="text"
-			class="form-control"
+			#battingEfficiencyReference
+			type="range"
+			class="custom-range"
+			min="0"
+			max="100"
+			step="0.5"
+			aria-describedby="battingEfficiencyHelpBlock"
 			id="battingEfficiencyFormInput"
-			value="{{ currentStatus?.battingEfficiency }}"
-			disabled
+			formControlName="battingEfficiency"
 		/>
+		<span
+			id="battingEfficiencyHelpBlock"
+			class="form-text text-center font-weight-bolder"
+		>
+			{{battingEfficiencyReference.value}}
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="battingPowerFormInput">Batting power</label>
 		<input
-			type="text"
-			class="form-control"
+			#battingPowerReference
+			type="range"
+			class="custom-range"
+			min="0"
+			max="100"
+			step="0.5"
+			aria-describedby="battingPowerHelpBlock"
 			id="battingPowerFormInput"
-			value="{{ currentStatus?.battingPower }}"
-			disabled
+			formControlName="battingPower"
 		/>
+		<span
+			id="battingPowerHelpBlock"
+			class="form-text text-center font-weight-bolder"
+		>
+			{{battingPowerReference.value}}
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="pitchingPowerFormInput">Pitching power</label>
 		<input
-			type="text"
-			class="form-control"
+			#pitchingPowerReference
+			type="range"
+			class="custom-range"
+			min="0"
+			max="100"
+			step="0.5"
+			aria-describedby="pitchingPowerHelpBlock"
 			id="pitchingPowerFormInput"
-			value="{{ currentStatus?.pitchingPower }}"
-			disabled
+			formControlName="pitchingPower"
 		/>
+		<span
+			id="pitchingPowerHelpBlock"
+			class="form-text text-center font-weight-bolder"
+		>
+			{{pitchingPowerReference.value}}
+		</span>
 	</div>
 	<div class="form-group">
 		<label for="pitchingEffectFormInput">Pitching effect</label>
 		<input
-			type="text"
-			class="form-control"
+			#pitchingEffectReference
+			type="range"
+			class="custom-range"
+			min="0"
+			max="100"
+			step="0.5"
+			aria-describedby="pitchingEffectHelpBlock"
 			id="pitchingEffectFormInput"
-			value="{{ currentStatus?.pitchingEffect }}"
-			disabled
+			formControlName="pitchingEffect"
 		/>
+		<span
+			id="pitchingEffectHelpBlock"
+			class="form-text text-center font-weight-bolder"
+		>
+			{{pitchingEffectReference.value}}
+		</span>
 	</div>
+
+	<button
+		*ngIf="!isInViewMode"
+		id="statusSubmitButton"
+		class="btn btn-success mr-1"
+		type="submit"
+		[disabled]="statusForm.invalid"
+	>
+		Save
+	</button>
+
+	<button
+		*ngIf="!isInViewMode"
+		id="statusCancelButton"
+		class="btn btn-danger ml-1"
+		type="button"
+		(click)="onCancel()"
+	>
+		Cancel
+	</button>
 </form>

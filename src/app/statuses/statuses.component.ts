@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Status } from '../models/status.model';
-import { StatusService } from '../services/status.service';
+import { StatusesService } from '../services/statuses.service';
 
 /**
  * This class represent the statuses component.
@@ -12,7 +13,7 @@ import { StatusService } from '../services/status.service';
 	templateUrl: './statuses.component.html',
 	styleUrls: ['./statuses.component.css']
 })
-export class StatusesComponent implements OnInit {
+export class StatusesComponent implements OnInit, OnDestroy {
 	/**
 	 * The status list that will be displayed.
 	 * @type {Array<Status> | null}
@@ -21,14 +22,19 @@ export class StatusesComponent implements OnInit {
 	public statuses: Array<Status> | null = null;
 
 	/**
+	 * Players changed subscription of players component
+	 */
+	private statusesChangedSubscription!: Subscription;
+
+	/**
 	 * Creates an instance of statuses component.
 	 * @constructor
-	 * @param statusService the statuses service injected
+	 * @param statusesService the statuses service injected
 	 * @param router the router injected
 	 * @param activatedRoute the activated route injected
 	 */
 	constructor(
-		private statusService: StatusService,
+		private statusesService: StatusesService,
 		private router: Router,
 		private activatedRoute: ActivatedRoute
 	) {}
@@ -37,7 +43,19 @@ export class StatusesComponent implements OnInit {
 	 * Initialize the status list.
 	 */
 	ngOnInit(): void {
-		this.statuses = this.statusService.getStatuses();
+		this.statuses = this.statusesService.getStatuses();
+		this.statusesChangedSubscription = this.statusesService.statusesChanged.subscribe(
+			(newStatuses) => {
+				this.statuses = newStatuses;
+			}
+		);
+	}
+
+	/**
+	 * Unsubscribe to the statuses changed subscription
+	 */
+	ngOnDestroy(): void {
+		this.statusesChangedSubscription.unsubscribe();
 	}
 
 	/**
@@ -45,7 +63,17 @@ export class StatusesComponent implements OnInit {
 	 * @param statusId the status id.
 	 */
 	onViewStatusElement(statusId: number): void {
-		void this.router.navigate([statusId], {
+		void this.router.navigate([statusId, 'view'], {
+			relativeTo: this.activatedRoute
+		});
+	}
+
+	/**
+	 * Edit the status element given an id by routing the user to the StatusComponent edition view
+	 * @param statusId the status id.
+	 */
+	onEditStatusElement(statusId: number): void {
+		void this.router.navigate([statusId, 'edit'], {
 			relativeTo: this.activatedRoute
 		});
 	}

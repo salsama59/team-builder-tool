@@ -108,6 +108,28 @@ export class AppPage {
 		);
 	}
 
+	getStatusElementEditButton(statusId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-statuses div div div div div ul#status-list > li div div div button#edit-status-button-id-' +
+					statusId.toString()
+			)
+		);
+	}
+
+	getStatusElementDeleteButton(statusId: number): ElementFinder {
+		return element(
+			by.css(
+				'app-statuses div div div div div ul#status-list > li div div div button#delete-status-button-id-' +
+					statusId.toString()
+			)
+		);
+	}
+
+	getStatusElementCreateButton(): ElementFinder {
+		return element(by.css('app-statuses div a#new-status-button-id'));
+	}
+
 	getTeamElementViewForm(): ElementFinder {
 		return element(by.css('app-team form'));
 	}
@@ -330,8 +352,22 @@ export class AppPage {
 		return element(by.css('app-status form div input#playerIdFormInput'));
 	}
 
+	getStatusElementFormProfileNameField(): ElementFinder {
+		return element(by.css('app-status form div input#profileNameFormInput'));
+	}
+
+	getStatusElementFormProfileNameRequiredErrorMessageBloc(): ElementFinder {
+		return element(
+			by.css('app-status form div span#profileNameRequiredErrorMessage')
+		);
+	}
+
 	getStatusElementFormSpeedField(): ElementFinder {
 		return element(by.css('app-status form div input#speedFormInput'));
+	}
+
+	getStatusElementFormSpeedHelpBlock(): ElementFinder {
+		return element(by.css('app-status form div span#speedHelpBlock'));
 	}
 
 	getStatusElementFormStaminaField(): ElementFinder {
@@ -370,6 +406,14 @@ export class AppPage {
 
 	getStatusElementFormPitchingEffectField(): ElementFinder {
 		return element(by.css('app-status form div input#pitchingEffectFormInput'));
+	}
+
+	getStatusElementFormSubmitButton(): ElementFinder {
+		return element(by.css('app-status form button#statusSubmitButton'));
+	}
+
+	getStatusElementFormCancelButton(): ElementFinder {
+		return element(by.css('app-status form button#statusCancelButton'));
 	}
 
 	getHomeFeatureCardElement(featureElementId: string): ElementFinder {
