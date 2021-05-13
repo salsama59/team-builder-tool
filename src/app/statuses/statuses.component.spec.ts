@@ -127,4 +127,12 @@ describe('StatusesComponent', () => {
 			relativeTo: activatedRoute
 		});
 	});
+
+	it('should navigate to create status section', () => {
+		const spy = spyOn(router, 'navigate');
+		statusesComponent.onCreateStatusElement();
+		expect(spy).toHaveBeenCalledWith(['create'], {
+			relativeTo: activatedRoute
+		});
+	});
 });
