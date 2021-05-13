@@ -291,41 +291,47 @@ describe('StatusComponent', () => {
 			const compiled = fixture.debugElement;
 			expect(
 				compiled.query(By.css('#playerIdFormInput')).nativeElement.value
-			).toContain(statusComponent.currentStatus?.playerId);
+			).toEqual(statusComponent.currentStatus?.playerId.toString());
+			expect(
+				compiled.query(By.css('#profileNameFormInput')).nativeElement.value
+			).toEqual(statusComponent.currentStatus?.profileName);
 			expect(
 				compiled.query(By.css('#speedFormInput')).nativeElement.value
-			).toContain(statusComponent.currentStatus?.speed);
+			).toEqual(statusComponent.currentStatus?.speed.toString());
 			expect(
 				compiled.query(By.css('#staminaFormInput')).nativeElement.value
-			).toContain(statusComponent.currentStatus?.stamina);
+			).toEqual(statusComponent.currentStatus?.stamina.toString());
 			expect(
 				compiled.query(By.css('#catchEfficiencyFormInput')).nativeElement.value
-			).toContain(statusComponent.currentStatus?.catchEfficiency);
+			).toEqual(statusComponent.currentStatus?.catchEfficiency.toString());
 			expect(
 				compiled.query(By.css('#pitchEfficiencyFormInput')).nativeElement.value
-			).toContain(statusComponent.currentStatus?.pitchEfficiency);
+			).toEqual(statusComponent.currentStatus?.pitchEfficiency.toString());
 			expect(
 				compiled.query(By.css('#passEfficiencyFormInput')).nativeElement.value
-			).toContain(statusComponent.currentStatus?.passEfficiency);
+			).toEqual(statusComponent.currentStatus?.passEfficiency.toString());
 			expect(
 				compiled.query(By.css('#battingEfficiencyFormInput')).nativeElement
 					.value
-			).toContain(statusComponent.currentStatus?.battingEfficiency);
+			).toEqual(statusComponent.currentStatus?.battingEfficiency.toString());
 			expect(
 				compiled.query(By.css('#battingPowerFormInput')).nativeElement.value
-			).toContain(statusComponent.currentStatus?.battingPower);
+			).toEqual(statusComponent.currentStatus?.battingPower.toString());
 			expect(
 				compiled.query(By.css('#pitchingPowerFormInput')).nativeElement.value
-			).toContain(statusComponent.currentStatus?.pitchingPower);
+			).toEqual(statusComponent.currentStatus?.pitchingPower.toString());
 			expect(
 				compiled.query(By.css('#pitchingEffectFormInput')).nativeElement.value
-			).toContain(statusComponent.currentStatus?.pitchingEffect);
+			).toEqual(statusComponent.currentStatus?.pitchingEffect.toString());
 		});
 
 		it('should render the status form in enabled state during edit mode', () => {
 			const compiled = fixture.debugElement;
 			expect(
 				compiled.query(By.css('#playerIdFormInput')).nativeElement.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#profileNameFormInput')).nativeElement.disabled
 			).toBeFalsy();
 			expect(
 				compiled.query(By.css('#speedFormInput')).nativeElement.disabled
@@ -441,6 +447,203 @@ describe('StatusComponent', () => {
 			fixture = TestBed.createComponent(StatusComponent);
 			statusComponent = fixture.componentInstance;
 			fixture.detectChanges();
+		});
+
+		it('should render the status form without values during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.query(By.css('#playerIdFormInput')).nativeElement.value
+			).toEqual('-1');
+			expect(
+				compiled.query(By.css('#profileNameFormInput')).nativeElement.value
+			).toEqual('');
+			expect(
+				compiled.query(By.css('#speedFormInput')).nativeElement.value
+			).toEqual('0');
+			expect(
+				compiled.query(By.css('#staminaFormInput')).nativeElement.value
+			).toEqual('0');
+			expect(
+				compiled.query(By.css('#catchEfficiencyFormInput')).nativeElement.value
+			).toEqual('0');
+			expect(
+				compiled.query(By.css('#pitchEfficiencyFormInput')).nativeElement.value
+			).toEqual('0');
+			expect(
+				compiled.query(By.css('#passEfficiencyFormInput')).nativeElement.value
+			).toEqual('0');
+			expect(
+				compiled.query(By.css('#battingEfficiencyFormInput')).nativeElement
+					.value
+			).toEqual('0');
+			expect(
+				compiled.query(By.css('#battingPowerFormInput')).nativeElement.value
+			).toEqual('0');
+			expect(
+				compiled.query(By.css('#pitchingPowerFormInput')).nativeElement.value
+			).toEqual('0');
+			expect(
+				compiled.query(By.css('#pitchingEffectFormInput')).nativeElement.value
+			).toEqual('0');
+		});
+
+		it('should render the status form in enabled state during create mode', () => {
+			const compiled = fixture.debugElement;
+			expect(
+				compiled.query(By.css('#playerIdFormInput')).nativeElement.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#profileNameFormInput')).nativeElement.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#speedFormInput')).nativeElement.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#staminaFormInput')).nativeElement.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#catchEfficiencyFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#pitchEfficiencyFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#passEfficiencyFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#battingEfficiencyFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#battingPowerFormInput')).nativeElement.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#pitchingPowerFormInput')).nativeElement.disabled
+			).toBeFalsy();
+			expect(
+				compiled.query(By.css('#pitchingEffectFormInput')).nativeElement
+					.disabled
+			).toBeFalsy();
+		});
+
+		it('should filter the player list on player id field keyup event if there is a value during create mode', () => {
+			statusComponent.onPlayerIdFieldKeyup('e');
+			expect(true).toBeTruthy();
+		});
+
+		it('should not filter the player list on player id field keyup event if there is no value during create mode', () => {
+			statusComponent.onPlayerIdFieldKeyup('');
+			expect(true).toBeTruthy();
+		});
+
+		it('should select a player id from the autocomplete list during create mode', () => {
+			const playerIdInput: HTMLInputElement = fixture.nativeElement.querySelector(
+				'#playerIdFormInput'
+			);
+			statusComponent.onSelectPlayer(playerIdInput, 0);
+			expect(true).toBeTruthy();
+		});
+
+		it('should not select a player id from the autocomplete list if there is no player id control during create mode', () => {
+			const playerIdInput: HTMLInputElement = fixture.nativeElement.querySelector(
+				'#playerIdFormInput'
+			);
+			statusComponent.statusForm.removeControl('playerId');
+			statusComponent.onSelectPlayer(playerIdInput, 0);
+			expect(true).toBeTruthy();
+		});
+
+		it('should return to status list when clicking on save button during create mode', () => {
+			const compiled = fixture.debugElement;
+
+			expect(
+				compiled.nativeElement.querySelector('#statusSubmitButton').disabled
+			).toBeTruthy();
+
+			compiled.nativeElement.querySelector('#playerIdFormInput').value = 0;
+			compiled.nativeElement
+				.querySelector('#playerIdFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('#profileNameFormInput').value =
+				'NEW PROFILE';
+			compiled.nativeElement
+				.querySelector('#profileNameFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('#speedFormInput').value = 20;
+			compiled.nativeElement
+				.querySelector('#speedFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('#staminaFormInput').value = 20;
+			compiled.nativeElement
+				.querySelector('#staminaFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector(
+				'#catchEfficiencyFormInput'
+			).value = 20;
+			compiled.nativeElement
+				.querySelector('#catchEfficiencyFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector(
+				'#pitchEfficiencyFormInput'
+			).value = 20;
+			compiled.nativeElement
+				.querySelector('#pitchEfficiencyFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector(
+				'#passEfficiencyFormInput'
+			).value = 20;
+			compiled.nativeElement
+				.querySelector('#passEfficiencyFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector(
+				'#battingEfficiencyFormInput'
+			).value = 20;
+			compiled.nativeElement
+				.querySelector('#battingEfficiencyFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector('#battingPowerFormInput').value = 20;
+			compiled.nativeElement
+				.querySelector('#battingPowerFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector(
+				'#pitchingPowerFormInput'
+			).value = 20;
+			compiled.nativeElement
+				.querySelector('#pitchingPowerFormInput')
+				.dispatchEvent(new Event('input'));
+
+			compiled.nativeElement.querySelector(
+				'#pitchingEffectFormInput'
+			).value = 20;
+			compiled.nativeElement
+				.querySelector('#pitchingEffectFormInput')
+				.dispatchEvent(new Event('input'));
+
+			fixture.detectChanges();
+
+			expect(
+				compiled.nativeElement.querySelector('#statusSubmitButton').disabled
+			).toBeFalsy();
+
+			compiled.nativeElement.querySelector('#statusSubmitButton').click();
+		});
+
+		it('should return to status list when clicking on cancel button during create mode', () => {
+			const compiled = fixture.debugElement;
+			compiled.nativeElement.querySelector('#statusCancelButton').click();
+			expect(true).toBeTruthy();
 		});
 	});
 });

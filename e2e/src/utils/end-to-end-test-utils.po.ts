@@ -19,7 +19,13 @@ export class EndToEndTestUtils {
 	}
 
 	public static clickOnPageElement(element: ElementFinder): void {
-		void element.click();
+		void element
+			.click()
+			.then()
+			.catch((result) => {
+				console.log('Click cannot be performed for element');
+				console.log(result);
+			});
 	}
 
 	public static clearInputTextElement(element: ElementFinder): void {

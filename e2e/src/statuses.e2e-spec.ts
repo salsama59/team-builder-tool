@@ -1,4 +1,4 @@
-import { browser, logging } from 'protractor';
+import { browser, by, logging } from 'protractor';
 import { AppPage } from './utils/app.po';
 import { EndToEndTestUtils } from './utils/end-to-end-test-utils.po';
 
@@ -468,6 +468,277 @@ describe('Team builder statuses section', () => {
 					.catch();
 			})
 			.catch();
+	});
+
+	it('should create new status when the save button is clicked in create mode', async () => {
+		await page.navigateTo();
+		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
+		expect(await page.getStatusListElement().isPresent());
+		EndToEndTestUtils.clickOnPageElement(page.getStatusElementCreateButton());
+		expect(await page.getStatusElementViewForm().isPresent());
+
+		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
+			false
+		);
+		expect(await page.getStatusElementFormPlayerIdField().isPresent());
+		expect(await page.getStatusElementFormProfileNameField().isPresent());
+		expect(await page.getStatusElementFormSpeedField().isPresent());
+		expect(await page.getStatusElementFormStaminaField().isPresent());
+		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormBattingPowerField().isPresent());
+		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
+		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+
+		EndToEndTestUtils.inputTextInFieldElement(
+			'0',
+			page.getStatusElementFormPlayerIdField(),
+			true
+		);
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormPlayerIdField()
+			)
+		).toEqual('0');
+
+		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
+
+		EndToEndTestUtils.inputTextInFieldElement(
+			'NEW PROFILE',
+			page.getStatusElementFormProfileNameField(),
+			true
+		);
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormProfileNameField()
+			)
+		).toEqual('NEW PROFILE');
+
+		// EndToEndTestUtils.clickOnPageElement(
+		// 	page.getStatusElementFormSpeedHelpBlock()
+		// );
+
+		void EndToEndTestUtils.dragAndDropElement(
+			page.getStatusElementFormSpeedField(),
+			{
+				x: 50,
+				y: 0
+			}
+		)
+			.then(async () => {
+				expect(
+					await EndToEndTestUtils.getElementContentText(
+						page.getStatusElementFormSpeedHelpBlock()
+					)
+				).toEqual('50');
+				expect(await page.getStatusElementFormSubmitButton().isEnabled()).toBe(
+					true
+				);
+				EndToEndTestUtils.clickOnPageElement(
+					page.getStatusElementFormSubmitButton()
+				);
+				expect(await page.getStatusListElement().isPresent()).toBe(true);
+
+				const statusElementList = page.getStatusListElement().all(by.css('li'));
+
+				void statusElementList
+					.count()
+					.then(async (count: number) => {
+						expect(
+							await page.getStatusElementViewButton(count).isPresent()
+						).toBe(true);
+						void EndToEndTestUtils.scrollToElement(
+							page.getStatusElementViewButton(count)
+						)
+							.then(async (result) => {
+								if (result) {
+									EndToEndTestUtils.clickOnPageElement(
+										page.getStatusElementViewButton(count)
+									);
+									expect(
+										await page.getStatusElementViewForm().isPresent()
+									).toBe(true);
+									expect(
+										await page.getStatusElementFormSpeedField().isPresent()
+									).toBe(true);
+									expect(
+										await EndToEndTestUtils.getElementContentText(
+											page.getStatusElementFormSpeedHelpBlock()
+										)
+									).toEqual('50');
+								}
+							})
+							.catch();
+					})
+					.catch();
+			})
+			.catch();
+	});
+
+	it('should cancel the status creation when the cancel button is clicked in create mode', async () => {
+		await page.navigateTo();
+		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
+		expect(await page.getStatusListElement().isPresent());
+		EndToEndTestUtils.clickOnPageElement(page.getStatusElementCreateButton());
+		expect(await page.getStatusElementViewForm().isPresent());
+
+		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
+			false
+		);
+		expect(await page.getStatusElementFormPlayerIdField().isPresent());
+		expect(await page.getStatusElementFormProfileNameField().isPresent());
+		expect(await page.getStatusElementFormSpeedField().isPresent());
+		expect(await page.getStatusElementFormStaminaField().isPresent());
+		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormBattingPowerField().isPresent());
+		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
+		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+
+		EndToEndTestUtils.inputTextInFieldElement(
+			'0',
+			page.getStatusElementFormPlayerIdField(),
+			true
+		);
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormPlayerIdField()
+			)
+		).toEqual('0');
+
+		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
+
+		EndToEndTestUtils.inputTextInFieldElement(
+			'NEW PROFILE',
+			page.getStatusElementFormProfileNameField(),
+			true
+		);
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormProfileNameField()
+			)
+		).toEqual('NEW PROFILE');
+
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
+
+		// EndToEndTestUtils.clickOnPageElement(
+		// 	page.getStatusElementFormSpeedHelpBlock()
+		// );
+
+		void EndToEndTestUtils.dragAndDropElement(
+			page.getStatusElementFormSpeedField(),
+			{
+				x: 50,
+				y: 0
+			}
+		)
+			.then(async () => {
+				expect(
+					await EndToEndTestUtils.getElementContentText(
+						page.getStatusElementFormSpeedHelpBlock()
+					)
+				).toEqual('50');
+				expect(await page.getStatusElementFormCancelButton().isEnabled()).toBe(
+					true
+				);
+				EndToEndTestUtils.clickOnPageElement(
+					page.getStatusElementFormCancelButton()
+				);
+				expect(await page.getStatusListElement().isPresent()).toBe(true);
+			})
+			.catch();
+	});
+
+	it('should display error text when the required fields are empty in create mode', async () => {
+		await page.navigateTo();
+		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
+		expect(await page.getStatusListElement().isPresent());
+		EndToEndTestUtils.clickOnPageElement(page.getStatusElementCreateButton());
+		expect(await page.getStatusElementViewForm().isPresent());
+
+		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
+			false
+		);
+		expect(await page.getStatusElementFormPlayerIdField().isPresent());
+		expect(await page.getStatusElementFormProfileNameField().isPresent());
+		expect(await page.getStatusElementFormSpeedField().isPresent());
+		expect(await page.getStatusElementFormStaminaField().isPresent());
+		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
+		expect(await page.getStatusElementFormBattingPowerField().isPresent());
+		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
+		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+
+		expect(
+			await page.getStatusElementFormPlayerIdField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormProfileNameField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormSpeedField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormStaminaField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormCatchEfficiencyField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormPitchEfficiencyField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormPassEfficiencyField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormBattingEfficiencyField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormBattingPowerField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormPitchingPowerField().isEnabled()
+		).toBeTruthy();
+		expect(
+			await page.getStatusElementFormPitchingEffectField().isEnabled()
+		).toBeTruthy();
+
+		EndToEndTestUtils.clearInputTextElement(
+			page.getStatusElementFormProfileNameField()
+		);
+
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormProfileNameField()
+			)
+		).toEqual('');
+
+		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
+
+		expect(
+			await page
+				.getStatusElementFormProfileNameRequiredErrorMessageBloc()
+				.isPresent()
+		);
+
+		expect(
+			await EndToEndTestUtils.getElementContentText(
+				page.getStatusElementFormProfileNameRequiredErrorMessageBloc()
+			)
+		).toEqual('This field is required!');
+
+		expect(
+			await page.getStatusElementFormSubmitButton().isEnabled()
+		).toBeFalsy();
+		expect(
+			await page.getStatusElementFormCancelButton().isEnabled()
+		).toBeTruthy();
 	});
 
 	afterEach(async () => {
