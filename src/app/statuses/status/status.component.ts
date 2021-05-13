@@ -43,7 +43,10 @@ export class StatusComponent implements OnInit {
 	 */
 	public validatorConstants = ValidatorConstants;
 
-	filteredPlayerList: Array<Player> = [];
+	/**
+	 * Filtered player list of status component
+	 */
+	public filteredPlayerList: Array<Player> = [];
 
 	/**
 	 * Creates an instance of status component.
@@ -162,7 +165,7 @@ export class StatusComponent implements OnInit {
 	/**
 	 *Define the actions to do during the player id field keyup event :
 	 *filter the player list in order to display the autocomplete list
-	 * @param typedValue
+	 * @param typedValue the player id field typed value
 	 */
 	onPlayerIdFieldKeyup(typedValue: string): void {
 		if (

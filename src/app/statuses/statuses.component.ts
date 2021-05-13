@@ -77,4 +77,13 @@ export class StatusesComponent implements OnInit, OnDestroy {
 			relativeTo: this.activatedRoute
 		});
 	}
+
+	/**
+	 * Display the new status creation form by routing the user to the StatusComponent view
+	 */
+	onCreateStatusElement(): void {
+		void this.router.navigate(['create'], {
+			relativeTo: this.activatedRoute
+		});
+	}
 }
