@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { version } from '../../../package.json';
+import pkg from '../../../package.json';
 
 /**
  * Class representing the footer component.
@@ -24,7 +24,7 @@ export class FooterComponent implements OnInit {
 	/**
 	 * Application version of footer component
 	 */
-	public applicationVersion: string = version;
+	public applicationVersion: string = pkg.version;
 
 	/**
 	 * Developer name of footer component
