@@ -9,7 +9,7 @@ export class Team {
 	 * @param teamFullName the team full name
 	 * @param teamShortName the team short name
 	 */
-	constructor(
+	public constructor(
 		public teamId: number,
 		public teamFullName: string,
 		public teamShortName: string
