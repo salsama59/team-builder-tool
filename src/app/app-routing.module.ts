@@ -37,7 +37,10 @@ const appRoutes: Routes = [
 	{
 		path: 'statuses',
 		component: StatusesComponent,
-		children: [{ path: ':statusId', component: StatusComponent }]
+		children: [
+			{ path: ':statusId/:mode', component: StatusComponent },
+			{ path: ':mode', component: StatusComponent }
+		]
 	}
 ];
 

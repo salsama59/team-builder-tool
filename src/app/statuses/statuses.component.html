@@ -1,5 +1,9 @@
 <div>
-	<a id="new-status-button-id" href="#" class="btn btn-success">
+	<a
+		id="new-status-button-id"
+		class="btn btn-success"
+		(click)="onCreateStatusElement()"
+	>
 		Add a new status
 		<img
 			src="assets/images/plus.svg"
@@ -24,7 +28,10 @@
 						*ngIf="statuses?.length; else noStatusPresent"
 						class="list-group list-group-flush"
 					>
-						<li class="list-group-item" *ngFor="let status of statuses">
+						<li
+							class="list-group-item"
+							*ngFor="let status of statuses; let i = index"
+						>
 							<div class="row align-items-center w-auto p-3">
 								<div class="col">
 									<div class="row bg-dark text-white">
@@ -80,6 +87,7 @@
 											id="{{ 'edit-status-button-id-' + status.statusId }}"
 											type="button"
 											class="btn btn-warning"
+											(click)="onEditStatusElement(status.statusId)"
 										>
 											<img
 												src="assets/images/pencil.svg"
@@ -91,6 +99,7 @@
 											id="{{ 'delete-status-button-id-' + status.statusId }}"
 											type="button"
 											class="btn btn-danger"
+											(click)="onDeleteStatusElement(i)"
 										>
 											<img
 												src="assets/images/trash.svg"

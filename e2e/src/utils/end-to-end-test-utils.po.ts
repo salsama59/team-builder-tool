@@ -1,10 +1,9 @@
-import {
-	ElementFinder,
-	browser,
-	Key,
-	WebElement,
-	WebElementPromise
-} from 'protractor';
+import { ElementFinder, browser, Key, promise } from 'protractor';
+
+export interface ILocation {
+	x: number;
+	y: number;
+}
 
 export class EndToEndTestUtils {
 	public static async getElementValueAttribute(
@@ -20,7 +19,13 @@ export class EndToEndTestUtils {
 	}
 
 	public static clickOnPageElement(element: ElementFinder): void {
-		void element.click();
+		void element
+			.click()
+			.then()
+			.catch((result) => {
+				console.log('Click cannot be performed for element');
+				console.log(result);
+			});
 	}
 
 	public static clearInputTextElement(element: ElementFinder): void {
@@ -49,9 +54,19 @@ export class EndToEndTestUtils {
 		void element.sendKeys(input);
 	}
 
-	public static scrollToElementElement(element: ElementFinder): void {
-		void browser.executeScript((args: Element[]) => {
+	public static scrollToElement(
+		element: ElementFinder
+	): promise.Promise<unknown> {
+		return browser.executeScript((args: Element[]) => {
 			args[0].scrollIntoView();
+			return true;
 		}, element.getWebElement());
+	}
+
+	public static dragAndDropElement(
+		element: ElementFinder,
+		offset: ILocation
+	): promise.Promise<void> {
+		return browser.actions().dragAndDrop(element, offset).mouseUp().perform();
 	}
 }

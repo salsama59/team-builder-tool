@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { Status } from '../models/status.model';
+import { StatusesService } from '../services/statuses.service';
 
 import { StatusesComponent } from './statuses.component';
 
@@ -60,6 +61,15 @@ describe('StatusesComponent', () => {
 		expect(statusesComponent).toBeTruthy();
 	});
 
+	it('should init statusesChangedSubscription', () => {
+		const statusesService = TestBed.inject(StatusesService);
+		expect(statusesComponent.statuses).toHaveSize(1);
+		statusesService.addStatus(
+			new Status(1, 1, 'PROFILE_1', 0, 0, 0, 0, 0, 0, 0, 0, 0)
+		);
+		expect(statusesComponent.statuses).toHaveSize(2);
+	});
+
 	it('should posses a status in it list', () => {
 		expect(statusesComponent.statuses).toBeDefined();
 		expect(statusesComponent.statuses).toHaveSize(1);
@@ -105,6 +115,34 @@ describe('StatusesComponent', () => {
 	it('should navigate to view status section', () => {
 		const spy = spyOn(router, 'navigate');
 		statusesComponent.onViewStatusElement(0);
-		expect(spy).toHaveBeenCalledWith([0], { relativeTo: activatedRoute });
+		expect(spy).toHaveBeenCalledWith([0, 'view'], {
+			relativeTo: activatedRoute
+		});
+	});
+
+	it('should navigate to edit status section', () => {
+		const spy = spyOn(router, 'navigate');
+		statusesComponent.onEditStatusElement(0);
+		expect(spy).toHaveBeenCalledWith([0, 'edit'], {
+			relativeTo: activatedRoute
+		});
+	});
+
+	it('should navigate to create status section', () => {
+		const spy = spyOn(router, 'navigate');
+		statusesComponent.onCreateStatusElement();
+		expect(spy).toHaveBeenCalledWith(['create'], {
+			relativeTo: activatedRoute
+		});
+	});
+
+	it('should delete the selected status', () => {
+		const spy = spyOn(router, 'navigate');
+		expect(statusesComponent.statuses).toHaveSize(1);
+		statusesComponent.onDeleteStatusElement(0);
+		expect(statusesComponent.statuses).toHaveSize(0);
+		expect(spy).toHaveBeenCalledWith(['.'], {
+			relativeTo: activatedRoute
+		});
 	});
 });

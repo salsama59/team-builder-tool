@@ -14,7 +14,7 @@ import { Status } from 'src/app/models/status.model';
 import { Team } from 'src/app/models/team.model';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 import { PlayersService } from 'src/app/services/players.service';
-import { StatusService } from 'src/app/services/status.service';
+import { StatusesService } from 'src/app/services/statuses.service';
 import { TeamsService } from 'src/app/services/teams.service';
 
 /**
@@ -33,7 +33,7 @@ export class PlayerComponent implements OnInit {
 	public currentPlayer: Player | null = null;
 
 	/**
-	 * Team reactive form object
+	 * Player reactive form object
 	 */
 	public playerForm!: FormGroup;
 
@@ -70,7 +70,7 @@ export class PlayerComponent implements OnInit {
 	 * @param changeDetectorRef the change detector reference
 	 * @param router the router
 	 * @param teamsService the teams service
-	 * @param statusService the status service
+	 * @param statusesService the status service
 	 * @param formValidationService the form validation service
 	 */
 	constructor(
@@ -79,7 +79,7 @@ export class PlayerComponent implements OnInit {
 		private changeDetectorRef: ChangeDetectorRef,
 		private router: Router,
 		private teamsService: TeamsService,
-		private statusService: StatusService,
+		private statusesService: StatusesService,
 		public formValidationService: FormValidationService
 	) {}
 
@@ -276,7 +276,7 @@ export class PlayerComponent implements OnInit {
 	 * @returns available status list
 	 */
 	getAvailableStatusList(): Array<Status> {
-		return this.statusService.getStatuses();
+		return this.statusesService.getStatuses();
 	}
 
 	/**
