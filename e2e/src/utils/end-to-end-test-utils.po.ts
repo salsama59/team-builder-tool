@@ -67,6 +67,6 @@ export class EndToEndTestUtils {
 		element: ElementFinder,
 		offset: ILocation
 	): promise.Promise<void> {
-		return browser.actions().dragAndDrop(element, offset).perform();
+		return browser.actions().dragAndDrop(element, offset).mouseUp().perform();
 	}
 }
