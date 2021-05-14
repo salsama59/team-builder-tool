@@ -135,4 +135,14 @@ describe('StatusesComponent', () => {
 			relativeTo: activatedRoute
 		});
 	});
+
+	it('should delete the selected status', () => {
+		const spy = spyOn(router, 'navigate');
+		expect(statusesComponent.statuses).toHaveSize(1);
+		statusesComponent.onDeleteStatusElement(0);
+		expect(statusesComponent.statuses).toHaveSize(0);
+		expect(spy).toHaveBeenCalledWith(['.'], {
+			relativeTo: activatedRoute
+		});
+	});
 });

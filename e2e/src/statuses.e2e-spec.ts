@@ -354,49 +354,40 @@ describe('Team builder statuses section', () => {
 		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
 		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
 
-		void EndToEndTestUtils.dragAndDropElement(
-			page.getStatusElementFormSpeedField(),
-			{
-				x: 50,
-				y: 0
-			}
-		)
-			.then(async () => {
-				expect(
-					await EndToEndTestUtils.getElementContentText(
-						page.getStatusElementFormSpeedHelpBlock()
-					)
-				).toEqual('50');
-				expect(await page.getStatusElementFormSubmitButton().isEnabled()).toBe(
-					true
-				);
-				EndToEndTestUtils.clickOnPageElement(
-					page.getStatusElementFormSubmitButton()
-				);
-				expect(await page.getStatusListElement().isPresent()).toBe(true);
-				expect(await page.getStatusElementViewButton(0).isPresent()).toBe(true);
-				void EndToEndTestUtils.scrollToElement(
-					page.getStatusElementViewButton(0)
-				)
-					.then(async (result) => {
-						if (result) {
-							EndToEndTestUtils.clickOnPageElement(
-								page.getStatusElementViewButton(0)
-							);
-							expect(await page.getStatusElementViewForm().isPresent()).toBe(
-								true
-							);
-							expect(
-								await page.getStatusElementFormSpeedField().isPresent()
-							).toBe(true);
-							expect(
-								await EndToEndTestUtils.getElementContentText(
-									page.getStatusElementFormSpeedHelpBlock()
-								)
-							).toEqual('50');
-						}
-					})
-					.catch();
+		EndToEndTestUtils.inputTextInFieldElement(
+			'NEW PROFILE',
+			page.getStatusElementFormProfileNameField(),
+			true
+		);
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormProfileNameField()
+			)
+		).toEqual('NEW PROFILE');
+		expect(await page.getStatusElementFormSubmitButton().isEnabled()).toBe(
+			true
+		);
+		EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementFormSubmitButton()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		expect(await page.getStatusElementViewButton(0).isPresent()).toBe(true);
+		void EndToEndTestUtils.scrollToElement(page.getStatusElementViewButton(0))
+			.then(async (result) => {
+				if (result) {
+					EndToEndTestUtils.clickOnPageElement(
+						page.getStatusElementViewButton(0)
+					);
+					expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
+					expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(
+						true
+					);
+					expect(
+						await EndToEndTestUtils.getElementValueAttribute(
+							page.getStatusElementFormProfileNameField()
+						)
+					).toEqual('NEW PROFILE');
+				}
 			})
 			.catch();
 	});
@@ -423,49 +414,44 @@ describe('Team builder statuses section', () => {
 		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
 		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
 
-		void EndToEndTestUtils.dragAndDropElement(
-			page.getStatusElementFormSpeedField(),
-			{
-				x: 50,
-				y: 0
-			}
-		)
-			.then(async () => {
-				expect(
-					await EndToEndTestUtils.getElementContentText(
-						page.getStatusElementFormSpeedHelpBlock()
-					)
-				).toEqual('50');
-				expect(await page.getStatusElementFormCancelButton().isEnabled()).toBe(
-					true
-				);
-				EndToEndTestUtils.clickOnPageElement(
-					page.getStatusElementFormCancelButton()
-				);
-				expect(await page.getStatusListElement().isPresent()).toBe(true);
-				expect(await page.getStatusElementViewButton(0).isPresent()).toBe(true);
-				void EndToEndTestUtils.scrollToElement(
-					page.getStatusElementViewButton(0)
-				)
-					.then(async (result) => {
-						if (result) {
-							EndToEndTestUtils.clickOnPageElement(
-								page.getStatusElementViewButton(0)
-							);
-							expect(await page.getStatusElementViewForm().isPresent()).toBe(
-								true
-							);
-							expect(
-								await page.getStatusElementFormSpeedField().isPresent()
-							).toBe(true);
-							expect(
-								await EndToEndTestUtils.getElementContentText(
-									page.getStatusElementFormSpeedHelpBlock()
-								)
-							).toEqual('10');
-						}
-					})
-					.catch();
+		EndToEndTestUtils.inputTextInFieldElement(
+			'EDITED PROFILE',
+			page.getStatusElementFormProfileNameField(),
+			true
+		);
+
+		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
+
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormProfileNameField()
+			)
+		).toEqual('EDITED PROFILE');
+
+		expect(await page.getStatusElementFormCancelButton().isEnabled()).toBe(
+			true
+		);
+		EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementFormCancelButton()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		expect(await page.getStatusElementViewButton(0).isPresent()).toBe(true);
+		void EndToEndTestUtils.scrollToElement(page.getStatusElementViewButton(0))
+			.then(async (result) => {
+				if (result) {
+					EndToEndTestUtils.clickOnPageElement(
+						page.getStatusElementViewButton(0)
+					);
+					expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
+					expect(
+						await page.getStatusElementFormProfileNameField().isPresent()
+					).toBe(true);
+					expect(
+						await EndToEndTestUtils.getElementContentText(
+							page.getStatusElementFormProfileNameField()
+						)
+					).toEqual('EDITED PROFILE');
+				}
 			})
 			.catch();
 	});
@@ -520,57 +506,42 @@ describe('Team builder statuses section', () => {
 		// 	page.getStatusElementFormSpeedHelpBlock()
 		// );
 
-		void EndToEndTestUtils.dragAndDropElement(
-			page.getStatusElementFormSpeedField(),
-			{
-				x: 50,
-				y: 0
-			}
-		)
-			.then(async () => {
-				expect(
-					await EndToEndTestUtils.getElementContentText(
-						page.getStatusElementFormSpeedHelpBlock()
-					)
-				).toEqual('50');
-				expect(await page.getStatusElementFormSubmitButton().isEnabled()).toBe(
+		expect(await page.getStatusElementFormSubmitButton().isEnabled()).toBe(
+			true
+		);
+		EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementFormSubmitButton()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+
+		const statusElementList = page.getStatusListElement().all(by.css('li'));
+
+		void statusElementList
+			.count()
+			.then(async (count: number) => {
+				expect(await page.getStatusElementViewButton(count).isPresent()).toBe(
 					true
 				);
-				EndToEndTestUtils.clickOnPageElement(
-					page.getStatusElementFormSubmitButton()
-				);
-				expect(await page.getStatusListElement().isPresent()).toBe(true);
-
-				const statusElementList = page.getStatusListElement().all(by.css('li'));
-
-				void statusElementList
-					.count()
-					.then(async (count: number) => {
-						expect(
-							await page.getStatusElementViewButton(count).isPresent()
-						).toBe(true);
-						void EndToEndTestUtils.scrollToElement(
-							page.getStatusElementViewButton(count)
-						)
-							.then(async (result) => {
-								if (result) {
-									EndToEndTestUtils.clickOnPageElement(
-										page.getStatusElementViewButton(count)
-									);
-									expect(
-										await page.getStatusElementViewForm().isPresent()
-									).toBe(true);
-									expect(
-										await page.getStatusElementFormSpeedField().isPresent()
-									).toBe(true);
-									expect(
-										await EndToEndTestUtils.getElementContentText(
-											page.getStatusElementFormSpeedHelpBlock()
-										)
-									).toEqual('50');
-								}
-							})
-							.catch();
+				void EndToEndTestUtils.scrollToElement(
+					page.getStatusElementViewButton(count)
+				)
+					.then(async (result) => {
+						if (result) {
+							EndToEndTestUtils.clickOnPageElement(
+								page.getStatusElementViewButton(count)
+							);
+							expect(await page.getStatusElementViewForm().isPresent()).toBe(
+								true
+							);
+							expect(
+								await page.getStatusElementFormProfileNameField().isPresent()
+							).toBe(true);
+							expect(
+								await EndToEndTestUtils.getElementValueAttribute(
+									page.getStatusElementFormProfileNameField()
+								)
+							).toEqual('NEW PROFILE');
+						}
 					})
 					.catch();
 			})
@@ -629,28 +600,18 @@ describe('Team builder statuses section', () => {
 		// 	page.getStatusElementFormSpeedHelpBlock()
 		// );
 
-		void EndToEndTestUtils.dragAndDropElement(
-			page.getStatusElementFormSpeedField(),
-			{
-				x: 50,
-				y: 0
-			}
-		)
-			.then(async () => {
-				expect(
-					await EndToEndTestUtils.getElementContentText(
-						page.getStatusElementFormSpeedHelpBlock()
-					)
-				).toEqual('50');
-				expect(await page.getStatusElementFormCancelButton().isEnabled()).toBe(
-					true
-				);
-				EndToEndTestUtils.clickOnPageElement(
-					page.getStatusElementFormCancelButton()
-				);
-				expect(await page.getStatusListElement().isPresent()).toBe(true);
-			})
-			.catch();
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormProfileNameField()
+			)
+		).toEqual('NEW PROFILE');
+		expect(await page.getStatusElementFormCancelButton().isEnabled()).toBe(
+			true
+		);
+		EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementFormCancelButton()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
 	});
 
 	it('should display error text when the required fields are empty in create mode', async () => {
@@ -739,6 +700,37 @@ describe('Team builder statuses section', () => {
 		expect(
 			await page.getStatusElementFormCancelButton().isEnabled()
 		).toBeTruthy();
+	});
+
+	it('should delete the selected status element when the delete button is clicked', async () => {
+		await page.navigateTo();
+		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
+		expect(await page.getStatusListElement().isPresent());
+		const initialStatusElementList = page
+			.getStatusListElement()
+			.all(by.css('li'));
+
+		void initialStatusElementList
+			.count()
+			.then((initialCount: number) => {
+				EndToEndTestUtils.clickOnPageElement(
+					page.getStatusElementDeleteButton(0)
+				);
+				const currentStatusElementList = page
+					.getStatusListElement()
+					.all(by.css('li'));
+				void currentStatusElementList
+					.count()
+					.then((currentCount: number) => {
+						expect(currentCount).toBeLessThan(initialCount);
+					})
+					.catch(() => {
+						return false;
+					});
+			})
+			.catch(() => {
+				return false;
+			});
 	});
 
 	afterEach(async () => {
