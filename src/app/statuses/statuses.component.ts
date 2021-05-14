@@ -86,4 +86,16 @@ export class StatusesComponent implements OnInit, OnDestroy {
 			relativeTo: this.activatedRoute
 		});
 	}
+
+	/**
+	 * Delete the a status element given it's index.
+	 * Reload the current view
+	 * @param statusIndex the status index
+	 */
+	onDeleteStatusElement(statusIndex: number): void {
+		this.statusesService.deleteStatusById(statusIndex);
+		void this.router.navigate(['.'], {
+			relativeTo: this.activatedRoute
+		});
+	}
 }
