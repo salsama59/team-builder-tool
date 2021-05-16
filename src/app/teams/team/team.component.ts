@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ValidatorConstants } from 'src/app/constants/validator-constant';
+import { ValidatorConstants } from 'src/app/constants/validator-constants';
 import { Team } from 'src/app/models/team.model';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 import { TeamsService } from 'src/app/services/teams.service';
@@ -129,7 +129,7 @@ export class TeamComponent implements OnInit {
 	onSubmit(): void {
 		//Map the team object with the form values
 		const teamToEdit: Team = new Team(
-			this.teamForm.value.teamId,
+			+this.teamForm.value.teamId,
 			this.teamForm.value.teamFullName,
 			this.teamForm.value.teamShortName
 		);

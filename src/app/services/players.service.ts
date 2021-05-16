@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { PlayerFieldPositionEnum } from '../enums/player-field-position.enum';
+import { LocalStorageConstants } from '../constants/local-storage-constants';
 import { Player } from '../models/player.model';
+import { LocalStorageService } from './local-storage.service';
 
 /**
  * This class represent the players Service
@@ -15,41 +16,16 @@ export class PlayersService {
 	 * @type {Array<Player>}
 	 * @private
 	 */
-	private players: Array<Player> = [
-		new Player(
-			0,
-			0,
-			0,
-			0,
-			'Joe',
-			'Stanford',
-			'00',
-			PlayerFieldPositionEnum.CENTER_FIELDER,
-			PlayerFieldPositionEnum.CENTER_FIELDER
-		),
-		new Player(
-			1,
-			0,
-			0,
-			0,
-			'John',
-			'Does',
-			'01',
-			PlayerFieldPositionEnum.CATCHER,
-			PlayerFieldPositionEnum.CATCHER
-		),
-		new Player(
-			2,
-			1,
-			0,
-			0,
-			'Felix',
-			'Bridge',
-			'00',
-			PlayerFieldPositionEnum.RIGHT_FIELDER,
-			PlayerFieldPositionEnum.RIGHT_FIELDER
-		)
-	];
+	protected players: Array<Player> = new Array<Player>();
+
+	constructor(private localStorageService: LocalStorageService) {
+		const playersStringData: string | null = this.localStorageService.getData(
+			LocalStorageConstants.PLAYERS_DATA_KEY
+		);
+		if (playersStringData) {
+			this.players = <Array<Player>>JSON.parse(playersStringData);
+		}
+	}
 
 	/**
 	 * Players changed event
