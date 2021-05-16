@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { LocalStorageConstants } from '../constants/local-storage-constants';
 import { Team } from '../models/team.model';
+import { LocalStorageService } from './local-storage.service';
 
 /**
  * This class represent the teams service providing various operation over the team resource.
@@ -12,19 +14,23 @@ export class TeamsService {
 	/**
 	 * The team list.
 	 * @type {Array<Team>}
-	 * @private
+	 * @protected
 	 */
-	private teams: Array<Team> = [
-		new Team(0, 'my first team', 'MFT'),
-		new Team(1, 'my second team', 'MST'),
-		new Team(2, 'my third team', 'MTT'),
-		new Team(3, 'my fourth team', 'MFTHT')
-	];
+	protected teams: Array<Team> = new Array<Team>();
 
 	/**
 	 * Teams changed event
 	 */
 	public teamsChanged: Subject<Array<Team>> = new Subject<Array<Team>>();
+
+	constructor(private localStorageService: LocalStorageService) {
+		const teamsStringData: string | null = this.localStorageService.getData(
+			LocalStorageConstants.TEAMS_DATA_KEY
+		);
+		if (teamsStringData) {
+			this.teams = <Array<Team>>JSON.parse(teamsStringData);
+		}
+	}
 
 	/**
 	 * Get a team given an id

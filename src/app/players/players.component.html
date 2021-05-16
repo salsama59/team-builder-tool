@@ -74,7 +74,7 @@
 										aria-label="player operations"
 									>
 										<button
-											id="{{ 'view-player-button-id-' + player.playerId }}"
+											id="{{ 'view-player-button-id-' + i }}"
 											type="button"
 											class="btn btn-primary"
 											(click)="onViewPlayerElement(player.playerId)"
@@ -86,7 +86,7 @@
 											/>
 										</button>
 										<button
-											id="{{ 'edit-player-button-id-' + player.playerId }}"
+											id="{{ 'edit-player-button-id-' + i }}"
 											type="button"
 											class="btn btn-warning"
 											(click)="onEditPlayerElement(player.playerId)"
@@ -98,7 +98,7 @@
 											/>
 										</button>
 										<button
-											id="{{ 'delete-player-button-id-' + player.playerId }}"
+											id="{{ 'delete-player-button-id-' + i }}"
 											type="button"
 											class="btn btn-danger"
 											(click)="onDeletePlayerElement(i)"

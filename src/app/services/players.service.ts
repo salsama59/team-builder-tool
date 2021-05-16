@@ -14,7 +14,7 @@ export class PlayersService {
 	/**
 	 * The player list
 	 * @type {Array<Player>}
-	 * @private
+	 * @protected
 	 */
 	protected players: Array<Player> = new Array<Player>();
 
