@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Status } from '../models/status.model';
+import { MockStatusesService } from '../unit-testing/mock-statuses-service';
 
 import { StatusesService } from './statuses.service';
 
@@ -8,7 +9,7 @@ describe('StatusesService', () => {
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({});
-		statusesService = TestBed.inject(StatusesService);
+		statusesService = TestBed.inject(MockStatusesService);
 	});
 
 	it('should be created', () => {

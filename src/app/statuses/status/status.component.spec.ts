@@ -7,6 +7,8 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { StatusesComponent } from '../statuses.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StatusesService } from 'src/app/services/statuses.service';
+import { MockStatusesService } from 'src/app/unit-testing/mock-statuses-service';
 
 describe('StatusComponent', () => {
 	let statusComponent: StatusComponent;
@@ -41,6 +43,10 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
 					}
 				],
 				declarations: [StatusComponent],
@@ -103,6 +109,10 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
 					}
 				],
 				declarations: [StatusComponent],
@@ -151,6 +161,10 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
 					}
 				],
 				declarations: [StatusComponent],
@@ -274,6 +288,10 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
 					}
 				],
 				declarations: [StatusComponent],
@@ -436,6 +454,10 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
 					}
 				],
 				declarations: [StatusComponent],

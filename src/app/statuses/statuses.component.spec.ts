@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { Status } from '../models/status.model';
 import { StatusesService } from '../services/statuses.service';
+import { MockStatusesService } from '../unit-testing/mock-statuses-service';
 
 import { StatusesComponent } from './statuses.component';
 
@@ -40,6 +41,10 @@ describe('StatusesComponent', () => {
 						]),
 						fragment: of('/statuses')
 					}
+				},
+				{
+					provide: StatusesService,
+					useClass: MockStatusesService
 				}
 			],
 			schemas: [CUSTOM_ELEMENTS_SCHEMA]

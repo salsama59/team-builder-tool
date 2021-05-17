@@ -7,7 +7,7 @@ import {
 	Validators
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ValidatorConstants } from 'src/app/constants/validator-constant';
+import { ValidatorConstants } from 'src/app/constants/validator-constants';
 import { PlayerFieldPositionEnum } from 'src/app/enums/player-field-position.enum';
 import { Player } from 'src/app/models/player.model';
 import { Status } from 'src/app/models/status.model';
@@ -437,10 +437,10 @@ export class PlayerComponent implements OnInit {
 	onSubmit(): void {
 		//Map the player object with the form values
 		const playerToEdit: Player = new Player(
-			this.playerForm.value.playerId,
-			this.playerForm.value.playerTeamId,
-			this.playerForm.value.playerStatusId,
-			this.playerForm.value.playerAbilityId,
+			+this.playerForm.value.playerId,
+			+this.playerForm.value.playerTeamId,
+			+this.playerForm.value.playerStatusId,
+			+this.playerForm.value.playerAbilityId,
 			this.playerForm.value.playerFirstName,
 			this.playerForm.value.playerLastName,
 			this.playerForm.value.playerUniformNumber,

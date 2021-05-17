@@ -7,6 +7,12 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { PlayersComponent } from '../players.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PlayersService } from 'src/app/services/players.service';
+import { MockPlayersService } from 'src/app/unit-testing/mock-players-service';
+import { TeamsService } from 'src/app/services/teams.service';
+import { MockTeamsService } from 'src/app/unit-testing/mock-teams-service';
+import { StatusesService } from 'src/app/services/statuses.service';
+import { MockStatusesService } from 'src/app/unit-testing/mock-statuses-service';
 
 describe('PlayerComponent', () => {
 	let playerComponent: PlayerComponent;
@@ -41,6 +47,10 @@ describe('PlayerComponent', () => {
 							]),
 							fragment: of('/players')
 						}
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [PlayerComponent],
@@ -103,6 +113,10 @@ describe('PlayerComponent', () => {
 							]),
 							fragment: of('/players')
 						}
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [PlayerComponent],
@@ -151,6 +165,10 @@ describe('PlayerComponent', () => {
 							]),
 							fragment: of('/players')
 						}
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [PlayerComponent],
@@ -266,6 +284,10 @@ describe('PlayerComponent', () => {
 							]),
 							fragment: of('/players')
 						}
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [PlayerComponent],
@@ -423,6 +445,18 @@ describe('PlayerComponent', () => {
 							]),
 							fragment: of('/players')
 						}
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
+					},
+					{
+						provide: TeamsService,
+						useClass: MockTeamsService
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
 					}
 				],
 				declarations: [PlayerComponent],
@@ -651,6 +685,31 @@ describe('PlayerComponent', () => {
 			);
 			playerComponent.playerForm.removeControl('playerTeamId');
 			playerComponent.onSelectTeam(playerTeamIdInput, 0);
+			expect(true).toBeTruthy();
+		});
+
+		it('should filter the status from the autocomplete list given a status id during create mode', () => {
+			playerComponent.filterStatusList('0');
+			expect(true).toBeTruthy();
+		});
+
+		it('should filter the status from the autocomplete list given a status profile name during create mode', () => {
+			playerComponent.filterStatusList('test');
+			expect(true).toBeTruthy();
+		});
+
+		it('should filter the team from the autocomplete list given a team id during create mode', () => {
+			playerComponent.filterTeamList('0');
+			expect(true).toBeTruthy();
+		});
+
+		it('should filter the team from the autocomplete list given a team full name during create mode', () => {
+			playerComponent.filterTeamList('my first team');
+			expect(true).toBeTruthy();
+		});
+
+		it('should filter the team from the autocomplete list given a team short name during create mode', () => {
+			playerComponent.filterTeamList('MFT');
 			expect(true).toBeTruthy();
 		});
 

@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Team } from '../models/team.model';
+import { MockTeamsService } from '../unit-testing/mock-teams-service';
 
 import { TeamsService } from './teams.service';
 
@@ -8,7 +9,7 @@ describe('TeamsService', () => {
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({});
-		teamsService = TestBed.inject(TeamsService);
+		teamsService = TestBed.inject(MockTeamsService);
 	});
 
 	it('should be created', () => {

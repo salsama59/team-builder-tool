@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { LocalStorageConstants } from '../constants/local-storage-constants';
 import { Status } from '../models/status.model';
+import { LocalStorageService } from '../services/local-storage.service';
 import { StatusesService } from '../services/statuses.service';
 
 /**
@@ -32,21 +34,28 @@ export class StatusesComponent implements OnInit, OnDestroy {
 	 * @param statusesService the statuses service injected
 	 * @param router the router injected
 	 * @param activatedRoute the activated route injected
+	 * @param localStorageService the local storage service injected
 	 */
 	constructor(
 		private statusesService: StatusesService,
 		private router: Router,
-		private activatedRoute: ActivatedRoute
+		private activatedRoute: ActivatedRoute,
+		private localStorageService: LocalStorageService
 	) {}
 
 	/**
 	 * Initialize the status list.
+	 * Subscribe to the statuses modifications and save the datas to the localstorage.
 	 */
 	ngOnInit(): void {
 		this.statuses = this.statusesService.getStatuses();
 		this.statusesChangedSubscription = this.statusesService.statusesChanged.subscribe(
 			(newStatuses) => {
 				this.statuses = newStatuses;
+				this.localStorageService.setData(
+					LocalStorageConstants.STATUSES_DATA_KEY,
+					JSON.stringify(this.statuses)
+				);
 			}
 		);
 	}
