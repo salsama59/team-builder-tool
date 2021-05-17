@@ -9,6 +9,8 @@ import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TeamsComponent } from '../teams.component';
 import { Location } from '@angular/common';
+import { TeamsService } from 'src/app/services/teams.service';
+import { MockTeamsService } from 'src/app/unit-testing/mock-teams-service';
 
 describe('TeamComponent', () => {
 	let teamComponent: TeamComponent;
@@ -43,6 +45,10 @@ describe('TeamComponent', () => {
 							]),
 							fragment: of('/teams')
 						}
+					},
+					{
+						provide: TeamsService,
+						useClass: MockTeamsService
 					}
 				],
 				declarations: [TeamComponent],
@@ -97,6 +103,10 @@ describe('TeamComponent', () => {
 							]),
 							fragment: of('/teams')
 						}
+					},
+					{
+						provide: TeamsService,
+						useClass: MockTeamsService
 					}
 				],
 				declarations: [TeamComponent],
@@ -145,6 +155,10 @@ describe('TeamComponent', () => {
 							]),
 							fragment: of('/teams')
 						}
+					},
+					{
+						provide: TeamsService,
+						useClass: MockTeamsService
 					}
 				],
 				declarations: [TeamComponent],
@@ -217,6 +231,10 @@ describe('TeamComponent', () => {
 					},
 					{
 						provide: Location
+					},
+					{
+						provide: TeamsService,
+						useClass: MockTeamsService
 					}
 				],
 				declarations: [TeamComponent],
@@ -301,6 +319,10 @@ describe('TeamComponent', () => {
 					},
 					{
 						provide: Location
+					},
+					{
+						provide: TeamsService,
+						useClass: MockTeamsService
 					}
 				],
 				declarations: [TeamComponent],

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidatorConstants } from '../constants/validator-constant';
+import { ValidatorConstants } from '../constants/validator-constants';
 
 import { FormValidationService } from './form-validation.service';
 

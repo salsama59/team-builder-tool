@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { LocalStorageConstants } from '../constants/local-storage-constants';
 import { Status } from '../models/status.model';
+import { LocalStorageService } from './local-storage.service';
 
 /**
  * This class represent the statuses service providing various operation over the status resource.
@@ -12,16 +14,23 @@ export class StatusesService {
 	/**
 	 * The status list.
 	 * @type {Array<Status>}
-	 * @private
+	 * @protected
 	 */
-	private statuses: Array<Status> = [
-		new Status(0, 0, 'test', 10, 27, 60.5, 70.5, 45, 5, 50, 78, 15)
-	];
+	protected statuses: Array<Status> = new Array<Status>();
 
 	/**
 	 * Statuses changed event
 	 */
 	public statusesChanged: Subject<Array<Status>> = new Subject<Array<Status>>();
+
+	constructor(private localStorageService: LocalStorageService) {
+		const statusesStringData: string | null = this.localStorageService.getData(
+			LocalStorageConstants.STATUSES_DATA_KEY
+		);
+		if (statusesStringData) {
+			this.statuses = <Array<Status>>JSON.parse(statusesStringData);
+		}
+	}
 
 	/**
 	 * Get a status given an id
