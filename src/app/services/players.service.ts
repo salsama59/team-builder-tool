@@ -18,6 +18,11 @@ export class PlayersService {
 	 */
 	protected players: Array<Player> = new Array<Player>();
 
+	/**
+	 * Creates an instance of players service.
+	 * Try to get the player list from the local storage, if there is datas updates the player list.
+	 * @param localStorageService the local storage service
+	 */
 	constructor(private localStorageService: LocalStorageService) {
 		const playersStringData: string | null = this.localStorageService.getData(
 			LocalStorageConstants.PLAYERS_DATA_KEY

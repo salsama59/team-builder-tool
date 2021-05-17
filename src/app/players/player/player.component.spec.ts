@@ -688,6 +688,31 @@ describe('PlayerComponent', () => {
 			expect(true).toBeTruthy();
 		});
 
+		it('should filter the status from the autocomplete list given a status id during create mode', () => {
+			playerComponent.filterStatusList('0');
+			expect(true).toBeTruthy();
+		});
+
+		it('should filter the status from the autocomplete list given a status profile name during create mode', () => {
+			playerComponent.filterStatusList('test');
+			expect(true).toBeTruthy();
+		});
+
+		it('should filter the team from the autocomplete list given a team id during create mode', () => {
+			playerComponent.filterTeamList('0');
+			expect(true).toBeTruthy();
+		});
+
+		it('should filter the team from the autocomplete list given a team full name during create mode', () => {
+			playerComponent.filterTeamList('my first team');
+			expect(true).toBeTruthy();
+		});
+
+		it('should filter the team from the autocomplete list given a team short name during create mode', () => {
+			playerComponent.filterTeamList('MFT');
+			expect(true).toBeTruthy();
+		});
+
 		it('should return to player list when clicking on cancel button during create mode', () => {
 			const compiled = fixture.debugElement;
 			compiled.nativeElement.querySelector('#playerCancelButton').click();

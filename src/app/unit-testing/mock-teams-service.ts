@@ -3,6 +3,9 @@ import { Team } from '../models/team.model';
 import { LocalStorageService } from '../services/local-storage.service';
 import { TeamsService } from '../services/teams.service';
 
+/**
+ * The mock teams service for unit tests purpose.
+ */
 @Injectable({
 	providedIn: 'root'
 })
@@ -19,6 +22,10 @@ export class MockTeamsService extends TeamsService {
 		new Team(3, 'my fourth team', 'MFTHT')
 	];
 
+	/**
+	 * Creates an instance of mock teams service.
+	 * @param localStorageService the local storage service.
+	 */
 	constructor(localStorageService: LocalStorageService) {
 		super(localStorageService);
 	}

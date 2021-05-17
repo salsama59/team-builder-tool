@@ -1,3 +1,6 @@
+/**
+ * Local storage keys constants
+ */
 export class LocalStorageConstants {
 	/**
 	 * Contains the players data key for the local storage

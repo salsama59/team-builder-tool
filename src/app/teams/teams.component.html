@@ -47,7 +47,7 @@
 										aria-label="Team operations"
 									>
 										<button
-											id="{{ 'view-team-button-id-' + team.teamId }}"
+											id="{{ 'view-team-button-id-' + i }}"
 											type="button"
 											class="btn btn-primary"
 											(click)="onViewTeamElement(team.teamId)"
@@ -59,7 +59,7 @@
 											/>
 										</button>
 										<button
-											id="{{ 'edit-team-button-id-' + team.teamId }}"
+											id="{{ 'edit-team-button-id-' + i }}"
 											type="button"
 											class="btn btn-warning"
 											(click)="onEditTeamElement(team.teamId)"
@@ -71,7 +71,7 @@
 											/>
 										</button>
 										<button
-											id="{{ 'delete-team-button-id-' + team.teamId }}"
+											id="{{ 'delete-team-button-id-' + i }}"
 											type="button"
 											class="btn btn-danger"
 											(click)="onDeleteTeamElement(i)"

@@ -23,6 +23,11 @@ export class TeamsService {
 	 */
 	public teamsChanged: Subject<Array<Team>> = new Subject<Array<Team>>();
 
+	/**
+	 * Creates an instance of teams service.
+	 * Try to get the team list from the local storage, if there is datas updates the team list.
+	 * @param localStorageService the local storage service
+	 */
 	constructor(private localStorageService: LocalStorageService) {
 		const teamsStringData: string | null = this.localStorageService.getData(
 			LocalStorageConstants.TEAMS_DATA_KEY
