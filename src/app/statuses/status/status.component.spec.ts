@@ -390,6 +390,11 @@ describe('StatusComponent', () => {
 			expect(true).toBeTruthy();
 		});
 
+		it('should filter the player list on player id field keyup event if there is a player id during edit mode', () => {
+			statusComponent.onPlayerIdFieldKeyup('0');
+			expect(true).toBeTruthy();
+		});
+
 		it('should not filter the player list on player id field keyup event if there is no value during edit mode', () => {
 			statusComponent.onPlayerIdFieldKeyup('');
 			expect(true).toBeTruthy();
