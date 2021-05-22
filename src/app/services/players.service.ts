@@ -19,6 +19,11 @@ export class PlayersService {
 	protected players: Array<Player> = new Array<Player>();
 
 	/**
+	 * Player id sequence of players service
+	 */
+	private playerIdSequence: number = -1;
+
+	/**
 	 * Creates an instance of players service.
 	 * Try to get the player list from the local storage, if there is datas updates the player list.
 	 * @param localStorageService the local storage service
@@ -29,6 +34,16 @@ export class PlayersService {
 		);
 		if (playersStringData) {
 			this.players = <Array<Player>>JSON.parse(playersStringData);
+		}
+
+		const currentSequenceNumber:
+			| string
+			| null = this.localStorageService.getData(
+			LocalStorageConstants.PLAYER_ID_SEQUENCE_KEY
+		);
+
+		if (currentSequenceNumber) {
+			this.playerIdSequence = +currentSequenceNumber;
 		}
 	}
 
@@ -62,10 +77,11 @@ export class PlayersService {
 	 * @param playerToAdd the player element to add
 	 */
 	addPlayer(playerToAdd: Player): void {
-		const nextPlayerId = this.players.length;
+		const nextPlayerId = this.getNextPlayerIdSequence();
 		playerToAdd.playerId = nextPlayerId;
 		this.players.push(playerToAdd);
 		this.playersChanged.next(this.getPlayers());
+		this.setPlayerIdSequence(nextPlayerId);
 	}
 
 	/**
@@ -86,5 +102,25 @@ export class PlayersService {
 	deletePlayerById(playerIdToDelete: number): void {
 		this.players.splice(playerIdToDelete, 1);
 		this.playersChanged.next(this.getPlayers());
+	}
+
+	/**
+	 * Gets next player id sequence
+	 * @returns next player id sequence
+	 */
+	private getNextPlayerIdSequence(): number {
+		return this.playerIdSequence + 1;
+	}
+
+	/**
+	 * Sets the player id sequence
+	 * @param newSequenceValue the new sequence value to set
+	 */
+	private setPlayerIdSequence(newSequenceValue: number): void {
+		this.playerIdSequence = newSequenceValue;
+		this.localStorageService.setData(
+			LocalStorageConstants.PLAYER_ID_SEQUENCE_KEY,
+			newSequenceValue.toString()
+		);
 	}
 }
