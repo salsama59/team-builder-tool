@@ -24,6 +24,11 @@ export class StatusesService {
 	public statusesChanged: Subject<Array<Status>> = new Subject<Array<Status>>();
 
 	/**
+	 * Status id sequence of statuses service
+	 */
+	private statusIdSequence: number = -1;
+
+	/**
 	 * Creates an instance of statuses service.
 	 * Try to get the status list from the local storage, if there is datas updates the status list.
 	 * @param localStorageService the local storage service
@@ -34,6 +39,16 @@ export class StatusesService {
 		);
 		if (statusesStringData) {
 			this.statuses = <Array<Status>>JSON.parse(statusesStringData);
+		}
+
+		const currentSequenceNumber:
+			| string
+			| null = this.localStorageService.getData(
+			LocalStorageConstants.STATUS_ID_SEQUENCE_KEY
+		);
+
+		if (currentSequenceNumber) {
+			this.statusIdSequence = +currentSequenceNumber;
 		}
 	}
 
@@ -62,10 +77,11 @@ export class StatusesService {
 	 * @param statusToAdd  the status element to add
 	 */
 	addStatus(statusToAdd: Status): void {
-		const nextStatusId = this.statuses.length;
+		const nextStatusId = this.getNextStatusIdSequence();
 		statusToAdd.statusId = nextStatusId;
 		this.statuses.push(statusToAdd);
 		this.statusesChanged.next(this.getStatuses());
+		this.setStatusIdSequence(nextStatusId);
 	}
 
 	/**
@@ -86,5 +102,25 @@ export class StatusesService {
 	deleteStatusById(statusIdToDelete: number): void {
 		this.statuses.splice(statusIdToDelete, 1);
 		this.statusesChanged.next(this.getStatuses());
+	}
+
+	/**
+	 * Gets next status id sequence
+	 * @returns next status id sequence
+	 */
+	private getNextStatusIdSequence(): number {
+		return this.statusIdSequence + 1;
+	}
+
+	/**
+	 * Sets the status id sequence
+	 * @param newSequenceValue the new sequence value to set
+	 */
+	private setStatusIdSequence(newSequenceValue: number): void {
+		this.statusIdSequence = newSequenceValue;
+		this.localStorageService.setData(
+			LocalStorageConstants.STATUS_ID_SEQUENCE_KEY,
+			newSequenceValue.toString()
+		);
 	}
 }
