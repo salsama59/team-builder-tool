@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { ModelsExporterComponent } from './models-exporter/models-exporter.component';
 import { PlayerComponent } from './players/player/player.component';
 import { PlayersComponent } from './players/players.component';
 import { StatusComponent } from './statuses/status/status.component';
@@ -41,6 +42,10 @@ const appRoutes: Routes = [
 			{ path: ':statusId/:mode', component: StatusComponent },
 			{ path: ':mode', component: StatusComponent }
 		]
+	},
+	{
+		path: 'export',
+		component: ModelsExporterComponent
 	}
 ];
 

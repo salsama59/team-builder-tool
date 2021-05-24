@@ -54,6 +54,13 @@ describe('HeaderComponent', () => {
 		);
 	});
 
+	it('should render exports tab link', () => {
+		const compiled = fixture.nativeElement;
+		expect(compiled.querySelector('a#exportsTabLink').textContent).toContain(
+			'Exports'
+		);
+	});
+
 	it('should render the app title in the nav bar', () => {
 		const compiled = fixture.nativeElement;
 		expect(

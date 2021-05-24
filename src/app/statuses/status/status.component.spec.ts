@@ -9,6 +9,8 @@ import { StatusesComponent } from '../statuses.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StatusesService } from 'src/app/services/statuses.service';
 import { MockStatusesService } from 'src/app/unit-testing/mock-statuses-service';
+import { PlayersService } from 'src/app/services/players.service';
+import { MockPlayersService } from 'src/app/unit-testing/mock-players-service';
 
 describe('StatusComponent', () => {
 	let statusComponent: StatusComponent;
@@ -47,6 +49,10 @@ describe('StatusComponent', () => {
 					{
 						provide: StatusesService,
 						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],
@@ -113,6 +119,10 @@ describe('StatusComponent', () => {
 					{
 						provide: StatusesService,
 						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],
@@ -165,6 +175,10 @@ describe('StatusComponent', () => {
 					{
 						provide: StatusesService,
 						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],
@@ -292,6 +306,10 @@ describe('StatusComponent', () => {
 					{
 						provide: StatusesService,
 						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],
@@ -463,6 +481,10 @@ describe('StatusComponent', () => {
 					{
 						provide: StatusesService,
 						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],

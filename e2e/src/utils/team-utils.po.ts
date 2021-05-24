@@ -35,5 +35,7 @@ export class TeamUtilsPageObject {
 		await EndToEndTestUtils.clickOnPageElement(
 			page.getTeamElementFormSubmitButton()
 		);
+
+		await EndToEndTestUtils.scrollToElement(page.getTeamElementCreateButton());
 	}
 }
