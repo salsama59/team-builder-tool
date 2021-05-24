@@ -1,0 +1,19 @@
+<div class="container">
+	<div id="modelExporter" class="card">
+		<h5 class="card-header">Model exporter</h5>
+		<div class="card-body">
+			<p class="card-text">Export datas for the teams, players and statuses.</p>
+			<a
+				id="ExportButton"
+				[href]="jsonUri"
+				download="model-exporter.json"
+				class="btn btn-success"
+				>Export the models</a
+			>
+			<h6 class="card-title mt-3">Export preview :</h6>
+			<pre class="d-flex justify-content-start align-contents-center mt-3">
+                    <code id="exportableData">{{exportableJson}}</code>
+                </pre>
+		</div>
+	</div>
+</div>

@@ -16,6 +16,7 @@ import { StatusesComponent } from './statuses/statuses.component';
 import { StatusesService } from './services/statuses.service';
 import { StatusComponent } from './statuses/status/status.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModelsExporterComponent } from './models-exporter/models-exporter.component';
 
 /**
  * This class represent the application module
@@ -31,7 +32,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 		PlayersComponent,
 		PlayerComponent,
 		StatusesComponent,
-		StatusComponent
+		StatusComponent,
+		ModelsExporterComponent
 	],
 	imports: [BrowserModule, ReactiveFormsModule, AppRoutingModule],
 	providers: [TeamsService, PlayersService, StatusesService],
