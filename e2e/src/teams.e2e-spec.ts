@@ -9,7 +9,7 @@ describe('Team builder teams section', () => {
 	const createdTeam: Team = new Team(0, 'The grand slam', 'TGS');
 	beforeEach(async () => {
 		page = new AppPage();
-		void browser.driver.manage().window().maximize();
+		await browser.driver.manage().window().maximize();
 		await page.navigateTo();
 		await TeamUtilsPageObject.createTeam(page, createdTeam);
 	});

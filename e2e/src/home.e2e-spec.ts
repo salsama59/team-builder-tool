@@ -40,7 +40,7 @@ describe('Team builder home section', () => {
 
 	beforeEach(async () => {
 		page = new AppPage();
-		void browser.driver.manage().window().maximize();
+		await browser.driver.manage().window().maximize();
 		await page.navigateTo();
 		await TeamUtilsPageObject.createTeam(page, createdTeam);
 		await StatusUtilsPageObject.createStatus(page, createdStatus);
