@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { LocalStorageConstants } from '../constants/local-storage-constants';
 import { Team } from '../models/team.model';
+import { LocalStorageService } from './local-storage.service';
 
 /**
  * This class represent the teams service providing various operation over the team resource.
@@ -12,19 +14,43 @@ export class TeamsService {
 	/**
 	 * The team list.
 	 * @type {Array<Team>}
-	 * @private
+	 * @protected
 	 */
-	private teams: Array<Team> = [
-		new Team(0, 'my first team', 'MFT'),
-		new Team(1, 'my second team', 'MST'),
-		new Team(2, 'my third team', 'MTT'),
-		new Team(3, 'my fourth team', 'MFTHT')
-	];
+	protected teams: Array<Team> = new Array<Team>();
 
 	/**
 	 * Teams changed event
 	 */
 	public teamsChanged: Subject<Array<Team>> = new Subject<Array<Team>>();
+
+	/**
+	 * Team id sequence of teams service
+	 */
+	private teamIdSequence: number = -1;
+
+	/**
+	 * Creates an instance of teams service.
+	 * Try to get the team list from the local storage, if there is datas updates the team list.
+	 * @param localStorageService the local storage service
+	 */
+	constructor(private localStorageService: LocalStorageService) {
+		const teamsStringData: string | null = this.localStorageService.getData(
+			LocalStorageConstants.TEAMS_DATA_KEY
+		);
+		if (teamsStringData) {
+			this.teams = <Array<Team>>JSON.parse(teamsStringData);
+		}
+
+		const currentSequenceNumber:
+			| string
+			| null = this.localStorageService.getData(
+			LocalStorageConstants.TEAM_ID_SEQUENCE_KEY
+		);
+
+		if (currentSequenceNumber) {
+			this.teamIdSequence = +currentSequenceNumber;
+		}
+	}
 
 	/**
 	 * Get a team given an id
@@ -51,10 +77,11 @@ export class TeamsService {
 	 * @param teamToAdd the team element to add
 	 */
 	addTeam(teamToAdd: Team): void {
-		const nextTeamId = this.teams.length;
+		const nextTeamId: number = this.getNextTeamIdSequence();
 		teamToAdd.teamId = nextTeamId;
 		this.teams.push(teamToAdd);
 		this.teamsChanged.next(this.getTeams());
+		this.setTeamIdSequence(nextTeamId);
 	}
 
 	/**
@@ -75,5 +102,25 @@ export class TeamsService {
 	deleteTeamById(teamIdToDelete: number): void {
 		this.teams.splice(teamIdToDelete, 1);
 		this.teamsChanged.next(this.getTeams());
+	}
+
+	/**
+	 * Gets next team id sequence
+	 * @returns next team id sequence
+	 */
+	private getNextTeamIdSequence(): number {
+		return this.teamIdSequence + 1;
+	}
+
+	/**
+	 * Sets the team id sequence
+	 * @param newSequenceValue the new sequence value to set
+	 */
+	private setTeamIdSequence(newSequenceValue: number): void {
+		this.teamIdSequence = newSequenceValue;
+		this.localStorageService.setData(
+			LocalStorageConstants.TEAM_ID_SEQUENCE_KEY,
+			newSequenceValue.toString()
+		);
 	}
 }

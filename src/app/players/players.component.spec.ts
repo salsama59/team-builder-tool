@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { PlayerFieldPositionEnum } from '../enums/player-field-position.enum';
 import { Player } from '../models/player.model';
 import { PlayersService } from '../services/players.service';
+import { MockPlayersService } from '../unit-testing/mock-players-service';
 import { PlayerComponent } from './player/player.component';
 
 import { PlayersComponent } from './players.component';
@@ -43,6 +44,10 @@ describe('PlayersComponent', () => {
 						]),
 						fragment: of('/players')
 					}
+				},
+				{
+					provide: PlayersService,
+					useClass: MockPlayersService
 				}
 			],
 			schemas: [CUSTOM_ELEMENTS_SCHEMA]

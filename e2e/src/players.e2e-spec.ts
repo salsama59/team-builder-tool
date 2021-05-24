@@ -1,19 +1,56 @@
-import { browser, by, logging } from 'protractor';
+import { browser, by, ElementArrayFinder, logging } from 'protractor';
+import { Team } from '../../src/app/models/team.model';
+import { PlayerFieldPositionEnum } from '../../src/app/enums/player-field-position.enum';
+import { Player } from '../../src/app/models/player.model';
 import { AppPage } from './utils/app.po';
 import { EndToEndTestUtils } from './utils/end-to-end-test-utils.po';
+import { PlayerUtilsPageObject } from './utils/player-utils.po';
+import { TeamUtilsPageObject } from './utils/team-utils.po';
+import { StatusUtilsPageObject } from './utils/status-utils.po';
+import { Status } from '../../src/app/models/status.model';
 
 describe('Team builder players section', () => {
 	let page: AppPage;
-
-	beforeEach(() => {
+	const createdPlayer: Player = new Player(
+		0,
+		0,
+		0,
+		0,
+		'Joe',
+		'Stanford',
+		'00',
+		PlayerFieldPositionEnum.CENTER_FIELDER,
+		PlayerFieldPositionEnum.CENTER_FIELDER
+	);
+	const createdTeam: Team = new Team(0, 'The grand slam', 'TGS');
+	const createdStatus: Status = new Status(
+		0,
+		0,
+		'test',
+		10,
+		27,
+		60.5,
+		70.5,
+		45,
+		5,
+		50,
+		78,
+		15
+	);
+	beforeEach(async () => {
 		page = new AppPage();
-		void browser.driver.manage().window().maximize();
+		await browser.driver.manage().window().maximize();
+		await page.navigateTo();
+		await TeamUtilsPageObject.createTeam(page, createdTeam);
+		await StatusUtilsPageObject.createStatus(page, createdStatus);
+		await PlayerUtilsPageObject.createPlayer(page, createdPlayer);
 	});
 
 	it('should display the player list when the players tab is clicked', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
 		expect(
 			await EndToEndTestUtils.isElementHasClass(
 				page.getHeaderPlayersTabElement(),
@@ -23,29 +60,43 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display the selected player element with read only fields when the view button is clicked', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
-
-		expect(await page.getPlayerElementFormPlayerIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerAbilityIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerFirstNameField().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementViewButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(await page.getPlayerElementFormPlayerIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerAbilityIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerFieldPositionField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page
 				.getPlayerElementFormDefaultPlayerFieldPositionField()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await page.getPlayerElementFormPlayerIdField().isEnabled()
@@ -125,39 +176,66 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display the selected player element with open fields when the edit button is clicked', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerIdField().isPresent()
 		).toBeFalsy();
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerAbilityIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerFirstNameField().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerAbilityIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerFieldPositionField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page
 				.getPlayerElementFormDefaultPlayerFieldPositionField()
 				.isPresent()
+		).toBe(true);
+
+		expect(await page.getPlayerElementFormSubmitButton().isPresent()).toBe(
+			true
+		);
+		expect(await page.getPlayerElementFormSubmitButton().isEnabled()).toBe(
+			true
 		);
 
-		expect(await page.getPlayerElementFormSubmitButton().isPresent());
-		expect(await page.getPlayerElementFormSubmitButton().isEnabled());
-
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerAbilityIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerFirstNameField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isEnabled());
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isEnabled()).toBe(
+			true
+		);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerAbilityIdField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isEnabled()
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isEnabled()
 		);
@@ -213,39 +291,66 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the required fields are empty in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerIdField().isPresent()
 		).toBeFalsy();
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerAbilityIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerFirstNameField().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerAbilityIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerFieldPositionField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page
 				.getPlayerElementFormDefaultPlayerFieldPositionField()
 				.isPresent()
+		).toBe(true);
+
+		expect(await page.getPlayerElementFormSubmitButton().isPresent()).toBe(
+			true
+		);
+		expect(await page.getPlayerElementFormSubmitButton().isEnabled()).toBe(
+			true
 		);
 
-		expect(await page.getPlayerElementFormSubmitButton().isPresent());
-		expect(await page.getPlayerElementFormSubmitButton().isEnabled());
-
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerAbilityIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerFirstNameField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isEnabled());
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isEnabled()).toBe(
+			true
+		);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerAbilityIdField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isEnabled()
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isEnabled()
 		);
@@ -268,13 +373,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerTeamIdRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -292,13 +397,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerStatusIdRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -316,13 +421,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerAbilityIdRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -340,7 +445,7 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormPlayerAbilityIdField()
 		);
 
@@ -348,7 +453,7 @@ describe('Team builder players section', () => {
 			await page
 				.getPlayerElementFormPlayerFirstNameRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -366,13 +471,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerLastNameRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -390,13 +495,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -413,12 +518,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player team id field value do not exist amids the teams in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent()).toBe(
+			true
+		);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1000',
@@ -431,13 +541,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('1000');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerTeamIdPlayerTeamIdNotExistsErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -454,12 +564,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player status id field value do not exist amids the statuses in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isPresent()
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1000',
@@ -472,13 +587,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('1000');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerStatusIdPlayerStatusIdNotExistsErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -495,14 +610,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player uniform number field value length is less than 2 in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1',
@@ -515,13 +633,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('1');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberMinLengthErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -540,14 +658,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player uniform number field value length is greater than 3 in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1234',
@@ -560,13 +681,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('1234');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberMaxLengthErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -583,14 +704,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player uniform number field value do not respect the /^[0-9]+$/ pattern in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'aaa',
@@ -603,13 +727,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('aaa');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberPatternErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -628,14 +752,31 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player uniform number field value must be unique within his team in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await PlayerUtilsPageObject.createPlayer(
+			page,
+			new Player(
+				23,
+				0,
+				0,
+				0,
+				'Jack',
+				'Nabot',
+				'01',
+				PlayerFieldPositionEnum.FIRST_BASEMAN,
+				PlayerFieldPositionEnum.SECOND_BASEMAN
+			)
+		);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'01',
@@ -648,13 +789,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('01');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberUniqueErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -671,12 +812,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should save the form values when the save button is clicked in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1',
@@ -689,20 +835,24 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('Stanford1');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page.getPlayerElementFormSubmitButton().isEnabled()
 		).toBeTruthy();
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormSubmitButton()
 		);
 
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementViewButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
@@ -712,12 +862,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should cancel the form values edition when the cancel button is clicked in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementEditButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementEditButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1',
@@ -730,20 +885,24 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('Stanford1');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page.getPlayerElementFormCancelButton().isEnabled()
 		).toBeTruthy();
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormCancelButton()
 		);
 
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewButton(0));
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementViewButton(0)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
@@ -753,39 +912,64 @@ describe('Team builder players section', () => {
 	});
 
 	it('should create new player when the save button is clicked in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		expect(await page.getPlayerElementCreateButton().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementCreateButton());
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerAbilityIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerFirstNameField().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		expect(await page.getPlayerElementCreateButton().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementCreateButton()
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerAbilityIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerFieldPositionField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page
 				.getPlayerElementFormDefaultPlayerFieldPositionField()
 				.isPresent()
-		);
+		).toBe(true);
 
-		expect(await page.getPlayerElementFormSubmitButton().isPresent());
+		expect(await page.getPlayerElementFormSubmitButton().isPresent()).toBe(
+			true
+		);
 		expect(
 			await page.getPlayerElementFormSubmitButton().isEnabled()
 		).toBeFalsy();
 
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerAbilityIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerFirstNameField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isEnabled());
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isEnabled()).toBe(
+			true
+		);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerAbilityIdField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isEnabled()
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isEnabled()
 		);
@@ -799,7 +983,7 @@ describe('Team builder players section', () => {
 		);
 
 		EndToEndTestUtils.inputTextInFieldElement(
-			'1',
+			'0',
 			page.getPlayerElementFormPlayerTeamIdField(),
 			true
 		);
@@ -807,12 +991,12 @@ describe('Team builder players section', () => {
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getPlayerElementFormPlayerTeamIdField()
 			)
-		).toEqual('1');
+		).toEqual('0');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		EndToEndTestUtils.inputTextInFieldElement(
-			'1',
+			'0',
 			page.getPlayerElementFormPlayerStatusIdField(),
 			true
 		);
@@ -820,12 +1004,12 @@ describe('Team builder players section', () => {
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getPlayerElementFormPlayerStatusIdField()
 			)
-		).toEqual('1');
+		).toEqual('0');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		EndToEndTestUtils.inputTextInFieldElement(
-			'1',
+			'0',
 			page.getPlayerElementFormPlayerAbilityIdField(),
 			true
 		);
@@ -833,9 +1017,9 @@ describe('Team builder players section', () => {
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getPlayerElementFormPlayerAbilityIdField()
 			)
-		).toEqual('1');
+		).toEqual('0');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'first name',
@@ -848,7 +1032,7 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('first name');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'last name',
@@ -861,7 +1045,7 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('last name');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'007',
@@ -874,66 +1058,69 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('007');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormPlayerFieldPositionField()
 		);
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormPlayerFieldPositionListElement(0)
 		);
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormDefaultPlayerFieldPositionField()
 		);
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormDefaultPlayerFieldPositionListElement(0)
 		);
 
-		expect(await page.getPlayerElementFormSubmitButton().isEnabled());
+		expect(await page.getPlayerElementFormSubmitButton().isEnabled()).toBe(
+			true
+		);
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormSubmitButton()
 		);
 
-		expect(await page.getPlayerListElement().isPresent());
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
 
-		const playerElementList = page.getPlayerListElement().all(by.css('li'));
+		const playerElementList: ElementArrayFinder = page
+			.getPlayerListElement()
+			.all(by.css('li'));
 
-		void playerElementList
-			.count()
-			.then(async (count: number) => {
-				EndToEndTestUtils.clickOnPageElement(
-					page.getPlayerElementViewButton(count)
-				);
-				expect(await page.getPlayerElementViewForm().isPresent());
-				expect(
-					await page.getPlayerElementFormPlayerFirstNameField().isPresent()
-				);
-				expect(
-					await page.getPlayerElementFormPlayerFieldPositionField().isPresent()
-				);
+		const playerElementListCount: number = await playerElementList.count();
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementViewButton(playerElementListCount - 1)
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFieldPositionField().isPresent()
+		).toBe(true);
 
-				expect(
-					await EndToEndTestUtils.getElementValueAttribute(
-						page.getPlayerElementFormPlayerFirstNameField()
-					)
-				).toEqual('first name');
-			})
-			.catch((result) => {
-				expect(result).toBeTruthy();
-			});
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getPlayerElementFormPlayerFirstNameField()
+			)
+		).toEqual('first name');
 	});
 
 	it('should cancel the player creation when the cancel button is clicked in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementCreateButton());
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementCreateButton()
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'test1',
@@ -946,55 +1133,80 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('test1');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page.getPlayerElementFormCancelButton().isEnabled()
 		).toBeTruthy();
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormCancelButton()
 		);
 
-		expect(await page.getPlayerListElement().isPresent());
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
 	});
 
 	it('should display error text when the required fields are empty in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementCreateButton());
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementCreateButton()
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerIdField().isPresent()
 		).toBeFalsy();
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerAbilityIdField().isPresent());
-		expect(await page.getPlayerElementFormPlayerFirstNameField().isPresent());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isPresent());
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerAbilityIdField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isPresent()
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerFieldPositionField().isPresent()
-		);
+		).toBe(true);
 		expect(
 			await page
 				.getPlayerElementFormDefaultPlayerFieldPositionField()
 				.isPresent()
-		);
+		).toBe(true);
 
-		expect(await page.getPlayerElementFormSubmitButton().isPresent());
+		expect(await page.getPlayerElementFormSubmitButton().isPresent()).toBe(
+			true
+		);
 		expect(
 			await page.getPlayerElementFormSubmitButton().isEnabled()
 		).toBeFalsy();
 
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerAbilityIdField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerFirstNameField().isEnabled());
-		expect(await page.getPlayerElementFormPlayerLastNameField().isEnabled());
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isEnabled()).toBe(
+			true
+		);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerAbilityIdField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerFirstNameField().isEnabled()
+		).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerLastNameField().isEnabled()
+		).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isEnabled()
 		);
@@ -1017,13 +1229,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerTeamIdRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1041,13 +1253,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerStatusIdRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1065,13 +1277,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerAbilityIdRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1089,7 +1301,7 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormPlayerAbilityIdField()
 		);
 
@@ -1097,7 +1309,7 @@ describe('Team builder players section', () => {
 			await page
 				.getPlayerElementFormPlayerFirstNameRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1115,13 +1327,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerLastNameRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1139,13 +1351,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberRequiredErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1162,12 +1374,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player team id field value do not exist amids the teams in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementCreateButton());
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementCreateButton()
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent()).toBe(
+			true
+		);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1000',
@@ -1180,13 +1397,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('1000');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerTeamIdPlayerTeamIdNotExistsErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1203,12 +1420,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player status id field value do not exist amids the statuses in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementCreateButton());
-		expect(await page.getPlayerElementViewForm().isPresent());
-		expect(await page.getPlayerElementFormPlayerStatusIdField().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementCreateButton()
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+		expect(
+			await page.getPlayerElementFormPlayerStatusIdField().isPresent()
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1000',
@@ -1221,13 +1443,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('1000');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerStatusIdPlayerStatusIdNotExistsErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1244,14 +1466,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player uniform number field value length is less than 2 in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementCreateButton());
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementCreateButton()
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1',
@@ -1264,13 +1489,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('1');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberMinLengthErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1289,14 +1514,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player uniform number field value length is greater than 3 in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementCreateButton());
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementCreateButton()
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'1234',
@@ -1309,13 +1537,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('1234');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberMaxLengthErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1332,14 +1560,17 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player uniform number field value do not respect the /^[0-9]+$/ pattern in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementCreateButton());
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementCreateButton()
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'aaa',
@@ -1352,13 +1583,13 @@ describe('Team builder players section', () => {
 			)
 		).toEqual('aaa');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberPatternErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1377,30 +1608,58 @@ describe('Team builder players section', () => {
 	});
 
 	it('should display error text when the player uniform number field value must be unique within his team in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementCreateButton());
-		expect(await page.getPlayerElementViewForm().isPresent());
+		await PlayerUtilsPageObject.createPlayer(
+			page,
+			new Player(
+				50,
+				0,
+				0,
+				0,
+				'John',
+				'VERGUN',
+				'00',
+				PlayerFieldPositionEnum.LEFT_FIELDER,
+				PlayerFieldPositionEnum.SHORT_STOP
+			)
+		);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		expect(await page.getPlayerElementCreateButton().isPresent()).toBe(true);
+		await EndToEndTestUtils.scrollToElement(
+			page.getPlayerElementCreateButton()
+		);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementCreateButton()
+		);
+		expect(await page.getPlayerElementViewForm().isPresent()).toBe(true);
+
+		expect(await page.getPlayerElementFormPlayerTeamIdField().isPresent()).toBe(
+			true
+		);
 		expect(
 			await page.getPlayerElementFormPlayerUniformNumberField().isPresent()
-		);
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'0',
 			page.getPlayerElementFormPlayerTeamIdField(),
 			true
 		);
+
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getPlayerElementFormPlayerTeamIdField()
 			)
 		).toEqual('0');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 
 		EndToEndTestUtils.inputTextInFieldElement(
-			'01',
+			'00',
 			page.getPlayerElementFormPlayerUniformNumberField(),
 			true
 		);
@@ -1408,14 +1667,14 @@ describe('Team builder players section', () => {
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getPlayerElementFormPlayerUniformNumberField()
 			)
-		).toEqual('01');
+		).toEqual('00');
 
-		EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getPlayerElementViewForm());
 		expect(
 			await page
 				.getPlayerElementFormPlayerUniformNumberUniqueErrorMessageBloc()
 				.isPresent()
-		);
+		).toBe(true);
 
 		expect(
 			await EndToEndTestUtils.getElementContentText(
@@ -1432,38 +1691,30 @@ describe('Team builder players section', () => {
 	});
 
 	it('should delete the selected player element when the delete button is clicked', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderPlayersTabElement());
-		expect(await page.getPlayerListElement().isPresent());
-		const initialPlayerElementList = page
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderPlayersTabElement()
+		);
+		expect(await page.getPlayerListElement().isPresent()).toBe(true);
+		const initialPlayerElementList: ElementArrayFinder = page
 			.getPlayerListElement()
 			.all(by.css('li'));
 
-		void initialPlayerElementList
-			.count()
-			.then((initialCount: number) => {
-				EndToEndTestUtils.clickOnPageElement(
-					page.getPlayerElementDeleteButton(0)
-				);
-				const currentPlayerElementList = page
-					.getPlayerListElement()
-					.all(by.css('li'));
-				void currentPlayerElementList
-					.count()
-					.then((currentCount: number) => {
-						expect(currentCount).toBeLessThan(initialCount);
-					})
-					.catch(() => {
-						return false;
-					});
-			})
-			.catch(() => {
-				return false;
-			});
+		const initialPlayerElementListCount: number = await initialPlayerElementList.count();
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getPlayerElementDeleteButton(0)
+		);
+		const currentPlayerElementList: ElementArrayFinder = page
+			.getPlayerListElement()
+			.all(by.css('li'));
+		const currentPlayerElementListCount: number = await currentPlayerElementList.count();
+		expect(currentPlayerElementListCount).toBeLessThan(
+			initialPlayerElementListCount
+		);
 	});
 
 	afterEach(async () => {
 		// Assert that there are no errors emitted from the browser
+		void EndToEndTestUtils.clearLocalStorage();
 		const logs = await browser.manage().logs().get(logging.Type.BROWSER);
 		expect(logs).not.toContain(
 			jasmine.objectContaining({

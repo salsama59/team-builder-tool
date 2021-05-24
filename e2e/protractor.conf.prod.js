@@ -3,6 +3,8 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const { SpecReporter, StacktraceOption } = require("jasmine-spec-reporter");
+var path = require("path");
+var downloadsPath = path.resolve(__dirname, "./e2e_tests/download");
 
 /**
  * @type { import("protractor").Config }
@@ -13,8 +15,16 @@ exports.config = {
 	capabilities: {
 		browserName: "chrome",
 		chromeOptions: {
-			// binary: process.env.CHROME_BIN,
-			args: ["--headless", "--no-sandbox", "--window-size=1400x800"]
+			args: ["--headless", "--no-sandbox", "--window-size=1400x800"],
+			// Set download path and avoid prompting for download even though
+			// this is already the default on Chrome but for completeness
+			prefs: {
+				download: {
+					prompt_for_download: false,
+					directory_upgrade: true,
+					default_directory: downloadsPath
+				}
+			}
 		}
 	},
 	directConnect: true,

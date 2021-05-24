@@ -8,6 +8,7 @@ import { TeamComponent } from './team/team.component';
 import { CommonModule } from '@angular/common';
 import { of } from 'rxjs';
 import { TeamsService } from '../services/teams.service';
+import { MockTeamsService } from '../unit-testing/mock-teams-service';
 
 describe('TeamsComponent', () => {
 	let teamsComponent: TeamsComponent;
@@ -41,6 +42,10 @@ describe('TeamsComponent', () => {
 						]),
 						fragment: of('/teams')
 					}
+				},
+				{
+					provide: TeamsService,
+					useClass: MockTeamsService
 				}
 			],
 			schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -7,6 +7,10 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { StatusesComponent } from '../statuses.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StatusesService } from 'src/app/services/statuses.service';
+import { MockStatusesService } from 'src/app/unit-testing/mock-statuses-service';
+import { PlayersService } from 'src/app/services/players.service';
+import { MockPlayersService } from 'src/app/unit-testing/mock-players-service';
 
 describe('StatusComponent', () => {
 	let statusComponent: StatusComponent;
@@ -41,6 +45,14 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],
@@ -103,6 +115,14 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],
@@ -151,6 +171,14 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],
@@ -274,6 +302,14 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],
@@ -372,6 +408,11 @@ describe('StatusComponent', () => {
 			expect(true).toBeTruthy();
 		});
 
+		it('should filter the player list on player id field keyup event if there is a player id during edit mode', () => {
+			statusComponent.onPlayerIdFieldKeyup('0');
+			expect(true).toBeTruthy();
+		});
+
 		it('should not filter the player list on player id field keyup event if there is no value during edit mode', () => {
 			statusComponent.onPlayerIdFieldKeyup('');
 			expect(true).toBeTruthy();
@@ -436,6 +477,14 @@ describe('StatusComponent', () => {
 							]),
 							fragment: of('/statuses')
 						}
+					},
+					{
+						provide: StatusesService,
+						useClass: MockStatusesService
+					},
+					{
+						provide: PlayersService,
+						useClass: MockPlayersService
 					}
 				],
 				declarations: [StatusComponent],

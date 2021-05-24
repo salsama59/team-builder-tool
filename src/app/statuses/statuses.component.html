@@ -72,7 +72,7 @@
 										aria-label="status operations"
 									>
 										<button
-											id="{{ 'view-status-button-id-' + status.statusId }}"
+											id="{{ 'view-status-button-id-' + i }}"
 											type="button"
 											class="btn btn-primary"
 											(click)="onViewStatusElement(status.statusId)"
@@ -84,7 +84,7 @@
 											/>
 										</button>
 										<button
-											id="{{ 'edit-status-button-id-' + status.statusId }}"
+											id="{{ 'edit-status-button-id-' + i }}"
 											type="button"
 											class="btn btn-warning"
 											(click)="onEditStatusElement(status.statusId)"
@@ -96,7 +96,7 @@
 											/>
 										</button>
 										<button
-											id="{{ 'delete-status-button-id-' + status.statusId }}"
+											id="{{ 'delete-status-button-id-' + i }}"
 											type="button"
 											class="btn btn-danger"
 											(click)="onDeleteStatusElement(i)"

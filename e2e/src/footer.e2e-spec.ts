@@ -6,9 +6,9 @@ import { version } from '../../package.json';
 describe('Team builder footer section', () => {
 	let page: AppPage;
 
-	beforeEach(() => {
+	beforeEach(async () => {
 		page = new AppPage();
-		void browser.driver.manage().window().maximize();
+		await browser.driver.manage().window().maximize();
 	});
 
 	it('should display the copyright', async () => {

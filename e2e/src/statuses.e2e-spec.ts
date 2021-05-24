@@ -1,19 +1,37 @@
-import { browser, by, logging } from 'protractor';
+import { browser, by, ElementArrayFinder, logging } from 'protractor';
+import { Status } from '../../src/app/models/status.model';
 import { AppPage } from './utils/app.po';
 import { EndToEndTestUtils } from './utils/end-to-end-test-utils.po';
+import { StatusUtilsPageObject } from './utils/status-utils.po';
 
 describe('Team builder statuses section', () => {
 	let page: AppPage;
-
-	beforeEach(() => {
+	const createdStatus: Status = new Status(
+		0,
+		0,
+		'test',
+		10,
+		27,
+		60.5,
+		70.5,
+		45,
+		5,
+		50,
+		78,
+		15
+	);
+	beforeEach(async () => {
 		page = new AppPage();
-		void browser.driver.manage().window().maximize();
+		await browser.driver.manage().window().maximize();
+		await page.navigateTo();
+		await StatusUtilsPageObject.createStatus(page, createdStatus);
 	});
 
 	it('should display the status list when the statuses tab is clicked', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
 		expect(
 			await EndToEndTestUtils.isElementHasClass(
 				page.getHeaderStatusesTabElement(),
@@ -23,23 +41,46 @@ describe('Team builder statuses section', () => {
 	});
 
 	it('should display the selected status element when the view button is clicked', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewButton(0));
-		expect(await page.getStatusElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementViewButton(0)
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
 
-		expect(await page.getStatusElementFormStatusIdField().isPresent());
-		expect(await page.getStatusElementFormPlayerIdField().isPresent());
-		expect(await page.getStatusElementFormSpeedField().isPresent());
-		expect(await page.getStatusElementFormStaminaField().isPresent());
-		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormPlayerIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormStaminaField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormCatchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPassEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormBattingEfficiencyField().isPresent()
+		).toBe(true);
+		expect(await page.getStatusElementFormBattingPowerField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormPitchingPowerField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchingEffectField().isPresent()
+		).toBe(true);
 
 		expect(
 			await page.getStatusElementFormStatusIdField().isEnabled()
@@ -87,70 +128,93 @@ describe('Team builder statuses section', () => {
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormSpeedField()
 			)
-		).toEqual('10');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormStaminaField()
 			)
-		).toEqual('27');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormCatchEfficiencyField()
 			)
-		).toEqual('60.5');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormPitchEfficiencyField()
 			)
-		).toEqual('70.5');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormPassEfficiencyField()
 			)
-		).toEqual('45');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormBattingEfficiencyField()
 			)
-		).toEqual('5');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormBattingPowerField()
 			)
-		).toEqual('50');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormPitchingPowerField()
 			)
-		).toEqual('78');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormPitchingEffectField()
 			)
-		).toEqual('15');
+		).toEqual('0');
 	});
 
 	it('should display the selected status element when the edit button is clicked', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementEditButton(0));
-		expect(await page.getStatusElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementEditButton(0)
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
 
 		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
 			false
 		);
-		expect(await page.getStatusElementFormPlayerIdField().isPresent());
-		expect(await page.getStatusElementFormProfileNameField().isPresent());
-		expect(await page.getStatusElementFormSpeedField().isPresent());
-		expect(await page.getStatusElementFormStaminaField().isPresent());
-		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+		expect(await page.getStatusElementFormPlayerIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormProfileNameField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormStaminaField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormCatchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPassEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormBattingEfficiencyField().isPresent()
+		).toBe(true);
+		expect(await page.getStatusElementFormBattingPowerField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormPitchingPowerField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchingEffectField().isPresent()
+		).toBe(true);
 
 		expect(
 			await page.getStatusElementFormPlayerIdField().isEnabled()
@@ -201,70 +265,93 @@ describe('Team builder statuses section', () => {
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormSpeedField()
 			)
-		).toEqual('10');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormStaminaField()
 			)
-		).toEqual('27');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormCatchEfficiencyField()
 			)
-		).toEqual('60.5');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormPitchEfficiencyField()
 			)
-		).toEqual('70.5');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormPassEfficiencyField()
 			)
-		).toEqual('45');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormBattingEfficiencyField()
 			)
-		).toEqual('5');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormBattingPowerField()
 			)
-		).toEqual('50');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormPitchingPowerField()
 			)
-		).toEqual('78');
+		).toEqual('0');
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormPitchingEffectField()
 			)
-		).toEqual('15');
+		).toEqual('0');
 	});
 
 	it('should display error text when the required fields are empty in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementEditButton(0));
-		expect(await page.getStatusElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementEditButton(0)
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
 
 		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
 			false
 		);
-		expect(await page.getStatusElementFormPlayerIdField().isPresent());
-		expect(await page.getStatusElementFormProfileNameField().isPresent());
-		expect(await page.getStatusElementFormSpeedField().isPresent());
-		expect(await page.getStatusElementFormStaminaField().isPresent());
-		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+		expect(await page.getStatusElementFormPlayerIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormProfileNameField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormStaminaField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormCatchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPassEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormBattingEfficiencyField().isPresent()
+		).toBe(true);
+		expect(await page.getStatusElementFormBattingPowerField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormPitchingPowerField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchingEffectField().isPresent()
+		).toBe(true);
 
 		expect(
 			await page.getStatusElementFormPlayerIdField().isEnabled()
@@ -310,7 +397,7 @@ describe('Team builder statuses section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
 
 		expect(
 			await page
@@ -333,26 +420,49 @@ describe('Team builder statuses section', () => {
 	});
 
 	it('should save the form values when the save button is clicked in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementEditButton(0));
-		expect(await page.getStatusElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementEditButton(0)
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
 
 		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
 			false
 		);
-		expect(await page.getStatusElementFormPlayerIdField().isPresent());
-		expect(await page.getStatusElementFormProfileNameField().isPresent());
-		expect(await page.getStatusElementFormSpeedField().isPresent());
-		expect(await page.getStatusElementFormStaminaField().isPresent());
-		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+		expect(await page.getStatusElementFormPlayerIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormProfileNameField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormStaminaField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormCatchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPassEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormBattingEfficiencyField().isPresent()
+		).toBe(true);
+		expect(await page.getStatusElementFormBattingPowerField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormPitchingPowerField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchingEffectField().isPresent()
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'NEW PROFILE',
@@ -367,52 +477,68 @@ describe('Team builder statuses section', () => {
 		expect(await page.getStatusElementFormSubmitButton().isEnabled()).toBe(
 			true
 		);
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getStatusElementFormSubmitButton()
 		);
 		expect(await page.getStatusListElement().isPresent()).toBe(true);
 		expect(await page.getStatusElementViewButton(0).isPresent()).toBe(true);
-		void EndToEndTestUtils.scrollToElement(page.getStatusElementViewButton(0))
-			.then(async (result) => {
-				if (result) {
-					EndToEndTestUtils.clickOnPageElement(
-						page.getStatusElementViewButton(0)
-					);
-					expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
-					expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(
-						true
-					);
-					expect(
-						await EndToEndTestUtils.getElementValueAttribute(
-							page.getStatusElementFormProfileNameField()
-						)
-					).toEqual('NEW PROFILE');
-				}
-			})
-			.catch();
+		await EndToEndTestUtils.scrollToElement(page.getStatusElementViewButton(0));
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementViewButton(0)
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(true);
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormProfileNameField()
+			)
+		).toEqual('NEW PROFILE');
 	});
 
 	it('should cancel the form values edition when the cancel button is clicked in edit mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementEditButton(0));
-		expect(await page.getStatusElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementEditButton(0)
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
 
 		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
 			false
 		);
-		expect(await page.getStatusElementFormPlayerIdField().isPresent());
-		expect(await page.getStatusElementFormProfileNameField().isPresent());
-		expect(await page.getStatusElementFormSpeedField().isPresent());
-		expect(await page.getStatusElementFormStaminaField().isPresent());
-		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+		expect(await page.getStatusElementFormPlayerIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormProfileNameField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormStaminaField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormCatchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPassEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormBattingEfficiencyField().isPresent()
+		).toBe(true);
+		expect(await page.getStatusElementFormBattingPowerField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormPitchingPowerField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchingEffectField().isPresent()
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'EDITED PROFILE',
@@ -420,7 +546,7 @@ describe('Team builder statuses section', () => {
 			true
 		);
 
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
 
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
@@ -431,52 +557,70 @@ describe('Team builder statuses section', () => {
 		expect(await page.getStatusElementFormCancelButton().isEnabled()).toBe(
 			true
 		);
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getStatusElementFormCancelButton()
 		);
 		expect(await page.getStatusListElement().isPresent()).toBe(true);
 		expect(await page.getStatusElementViewButton(0).isPresent()).toBe(true);
-		void EndToEndTestUtils.scrollToElement(page.getStatusElementViewButton(0))
-			.then(async (result) => {
-				if (result) {
-					EndToEndTestUtils.clickOnPageElement(
-						page.getStatusElementViewButton(0)
-					);
-					expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
-					expect(
-						await page.getStatusElementFormProfileNameField().isPresent()
-					).toBe(true);
-					expect(
-						await EndToEndTestUtils.getElementContentText(
-							page.getStatusElementFormProfileNameField()
-						)
-					).toEqual('EDITED PROFILE');
-				}
-			})
-			.catch();
+		await EndToEndTestUtils.scrollToElement(page.getStatusElementViewButton(0));
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementViewButton(0)
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormProfileNameField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormProfileNameField()
+			)
+		).toEqual('test');
 	});
 
 	it('should create new status when the save button is clicked in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementCreateButton());
-		expect(await page.getStatusElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementCreateButton()
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
 
 		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
 			false
 		);
-		expect(await page.getStatusElementFormPlayerIdField().isPresent());
-		expect(await page.getStatusElementFormProfileNameField().isPresent());
-		expect(await page.getStatusElementFormSpeedField().isPresent());
-		expect(await page.getStatusElementFormStaminaField().isPresent());
-		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+		expect(await page.getStatusElementFormPlayerIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormProfileNameField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormStaminaField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormCatchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPassEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormBattingEfficiencyField().isPresent()
+		).toBe(true);
+		expect(await page.getStatusElementFormBattingPowerField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormPitchingPowerField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchingEffectField().isPresent()
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'0',
@@ -489,7 +633,7 @@ describe('Team builder statuses section', () => {
 			)
 		).toEqual('0');
 
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'NEW PROFILE',
@@ -502,73 +646,86 @@ describe('Team builder statuses section', () => {
 			)
 		).toEqual('NEW PROFILE');
 
-		// EndToEndTestUtils.clickOnPageElement(
-		// 	page.getStatusElementFormSpeedHelpBlock()
-		// );
-
 		expect(await page.getStatusElementFormSubmitButton().isEnabled()).toBe(
 			true
 		);
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getStatusElementFormSubmitButton()
 		);
 		expect(await page.getStatusListElement().isPresent()).toBe(true);
 
-		const statusElementList = page.getStatusListElement().all(by.css('li'));
+		const statusElementList: ElementArrayFinder = page
+			.getStatusListElement()
+			.all(by.css('li'));
 
-		void statusElementList
-			.count()
-			.then(async (count: number) => {
-				expect(await page.getStatusElementViewButton(count).isPresent()).toBe(
-					true
-				);
-				void EndToEndTestUtils.scrollToElement(
-					page.getStatusElementViewButton(count)
-				)
-					.then(async (result) => {
-						if (result) {
-							EndToEndTestUtils.clickOnPageElement(
-								page.getStatusElementViewButton(count)
-							);
-							expect(await page.getStatusElementViewForm().isPresent()).toBe(
-								true
-							);
-							expect(
-								await page.getStatusElementFormProfileNameField().isPresent()
-							).toBe(true);
-							expect(
-								await EndToEndTestUtils.getElementValueAttribute(
-									page.getStatusElementFormProfileNameField()
-								)
-							).toEqual('NEW PROFILE');
-						}
-					})
-					.catch();
-			})
-			.catch();
+		const statusElementListCount: number = await statusElementList.count();
+
+		expect(
+			await page
+				.getStatusElementViewButton(statusElementListCount - 1)
+				.isPresent()
+		).toBe(true);
+		await EndToEndTestUtils.scrollToElement(
+			page.getStatusElementViewButton(statusElementListCount - 1)
+		);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementViewButton(statusElementListCount - 1)
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormProfileNameField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await EndToEndTestUtils.getElementValueAttribute(
+				page.getStatusElementFormProfileNameField()
+			)
+		).toEqual('NEW PROFILE');
 	});
 
 	it('should cancel the status creation when the cancel button is clicked in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementCreateButton());
-		expect(await page.getStatusElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementCreateButton()
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
 
 		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
 			false
 		);
-		expect(await page.getStatusElementFormPlayerIdField().isPresent());
-		expect(await page.getStatusElementFormProfileNameField().isPresent());
-		expect(await page.getStatusElementFormSpeedField().isPresent());
-		expect(await page.getStatusElementFormStaminaField().isPresent());
-		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+		expect(await page.getStatusElementFormPlayerIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormProfileNameField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormStaminaField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormCatchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPassEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormBattingEfficiencyField().isPresent()
+		).toBe(true);
+		expect(await page.getStatusElementFormBattingPowerField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormPitchingPowerField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchingEffectField().isPresent()
+		).toBe(true);
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'0',
@@ -581,7 +738,7 @@ describe('Team builder statuses section', () => {
 			)
 		).toEqual('0');
 
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
 
 		EndToEndTestUtils.inputTextInFieldElement(
 			'NEW PROFILE',
@@ -596,10 +753,6 @@ describe('Team builder statuses section', () => {
 
 		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
 
-		// EndToEndTestUtils.clickOnPageElement(
-		// 	page.getStatusElementFormSpeedHelpBlock()
-		// );
-
 		expect(
 			await EndToEndTestUtils.getElementValueAttribute(
 				page.getStatusElementFormProfileNameField()
@@ -608,33 +761,56 @@ describe('Team builder statuses section', () => {
 		expect(await page.getStatusElementFormCancelButton().isEnabled()).toBe(
 			true
 		);
-		EndToEndTestUtils.clickOnPageElement(
+		await EndToEndTestUtils.clickOnPageElement(
 			page.getStatusElementFormCancelButton()
 		);
 		expect(await page.getStatusListElement().isPresent()).toBe(true);
 	});
 
 	it('should display error text when the required fields are empty in create mode', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementCreateButton());
-		expect(await page.getStatusElementViewForm().isPresent());
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementCreateButton()
+		);
+		expect(await page.getStatusElementViewForm().isPresent()).toBe(true);
 
 		expect(await page.getStatusElementFormStatusIdField().isPresent()).toBe(
 			false
 		);
-		expect(await page.getStatusElementFormPlayerIdField().isPresent());
-		expect(await page.getStatusElementFormProfileNameField().isPresent());
-		expect(await page.getStatusElementFormSpeedField().isPresent());
-		expect(await page.getStatusElementFormStaminaField().isPresent());
-		expect(await page.getStatusElementFormCatchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPitchEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormPassEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingEfficiencyField().isPresent());
-		expect(await page.getStatusElementFormBattingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingPowerField().isPresent());
-		expect(await page.getStatusElementFormPitchingEffectField().isPresent());
+		expect(await page.getStatusElementFormPlayerIdField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormProfileNameField().isPresent()).toBe(
+			true
+		);
+		expect(await page.getStatusElementFormSpeedField().isPresent()).toBe(true);
+		expect(await page.getStatusElementFormStaminaField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormCatchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPassEfficiencyField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormBattingEfficiencyField().isPresent()
+		).toBe(true);
+		expect(await page.getStatusElementFormBattingPowerField().isPresent()).toBe(
+			true
+		);
+		expect(
+			await page.getStatusElementFormPitchingPowerField().isPresent()
+		).toBe(true);
+		expect(
+			await page.getStatusElementFormPitchingEffectField().isPresent()
+		).toBe(true);
 
 		expect(
 			await page.getStatusElementFormPlayerIdField().isEnabled()
@@ -680,7 +856,7 @@ describe('Team builder statuses section', () => {
 			)
 		).toEqual('');
 
-		EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
+		await EndToEndTestUtils.clickOnPageElement(page.getStatusElementViewForm());
 
 		expect(
 			await page
@@ -703,38 +879,30 @@ describe('Team builder statuses section', () => {
 	});
 
 	it('should delete the selected status element when the delete button is clicked', async () => {
-		await page.navigateTo();
-		EndToEndTestUtils.clickOnPageElement(page.getHeaderStatusesTabElement());
-		expect(await page.getStatusListElement().isPresent());
-		const initialStatusElementList = page
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getHeaderStatusesTabElement()
+		);
+		expect(await page.getStatusListElement().isPresent()).toBe(true);
+		const initialStatusElementList: ElementArrayFinder = page
 			.getStatusListElement()
 			.all(by.css('li'));
 
-		void initialStatusElementList
-			.count()
-			.then((initialCount: number) => {
-				EndToEndTestUtils.clickOnPageElement(
-					page.getStatusElementDeleteButton(0)
-				);
-				const currentStatusElementList = page
-					.getStatusListElement()
-					.all(by.css('li'));
-				void currentStatusElementList
-					.count()
-					.then((currentCount: number) => {
-						expect(currentCount).toBeLessThan(initialCount);
-					})
-					.catch(() => {
-						return false;
-					});
-			})
-			.catch(() => {
-				return false;
-			});
+		const initialStatusElementListCount: number = await initialStatusElementList.count();
+		await EndToEndTestUtils.clickOnPageElement(
+			page.getStatusElementDeleteButton(0)
+		);
+		const currentStatusElementList: ElementArrayFinder = page
+			.getStatusListElement()
+			.all(by.css('li'));
+		const currentStatusElementListCount: number = await currentStatusElementList.count();
+		expect(currentStatusElementListCount).toBeLessThan(
+			initialStatusElementListCount
+		);
 	});
 
 	afterEach(async () => {
 		// Assert that there are no errors emitted from the browser
+		await EndToEndTestUtils.clearLocalStorage();
 		const logs = await browser.manage().logs().get(logging.Type.BROWSER);
 		expect(logs).not.toContain(
 			jasmine.objectContaining({

@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { PlayerFieldPositionEnum } from '../enums/player-field-position.enum';
 import { Player } from '../models/player.model';
+import { MockPlayersService } from '../unit-testing/mock-players-service';
 
 import { PlayersService } from './players.service';
 
@@ -9,7 +10,7 @@ describe('PlayersService', () => {
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({});
-		service = TestBed.inject(PlayersService);
+		service = TestBed.inject(MockPlayersService);
 	});
 
 	it('should be created', () => {

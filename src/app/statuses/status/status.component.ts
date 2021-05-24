@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ValidatorConstants } from 'src/app/constants/validator-constant';
+import { ValidatorConstants } from 'src/app/constants/validator-constants';
 import { Player } from 'src/app/models/player.model';
 import { Status } from 'src/app/models/status.model';
 import { FormValidationService } from 'src/app/services/form-validation.service';
@@ -220,18 +220,18 @@ export class StatusComponent implements OnInit {
 	onSubmit(): void {
 		//Map the status object with the form values
 		const statusToEdit: Status = new Status(
-			this.statusForm.value.statusId,
-			this.statusForm.value.playerId,
+			+this.statusForm.value.statusId,
+			+this.statusForm.value.playerId,
 			this.statusForm.value.profileName,
-			this.statusForm.value.speed,
-			this.statusForm.value.stamina,
-			this.statusForm.value.catchEfficiency,
-			this.statusForm.value.pitchEfficiency,
-			this.statusForm.value.passEfficiency,
-			this.statusForm.value.battingEfficiency,
-			this.statusForm.value.battingPower,
-			this.statusForm.value.pitchingPower,
-			this.statusForm.value.pitchingEffect
+			+this.statusForm.value.speed,
+			+this.statusForm.value.stamina,
+			+this.statusForm.value.catchEfficiency,
+			+this.statusForm.value.pitchEfficiency,
+			+this.statusForm.value.passEfficiency,
+			+this.statusForm.value.battingEfficiency,
+			+this.statusForm.value.battingPower,
+			+this.statusForm.value.pitchingPower,
+			+this.statusForm.value.pitchingEffect
 		);
 
 		if (this.isInCreateMode) {

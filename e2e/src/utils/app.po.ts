@@ -25,6 +25,10 @@ export class AppPage {
 		return element(by.css('app-header nav div ul li a#statuses-tab-link'));
 	}
 
+	getHeaderExportsTabElement(): ElementFinder {
+		return element(by.css('app-header nav div ul li a#exportsTabLink'));
+	}
+
 	getTeamListElement(): ElementFinder {
 		return element(by.css('app-teams div div div div div ul#team-list'));
 	}
@@ -428,5 +432,21 @@ export class AppPage {
 
 	getFooterElement(copyrightElementId: string): ElementFinder {
 		return element(by.css('app-footer div div#' + copyrightElementId));
+	}
+
+	getExportsCardElement(): ElementFinder {
+		return element(by.css('app-models-exporter div#modelExporter'));
+	}
+
+	getExportsDownloadButtonElement(): ElementFinder {
+		return element(
+			by.css('app-models-exporter div#modelExporter a#ExportButton')
+		);
+	}
+
+	getExportsDataPreviewButtonElement(): ElementFinder {
+		return element(
+			by.css('app-models-exporter div#modelExporter pre code#exportableData')
+		);
 	}
 }

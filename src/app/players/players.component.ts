@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { LocalStorageConstants } from '../constants/local-storage-constants';
 import { Player } from '../models/player.model';
+import { LocalStorageService } from '../services/local-storage.service';
 import { PlayersService } from '../services/players.service';
 
 /**
@@ -32,21 +34,28 @@ export class PlayersComponent implements OnInit, OnDestroy {
 	 * @param playersService the players service injected
 	 * @param router the router injected
 	 * @param activatedRoute the activated route injected
+	 * @param localStorageService the local storage service injected
 	 */
 	constructor(
 		private playersService: PlayersService,
 		private router: Router,
-		private activatedRoute: ActivatedRoute
+		private activatedRoute: ActivatedRoute,
+		private localStorageService: LocalStorageService
 	) {}
 
 	/**
 	 * Initialize the player list.
+	 * Subscribe to the players modifications and save the datas to the localstorage.
 	 */
 	ngOnInit(): void {
 		this.players = this.playersService.getPlayers();
 		this.playersChangedSubscription = this.playersService.playersChanged.subscribe(
 			(newPlayers) => {
 				this.players = newPlayers;
+				this.localStorageService.setData(
+					LocalStorageConstants.PLAYERS_DATA_KEY,
+					JSON.stringify(this.players)
+				);
 			}
 		);
 	}

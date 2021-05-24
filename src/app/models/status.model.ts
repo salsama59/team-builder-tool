@@ -18,7 +18,7 @@ export class Status {
 	 * @param pitchingPower the player pitching power
 	 * @param pitchingEffect the player pitching effect
 	 */
-	constructor(
+	public constructor(
 		public statusId: number,
 		public playerId: number,
 		public profileName: string,
