@@ -89,6 +89,10 @@ export class PlayerUtilsPageObject {
 		await EndToEndTestUtils.clickOnPageElement(
 			page.getPlayerElementFormSubmitButton()
 		);
+
+		await EndToEndTestUtils.scrollToElement(
+			page.getPlayerElementCreateButton()
+		);
 	}
 
 	public static getPlayerFieldPositionEnumIndex(
