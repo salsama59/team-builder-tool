@@ -41,7 +41,7 @@ describe('Team builder exports section', () => {
 
 	beforeEach(async () => {
 		page = new AppPage();
-		void browser.driver.manage().window().maximize();
+		await browser.driver.manage().window().maximize();
 		await page.navigateTo();
 		await TeamUtilsPageObject.createTeam(page, createdTeam);
 		await StatusUtilsPageObject.createStatus(page, createdStatus);
@@ -87,7 +87,7 @@ describe('Team builder exports section', () => {
 	afterEach(async () => {
 		// Assert that there are no errors emitted from the browser
 		void EndToEndTestUtils.clearLocalStorage();
-		EndToEndTestUtils.deleteDirectoryContent('./e2e/e2e_tests/download');
+		EndToEndTestUtils.deleteDirectoryContent('./e2e/e2e_tests');
 		const logs = await browser.manage().logs().get(logging.Type.BROWSER);
 		expect(logs).not.toContain(
 			jasmine.objectContaining({

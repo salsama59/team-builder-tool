@@ -5,9 +5,9 @@ import { EndToEndTestUtils } from './utils/end-to-end-test-utils.po';
 describe('Team builder header section', () => {
 	let page: AppPage;
 
-	beforeEach(() => {
+	beforeEach(async () => {
 		page = new AppPage();
-		void browser.driver.manage().window().maximize();
+		await browser.driver.manage().window().maximize();
 	});
 
 	it('should display the app title', async () => {

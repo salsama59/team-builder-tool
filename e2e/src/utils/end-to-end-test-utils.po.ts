@@ -92,7 +92,7 @@ export class EndToEndTestUtils {
 			}
 		}
 
-		//fs.rmdirSync(dirPath);
+		fs.rmdirSync(directoryPath);
 	}
 
 	public static createNotExistingDirectory(directoryPath: string): void {
