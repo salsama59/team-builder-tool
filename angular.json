@@ -22,7 +22,6 @@
 						"main": "src/main.ts",
 						"polyfills": "src/polyfills.ts",
 						"tsConfig": "tsconfig.app.json",
-						"aot": true,
 						"assets": ["src/favicon.ico", "src/assets"],
 						"styles": [
 							"node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -33,7 +32,12 @@
 							"scripts": true,
 							"styles": true,
 							"vendor": true
-						}
+						},
+						"vendorChunk": true,
+						"extractLicenses": false,
+						"buildOptimizer": false,
+						"optimization": false,
+						"namedChunks": true
 					},
 					"configurations": {
 						"production": {
