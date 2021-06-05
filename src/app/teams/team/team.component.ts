@@ -150,11 +150,13 @@ export class TeamComponent implements OnInit {
 		//Navigate back to the team list
 		if (!this.isInCreateMode) {
 			void this.router.navigate(['../../'], {
-				relativeTo: this.activatedRoute
+				relativeTo: this.activatedRoute,
+				queryParamsHandling: 'merge'
 			});
 		} else {
 			void this.router.navigate(['../'], {
-				relativeTo: this.activatedRoute
+				relativeTo: this.activatedRoute,
+				queryParamsHandling: 'merge'
 			});
 		}
 	}

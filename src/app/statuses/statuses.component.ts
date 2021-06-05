@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocalStorageConstants } from '../constants/local-storage-constants';
 import { Status } from '../models/status.model';
@@ -29,6 +29,16 @@ export class StatusesComponent implements OnInit, OnDestroy {
 	private statusesChangedSubscription!: Subscription;
 
 	/**
+	 * Maximum status per page count
+	 */
+	public maximumStatusPerPageCount: number = 5;
+
+	/**
+	 * Current status page
+	 */
+	private currentStatusPage: number = 1;
+
+	/**
 	 * Creates an instance of statuses component.
 	 * @constructor
 	 * @param statusesService the statuses service injected
@@ -37,7 +47,7 @@ export class StatusesComponent implements OnInit, OnDestroy {
 	 * @param localStorageService the local storage service injected
 	 */
 	constructor(
-		private statusesService: StatusesService,
+		public statusesService: StatusesService,
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
 		private localStorageService: LocalStorageService
@@ -48,7 +58,16 @@ export class StatusesComponent implements OnInit, OnDestroy {
 	 * Subscribe to the statuses modifications and save the datas to the localstorage.
 	 */
 	ngOnInit(): void {
-		this.statuses = this.statusesService.getStatuses();
+		this.paginateStatuses('1');
+		void this.router.navigate([], {
+			relativeTo: this.activatedRoute,
+			queryParams: { page: '1' }
+		});
+
+		this.activatedRoute.queryParams.subscribe((params: Params) => {
+			this.paginateStatuses(params['page']);
+		});
+
 		this.statusesChangedSubscription = this.statusesService.statusesChanged.subscribe(
 			(newStatuses) => {
 				this.statuses = newStatuses;
@@ -56,8 +75,32 @@ export class StatusesComponent implements OnInit, OnDestroy {
 					LocalStorageConstants.STATUSES_DATA_KEY,
 					JSON.stringify(this.statuses)
 				);
+				this.paginateStatuses(this.currentStatusPage);
 			}
 		);
+	}
+
+	/**
+	 * Paginates the status list given a page number
+	 * @param pageNumber the page number
+	 */
+	paginateStatuses(pageNumber: string | number | undefined | null): void {
+		if (pageNumber) {
+			const newPageTotal: number = Math.ceil(
+				this.statusesService.getStatuses().length /
+					this.maximumStatusPerPageCount
+			);
+
+			if (newPageTotal < +pageNumber) {
+				pageNumber = newPageTotal.toString();
+			}
+
+			const start: number =
+				this.maximumStatusPerPageCount * +pageNumber -
+				this.maximumStatusPerPageCount;
+			const end: number = this.maximumStatusPerPageCount * +pageNumber;
+			this.statuses = this.statusesService.getStatuses().slice(start, end);
+		}
 	}
 
 	/**
@@ -73,7 +116,8 @@ export class StatusesComponent implements OnInit, OnDestroy {
 	 */
 	onViewStatusElement(statusId: number): void {
 		void this.router.navigate([statusId, 'view'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	}
 
@@ -83,7 +127,8 @@ export class StatusesComponent implements OnInit, OnDestroy {
 	 */
 	onEditStatusElement(statusId: number): void {
 		void this.router.navigate([statusId, 'edit'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	}
 
@@ -92,7 +137,8 @@ export class StatusesComponent implements OnInit, OnDestroy {
 	 */
 	onCreateStatusElement(): void {
 		void this.router.navigate(['create'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	}
 
@@ -104,7 +150,9 @@ export class StatusesComponent implements OnInit, OnDestroy {
 	onDeleteStatusElement(statusIndex: number): void {
 		this.statusesService.deleteStatusById(statusIndex);
 		void this.router.navigate(['.'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParams: { page: this.currentStatusPage },
+			queryParamsHandling: 'merge'
 		});
 	}
 }

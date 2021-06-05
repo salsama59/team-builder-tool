@@ -29,6 +29,11 @@ export class TeamsService {
 	private teamIdSequence: number = -1;
 
 	/**
+	 * Team list length changed event
+	 */
+	public teamListLengthChanged: Subject<number> = new Subject<number>();
+
+	/**
 	 * Creates an instance of teams service.
 	 * Try to get the team list from the local storage, if there is datas updates the team list.
 	 * @param localStorageService the local storage service
@@ -81,6 +86,7 @@ export class TeamsService {
 		teamToAdd.teamId = nextTeamId;
 		this.teams.push(teamToAdd);
 		this.teamsChanged.next(this.getTeams());
+		this.teamListLengthChanged.next(this.getTeams().length);
 		this.setTeamIdSequence(nextTeamId);
 	}
 
@@ -102,6 +108,7 @@ export class TeamsService {
 	deleteTeamById(teamIdToDelete: number): void {
 		this.teams.splice(teamIdToDelete, 1);
 		this.teamsChanged.next(this.getTeams());
+		this.teamListLengthChanged.next(this.getTeams().length);
 	}
 
 	/**

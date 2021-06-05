@@ -95,6 +95,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="pagination-block">
+			<app-pagination
+				[elementsPerPageNumber]="maximumTeamPerPageCount"
+				[totalElementsNumber]="teamsService.getTeams().length"
+				[paginatedDataSubject]="teamsService.teamListLengthChanged"
+			></app-pagination>
+		</div>
 	</div>
 	<div class="col">
 		<router-outlet></router-outlet>
