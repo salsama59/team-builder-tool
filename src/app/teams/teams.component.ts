@@ -84,9 +84,13 @@ export class TeamsComponent implements OnInit, OnDestroy {
 	 */
 	paginateTeams(pageNumber: string | number | undefined | null): void {
 		if (pageNumber) {
-			const newPageTotal: number = Math.ceil(
+			let newPageTotal: number = Math.ceil(
 				this.teamsService.getTeams().length / this.maximumTeamPerPageCount
 			);
+
+			if (newPageTotal === 0) {
+				newPageTotal = 1;
+			}
 
 			if (newPageTotal < +pageNumber) {
 				pageNumber = newPageTotal.toString();

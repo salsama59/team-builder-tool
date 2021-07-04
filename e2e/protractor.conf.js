@@ -15,6 +15,7 @@ exports.config = {
 	capabilities: {
 		browserName: "chrome",
 		chromeOptions: {
+			w3c: false,
 			// Set download path and avoid prompting for download even though
 			// this is already the default on Chrome but for completeness
 			prefs: {

@@ -86,10 +86,14 @@ export class StatusesComponent implements OnInit, OnDestroy {
 	 */
 	paginateStatuses(pageNumber: string | number | undefined | null): void {
 		if (pageNumber) {
-			const newPageTotal: number = Math.ceil(
+			let newPageTotal: number = Math.ceil(
 				this.statusesService.getStatuses().length /
 					this.maximumStatusPerPageCount
 			);
+
+			if (newPageTotal === 0) {
+				newPageTotal = 1;
+			}
 
 			if (newPageTotal < +pageNumber) {
 				pageNumber = newPageTotal.toString();

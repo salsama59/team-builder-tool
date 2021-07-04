@@ -86,9 +86,13 @@ export class PlayersComponent implements OnInit, OnDestroy {
 	 */
 	paginatePlayers(pageNumber: string | number | undefined | null): void {
 		if (pageNumber) {
-			const newPageTotal: number = Math.ceil(
+			let newPageTotal: number = Math.ceil(
 				this.playersService.getPlayers().length / this.maximumPlayerPerPageCount
 			);
+
+			if (newPageTotal === 0) {
+				newPageTotal = 1;
+			}
 
 			if (newPageTotal < +pageNumber) {
 				pageNumber = newPageTotal.toString();

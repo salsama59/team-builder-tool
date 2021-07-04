@@ -139,6 +139,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
 	 */
 	onPageLinkClick(selectedPageNumber: number): void {
 		this.currentPageNumber = selectedPageNumber;
+		window.scroll(0, 0);
 	}
 
 	/**
