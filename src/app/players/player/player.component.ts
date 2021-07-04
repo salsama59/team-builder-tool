@@ -464,11 +464,13 @@ export class PlayerComponent implements OnInit {
 		//Navigate back to the player list
 		if (!this.isInCreateMode) {
 			void this.router.navigate(['../../'], {
-				relativeTo: this.activatedRoute
+				relativeTo: this.activatedRoute,
+				queryParamsHandling: 'merge'
 			});
 		} else {
 			void this.router.navigate(['../'], {
-				relativeTo: this.activatedRoute
+				relativeTo: this.activatedRoute,
+				queryParamsHandling: 'merge'
 			});
 		}
 	}

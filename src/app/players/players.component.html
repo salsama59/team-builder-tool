@@ -122,6 +122,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="pagination-block">
+			<app-pagination
+				[elementsPerPageNumber]="maximumPlayerPerPageCount"
+				[totalElementsNumber]="playersService.getPlayers().length"
+				[paginatedDataSubject]="playersService.playerListLengthChanged"
+			></app-pagination>
+		</div>
 	</div>
 	<div class="col">
 		<router-outlet></router-outlet>

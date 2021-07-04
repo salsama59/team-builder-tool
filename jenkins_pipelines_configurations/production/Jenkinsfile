@@ -13,10 +13,10 @@ pipeline {
         steps { sh 'npm run-script test -- --watch false --browsers=ChromeHeadless' }
     }
     stage('End to end tests') {
-        steps { sh 'npm run-script e2e -- --protractor-config e2e/protractor.conf.prod.js' }
+        // steps { sh 'npm run-script e2e -- --protractor-config e2e/protractor.conf.prod.js' }
     }
     stage('Build artefact') {
-      steps { sh 'npm run-script build -- --prod' }
+      steps { sh 'npm run-script build -- --configuration production' }
     }
     stage('Artefact compression') {
       steps {

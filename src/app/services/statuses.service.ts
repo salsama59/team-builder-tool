@@ -29,6 +29,11 @@ export class StatusesService {
 	private statusIdSequence: number = -1;
 
 	/**
+	 * Status list length changed event
+	 */
+	public statusListLengthChanged: Subject<number> = new Subject<number>();
+
+	/**
 	 * Creates an instance of statuses service.
 	 * Try to get the status list from the local storage, if there is datas updates the status list.
 	 * @param localStorageService the local storage service
@@ -81,6 +86,7 @@ export class StatusesService {
 		statusToAdd.statusId = nextStatusId;
 		this.statuses.push(statusToAdd);
 		this.statusesChanged.next(this.getStatuses());
+		this.statusListLengthChanged.next(this.getStatuses().length);
 		this.setStatusIdSequence(nextStatusId);
 	}
 
@@ -102,6 +108,7 @@ export class StatusesService {
 	deleteStatusById(statusIdToDelete: number): void {
 		this.statuses.splice(statusIdToDelete, 1);
 		this.statusesChanged.next(this.getStatuses());
+		this.statusListLengthChanged.next(this.getStatuses().length);
 	}
 
 	/**

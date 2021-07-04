@@ -112,7 +112,8 @@ describe('TeamsComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		teamsComponent.onViewTeamElement(0);
 		expect(spy).toHaveBeenCalledWith([0, 'view'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -120,7 +121,8 @@ describe('TeamsComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		teamsComponent.onEditTeamElement(0);
 		expect(spy).toHaveBeenCalledWith([0, 'edit'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -128,7 +130,8 @@ describe('TeamsComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		teamsComponent.onCreateTeamElement();
 		expect(spy).toHaveBeenCalledWith(['create'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -138,7 +141,29 @@ describe('TeamsComponent', () => {
 		teamsComponent.onDeleteTeamElement(0);
 		expect(teamsComponent.teams).toHaveSize(3);
 		expect(spy).toHaveBeenCalledWith(['.'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParams: { page: 1 },
+			queryParamsHandling: 'merge'
 		});
+	});
+
+	it('should paginate teams with negative page number', () => {
+		teamsComponent.paginateTeams(-1);
+		expect(teamsComponent.teams).toHaveSize(0);
+	});
+
+	it('should paginate teams with page number greater than total elements', () => {
+		teamsComponent.paginateTeams(2);
+		expect(teamsComponent.teams).toHaveSize(4);
+	});
+
+	it('should paginate teams with new page total equals zero', () => {
+		const teamsService = TestBed.inject(TeamsService);
+		const teamsCount: number = teamsService.getTeams().length;
+		for (let i: number = 0; i < teamsCount; i++) {
+			teamsService.deleteTeamById(0);
+		}
+		teamsComponent.paginateTeams(2);
+		expect(teamsComponent.teams).toHaveSize(0);
 	});
 });

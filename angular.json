@@ -22,18 +22,12 @@
 						"main": "src/main.ts",
 						"polyfills": "src/polyfills.ts",
 						"tsConfig": "tsconfig.app.json",
-						"aot": true,
 						"assets": ["src/favicon.ico", "src/assets"],
 						"styles": [
 							"node_modules/bootstrap/dist/css/bootstrap.min.css",
 							"src/styles.css"
 						],
-						"scripts": [],
-						"sourceMap": {
-							"scripts": true,
-							"styles": true,
-							"vendor": true
-						}
+						"scripts": []
 					},
 					"configurations": {
 						"production": {
@@ -62,6 +56,14 @@
 									"maximumError": "4kb"
 								}
 							]
+						},
+						"development": {
+							"buildOptimizer": false,
+							"optimization": false,
+							"vendorChunk": true,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"namedChunks": true
 						}
 					}
 				},
@@ -73,8 +75,12 @@
 					"configurations": {
 						"production": {
 							"browserTarget": "team-builder-tool:build:production"
+						},
+						"development": {
+							"browserTarget": "team-builder-tool:build:development"
 						}
-					}
+					},
+					"defaultConfiguration": "development"
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",

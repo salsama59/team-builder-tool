@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocalStorageConstants } from '../constants/local-storage-constants';
 import { Team } from '../models/team.model';
@@ -28,6 +28,16 @@ export class TeamsComponent implements OnInit, OnDestroy {
 	private teamsChangedSubscription!: Subscription;
 
 	/**
+	 * Maximum team per page count
+	 */
+	public maximumTeamPerPageCount: number = 5;
+
+	/**
+	 * Current team page
+	 */
+	private currentTeamPage: number = 1;
+
+	/**
 	 * Creates an instance of teams component.
 	 * @constructor
 	 * @param teamsService the teams service injected
@@ -36,7 +46,7 @@ export class TeamsComponent implements OnInit, OnDestroy {
 	 * @param localStorageService the local storage service injected
 	 */
 	constructor(
-		private teamsService: TeamsService,
+		public teamsService: TeamsService,
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
 		private localStorageService: LocalStorageService
@@ -47,16 +57,52 @@ export class TeamsComponent implements OnInit, OnDestroy {
 	 * Subscribe to the teams modifications and save the datas to the localstorage.
 	 */
 	ngOnInit(): void {
-		this.teams = this.teamsService.getTeams();
+		this.paginateTeams('1');
+		void this.router.navigate([], {
+			relativeTo: this.activatedRoute,
+			queryParams: { page: '1' }
+		});
+
+		this.activatedRoute.queryParams.subscribe((params: Params) => {
+			this.paginateTeams(params['page']);
+		});
+
 		this.teamsChangedSubscription = this.teamsService.teamsChanged.subscribe(
 			(newTeams) => {
-				this.teams = newTeams;
 				this.localStorageService.setData(
 					LocalStorageConstants.TEAMS_DATA_KEY,
-					JSON.stringify(this.teams)
+					JSON.stringify(newTeams)
 				);
+				this.paginateTeams(this.currentTeamPage);
 			}
 		);
+	}
+
+	/**
+	 * Paginates the team list given a page number
+	 * @param pageNumber the page number
+	 */
+	paginateTeams(pageNumber: string | number | undefined | null): void {
+		if (pageNumber) {
+			let newPageTotal: number = Math.ceil(
+				this.teamsService.getTeams().length / this.maximumTeamPerPageCount
+			);
+
+			if (newPageTotal === 0) {
+				newPageTotal = 1;
+			}
+
+			if (newPageTotal < +pageNumber) {
+				pageNumber = newPageTotal.toString();
+			}
+
+			this.currentTeamPage = +pageNumber;
+			const start: number =
+				this.maximumTeamPerPageCount * +pageNumber -
+				this.maximumTeamPerPageCount;
+			const end: number = this.maximumTeamPerPageCount * +pageNumber;
+			this.teams = this.teamsService.getTeams().slice(start, end);
+		}
 	}
 
 	/**
@@ -72,7 +118,8 @@ export class TeamsComponent implements OnInit, OnDestroy {
 	 */
 	onViewTeamElement(teamId: number): void {
 		void this.router.navigate([teamId, 'view'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	}
 
@@ -82,7 +129,8 @@ export class TeamsComponent implements OnInit, OnDestroy {
 	 */
 	onEditTeamElement(teamId: number): void {
 		void this.router.navigate([teamId, 'edit'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	}
 
@@ -91,7 +139,8 @@ export class TeamsComponent implements OnInit, OnDestroy {
 	 */
 	onCreateTeamElement(): void {
 		void this.router.navigate(['create'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	}
 
@@ -103,7 +152,9 @@ export class TeamsComponent implements OnInit, OnDestroy {
 	onDeleteTeamElement(teamIndex: number): void {
 		this.teamsService.deleteTeamById(teamIndex);
 		void this.router.navigate(['.'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParams: { page: this.currentTeamPage },
+			queryParamsHandling: 'merge'
 		});
 	}
 }

@@ -1,4 +1,11 @@
 .icon-medium {
-    width: 32px;
-    height: 32px;
+	width: 32px;
+	height: 32px;
+}
+
+.pagination-block {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }

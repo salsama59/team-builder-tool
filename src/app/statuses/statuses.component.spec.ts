@@ -121,7 +121,8 @@ describe('StatusesComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		statusesComponent.onViewStatusElement(0);
 		expect(spy).toHaveBeenCalledWith([0, 'view'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -129,7 +130,8 @@ describe('StatusesComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		statusesComponent.onEditStatusElement(0);
 		expect(spy).toHaveBeenCalledWith([0, 'edit'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -137,7 +139,8 @@ describe('StatusesComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		statusesComponent.onCreateStatusElement();
 		expect(spy).toHaveBeenCalledWith(['create'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -147,7 +150,19 @@ describe('StatusesComponent', () => {
 		statusesComponent.onDeleteStatusElement(0);
 		expect(statusesComponent.statuses).toHaveSize(0);
 		expect(spy).toHaveBeenCalledWith(['.'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParams: { page: 1 },
+			queryParamsHandling: 'merge'
 		});
+	});
+
+	it('should paginate statuses with new page total equals zero', () => {
+		const statusesService = TestBed.inject(StatusesService);
+		const statusesCount: number = statusesService.getStatuses().length;
+		for (let i: number = 0; i < statusesCount; i++) {
+			statusesService.deleteStatusById(0);
+		}
+		statusesComponent.paginateStatuses(2);
+		expect(statusesComponent.statuses).toHaveSize(0);
 	});
 });
