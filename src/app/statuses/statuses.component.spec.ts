@@ -166,3 +166,56 @@ describe('StatusesComponent', () => {
 		expect(statusesComponent.statuses).toHaveSize(0);
 	});
 });
+
+describe('StatusesComponent routed with page number data', () => {
+	let statusesComponent: StatusesComponent;
+	let fixture: ComponentFixture<StatusesComponent>;
+
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [
+				CommonModule,
+				RouterTestingModule.withRoutes([
+					{
+						path: 'statuses',
+						component: StatusesComponent
+					}
+				])
+			],
+			declarations: [StatusesComponent],
+			providers: [
+				{
+					provide: ActivatedRoute,
+					useValue: {
+						params: of({}),
+						queryParams: of({ page: 1 }),
+						snapshot: { params: { statusId: '0' } },
+						url: of([
+							new UrlSegment('/', {}),
+							new UrlSegment('statuses', { statusId: '0' })
+						]),
+						fragment: of('/statuses')
+					}
+				},
+				{
+					provide: StatusesService,
+					useClass: MockStatusesService
+				}
+			],
+			schemas: [CUSTOM_ELEMENTS_SCHEMA]
+		}).compileComponents();
+	});
+
+	beforeEach(() => {
+		fixture = TestBed.createComponent(StatusesComponent);
+		statusesComponent = fixture.componentInstance;
+		statusesComponent.statuses = [
+			new Status(0, 0, 'test', 10, 27, 60.5, 70.5, 45, 5, 50, 78, 15)
+		];
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(statusesComponent).toBeTruthy();
+	});
+});

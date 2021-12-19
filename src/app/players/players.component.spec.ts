@@ -199,3 +199,67 @@ describe('PlayersComponent', () => {
 		expect(playersComponent.players).toHaveSize(0);
 	});
 });
+
+describe('PlayersComponent routed with page number data', () => {
+	let playersComponent: PlayersComponent;
+	let fixture: ComponentFixture<PlayersComponent>;
+
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [
+				CommonModule,
+				RouterTestingModule.withRoutes([
+					{
+						path: 'players',
+						component: PlayersComponent,
+						children: [{ path: ':playerId', component: PlayerComponent }]
+					}
+				])
+			],
+			declarations: [PlayersComponent, PlayerComponent],
+			providers: [
+				{
+					provide: ActivatedRoute,
+					useValue: {
+						params: of({}),
+						queryParams: of({ page: 1 }),
+						snapshot: { params: { playerId: '0' } },
+						url: of([
+							new UrlSegment('/', {}),
+							new UrlSegment('players', { playerId: '0' })
+						]),
+						fragment: of('/players')
+					}
+				},
+				{
+					provide: PlayersService,
+					useClass: MockPlayersService
+				}
+			],
+			schemas: [CUSTOM_ELEMENTS_SCHEMA]
+		}).compileComponents();
+	});
+
+	beforeEach(() => {
+		fixture = TestBed.createComponent(PlayersComponent);
+		playersComponent = fixture.componentInstance;
+		playersComponent.players = [
+			new Player(
+				0,
+				0,
+				0,
+				0,
+				'Joe',
+				'Stanford',
+				'00',
+				PlayerFieldPositionEnum.CENTER_FIELDER,
+				PlayerFieldPositionEnum.CENTER_FIELDER
+			)
+		];
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(playersComponent).toBeTruthy();
+	});
+});
