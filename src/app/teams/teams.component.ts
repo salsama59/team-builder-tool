@@ -65,6 +65,9 @@ export class TeamsComponent implements OnInit, OnDestroy {
 
 		this.activatedRoute.queryParams.subscribe((params: Params) => {
 			this.paginateTeams(params['page']);
+			if (params['page']) {
+				this.currentTeamPage = +params['page'];
+			}
 		});
 
 		this.teamsChangedSubscription = this.teamsService.teamsChanged.subscribe(

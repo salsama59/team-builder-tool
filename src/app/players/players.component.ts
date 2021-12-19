@@ -66,6 +66,9 @@ export class PlayersComponent implements OnInit, OnDestroy {
 
 		this.activatedRoute.queryParams.subscribe((params: Params) => {
 			this.paginatePlayers(params['page']);
+			if (params['page']) {
+				this.currentPlayerPage = +params['page'];
+			}
 		});
 
 		this.playersChangedSubscription = this.playersService.playersChanged.subscribe(

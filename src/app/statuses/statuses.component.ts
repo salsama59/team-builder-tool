@@ -66,6 +66,9 @@ export class StatusesComponent implements OnInit, OnDestroy {
 
 		this.activatedRoute.queryParams.subscribe((params: Params) => {
 			this.paginateStatuses(params['page']);
+			if (params['page']) {
+				this.currentStatusPage = +params['page'];
+			}
 		});
 
 		this.statusesChangedSubscription = this.statusesService.statusesChanged.subscribe(
