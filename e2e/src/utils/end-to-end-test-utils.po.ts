@@ -10,7 +10,14 @@ export class EndToEndTestUtils {
 	public static async getElementValueAttribute(
 		element: ElementFinder
 	): Promise<string> {
-		return element.getAttribute('value');
+		return element.getAttribute('value').then((attributeValue) => {
+			//Workaround for chrome webdriver version 91 (element.getAttribute('value') allways return null)
+			if (attributeValue) {
+				return attributeValue;
+			} else {
+				return browser.executeScript('return arguments[0].value', element);
+			}
+		});
 	}
 
 	public static async getElementContentText(

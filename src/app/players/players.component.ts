@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocalStorageConstants } from '../constants/local-storage-constants';
 import { Player } from '../models/player.model';
@@ -29,6 +29,16 @@ export class PlayersComponent implements OnInit, OnDestroy {
 	private playersChangedSubscription!: Subscription;
 
 	/**
+	 * Maximum player per page count
+	 */
+	public maximumPlayerPerPageCount: number = 5;
+
+	/**
+	 * Current player page
+	 */
+	private currentPlayerPage: number = 1;
+
+	/**
 	 * Creates an instance of players component.
 	 * @constructor
 	 * @param playersService the players service injected
@@ -37,7 +47,7 @@ export class PlayersComponent implements OnInit, OnDestroy {
 	 * @param localStorageService the local storage service injected
 	 */
 	constructor(
-		private playersService: PlayersService,
+		public playersService: PlayersService,
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
 		private localStorageService: LocalStorageService
@@ -48,7 +58,19 @@ export class PlayersComponent implements OnInit, OnDestroy {
 	 * Subscribe to the players modifications and save the datas to the localstorage.
 	 */
 	ngOnInit(): void {
-		this.players = this.playersService.getPlayers();
+		this.paginatePlayers('1');
+		void this.router.navigate([], {
+			relativeTo: this.activatedRoute,
+			queryParams: { page: '1' }
+		});
+
+		this.activatedRoute.queryParams.subscribe((params: Params) => {
+			this.paginatePlayers(params['page']);
+			if (params['page']) {
+				this.currentPlayerPage = +params['page'];
+			}
+		});
+
 		this.playersChangedSubscription = this.playersService.playersChanged.subscribe(
 			(newPlayers) => {
 				this.players = newPlayers;
@@ -56,8 +78,35 @@ export class PlayersComponent implements OnInit, OnDestroy {
 					LocalStorageConstants.PLAYERS_DATA_KEY,
 					JSON.stringify(this.players)
 				);
+				this.paginatePlayers(this.currentPlayerPage);
 			}
 		);
+	}
+
+	/**
+	 * Paginates the player list given a page number.
+	 * @param pageNumber the page number.
+	 */
+	paginatePlayers(pageNumber: string | number | undefined | null): void {
+		if (pageNumber) {
+			let newPageTotal: number = Math.ceil(
+				this.playersService.getPlayers().length / this.maximumPlayerPerPageCount
+			);
+
+			if (newPageTotal === 0) {
+				newPageTotal = 1;
+			}
+
+			if (newPageTotal < +pageNumber) {
+				pageNumber = newPageTotal.toString();
+			}
+
+			const start: number =
+				this.maximumPlayerPerPageCount * +pageNumber -
+				this.maximumPlayerPerPageCount;
+			const end: number = this.maximumPlayerPerPageCount * +pageNumber;
+			this.players = this.playersService.getPlayers().slice(start, end);
+		}
 	}
 
 	/**
@@ -73,7 +122,8 @@ export class PlayersComponent implements OnInit, OnDestroy {
 	 */
 	onViewPlayerElement(playerId: number): void {
 		void this.router.navigate([playerId, 'view'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	}
 
@@ -83,7 +133,8 @@ export class PlayersComponent implements OnInit, OnDestroy {
 	 */
 	onEditPlayerElement(playerId: number): void {
 		void this.router.navigate([playerId, 'edit'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	}
 
@@ -92,7 +143,8 @@ export class PlayersComponent implements OnInit, OnDestroy {
 	 */
 	onCreatePlayerElement(): void {
 		void this.router.navigate(['create'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	}
 
@@ -104,7 +156,9 @@ export class PlayersComponent implements OnInit, OnDestroy {
 	onDeletePlayerElement(playerIndex: number): void {
 		this.playersService.deletePlayerById(playerIndex);
 		void this.router.navigate(['.'], {
-			relativeTo: this.activatedRoute
+			relativeTo: this.activatedRoute,
+			queryParams: { page: this.currentPlayerPage },
+			queryParamsHandling: 'merge'
 		});
 	}
 }

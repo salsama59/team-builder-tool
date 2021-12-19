@@ -121,7 +121,8 @@ describe('StatusesComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		statusesComponent.onViewStatusElement(0);
 		expect(spy).toHaveBeenCalledWith([0, 'view'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -129,7 +130,8 @@ describe('StatusesComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		statusesComponent.onEditStatusElement(0);
 		expect(spy).toHaveBeenCalledWith([0, 'edit'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -137,7 +139,8 @@ describe('StatusesComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		statusesComponent.onCreateStatusElement();
 		expect(spy).toHaveBeenCalledWith(['create'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -147,7 +150,72 @@ describe('StatusesComponent', () => {
 		statusesComponent.onDeleteStatusElement(0);
 		expect(statusesComponent.statuses).toHaveSize(0);
 		expect(spy).toHaveBeenCalledWith(['.'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParams: { page: 1 },
+			queryParamsHandling: 'merge'
 		});
+	});
+
+	it('should paginate statuses with new page total equals zero', () => {
+		const statusesService = TestBed.inject(StatusesService);
+		const statusesCount: number = statusesService.getStatuses().length;
+		for (let i: number = 0; i < statusesCount; i++) {
+			statusesService.deleteStatusById(0);
+		}
+		statusesComponent.paginateStatuses(2);
+		expect(statusesComponent.statuses).toHaveSize(0);
+	});
+});
+
+describe('StatusesComponent routed with page number data', () => {
+	let statusesComponent: StatusesComponent;
+	let fixture: ComponentFixture<StatusesComponent>;
+
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [
+				CommonModule,
+				RouterTestingModule.withRoutes([
+					{
+						path: 'statuses',
+						component: StatusesComponent
+					}
+				])
+			],
+			declarations: [StatusesComponent],
+			providers: [
+				{
+					provide: ActivatedRoute,
+					useValue: {
+						params: of({}),
+						queryParams: of({ page: 1 }),
+						snapshot: { params: { statusId: '0' } },
+						url: of([
+							new UrlSegment('/', {}),
+							new UrlSegment('statuses', { statusId: '0' })
+						]),
+						fragment: of('/statuses')
+					}
+				},
+				{
+					provide: StatusesService,
+					useClass: MockStatusesService
+				}
+			],
+			schemas: [CUSTOM_ELEMENTS_SCHEMA]
+		}).compileComponents();
+	});
+
+	beforeEach(() => {
+		fixture = TestBed.createComponent(StatusesComponent);
+		statusesComponent = fixture.componentInstance;
+		statusesComponent.statuses = [
+			new Status(0, 0, 'test', 10, 27, 60.5, 70.5, 45, 5, 50, 78, 15)
+		];
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(statusesComponent).toBeTruthy();
 	});
 });

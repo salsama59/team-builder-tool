@@ -19,9 +19,19 @@ export class PlayersService {
 	protected players: Array<Player> = new Array<Player>();
 
 	/**
+	 * Players changed event
+	 */
+	public playersChanged: Subject<Array<Player>> = new Subject<Array<Player>>();
+
+	/**
 	 * Player id sequence of players service
 	 */
 	private playerIdSequence: number = -1;
+
+	/**
+	 * Player list length changed event
+	 */
+	public playerListLengthChanged: Subject<number> = new Subject<number>();
 
 	/**
 	 * Creates an instance of players service.
@@ -46,11 +56,6 @@ export class PlayersService {
 			this.playerIdSequence = +currentSequenceNumber;
 		}
 	}
-
-	/**
-	 * Players changed event
-	 */
-	public playersChanged: Subject<Array<Player>> = new Subject<Array<Player>>();
 
 	/**
 	 * Get a player given an id
@@ -81,6 +86,7 @@ export class PlayersService {
 		playerToAdd.playerId = nextPlayerId;
 		this.players.push(playerToAdd);
 		this.playersChanged.next(this.getPlayers());
+		this.playerListLengthChanged.next(this.getPlayers().length);
 		this.setPlayerIdSequence(nextPlayerId);
 	}
 
@@ -102,6 +108,7 @@ export class PlayersService {
 	deletePlayerById(playerIdToDelete: number): void {
 		this.players.splice(playerIdToDelete, 1);
 		this.playersChanged.next(this.getPlayers());
+		this.playerListLengthChanged.next(this.getPlayers().length);
 	}
 
 	/**

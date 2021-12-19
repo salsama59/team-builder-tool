@@ -120,6 +120,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="pagination-block">
+			<app-pagination
+				[elementsPerPageNumber]="maximumStatusPerPageCount"
+				[totalElementsNumber]="statusesService.getStatuses().length"
+				[paginatedDataSubject]="statusesService.statusListLengthChanged"
+			></app-pagination>
+		</div>
 	</div>
 	<div class="col">
 		<router-outlet></router-outlet>

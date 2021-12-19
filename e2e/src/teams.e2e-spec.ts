@@ -507,7 +507,7 @@ describe('Team builder teams section', () => {
 		await EndToEndTestUtils.clickOnPageElement(page.getHeaderTeamsTabElement());
 		expect(await page.getTeamListElement().isPresent()).toBe(true);
 		await EndToEndTestUtils.clickOnPageElement(
-			page.getTeamElementCreateButton()
+			page.getTeamElementEditButton(0)
 		);
 		expect(await page.getTeamElementViewForm().isPresent()).toBe(true);
 		expect(await page.getTeamElementFormShortNameField().isPresent()).toBe(

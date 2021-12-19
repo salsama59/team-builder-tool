@@ -144,7 +144,8 @@ describe('PlayersComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		playersComponent.onViewPlayerElement(0);
 		expect(spy).toHaveBeenCalledWith([0, 'view'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -152,7 +153,8 @@ describe('PlayersComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		playersComponent.onEditPlayerElement(0);
 		expect(spy).toHaveBeenCalledWith([0, 'edit'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -160,7 +162,8 @@ describe('PlayersComponent', () => {
 		const spy = spyOn(router, 'navigate');
 		playersComponent.onCreatePlayerElement();
 		expect(spy).toHaveBeenCalledWith(['create'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParamsHandling: 'merge'
 		});
 	});
 
@@ -170,7 +173,93 @@ describe('PlayersComponent', () => {
 		playersComponent.onDeletePlayerElement(0);
 		expect(playersComponent.players).toHaveSize(2);
 		expect(spy).toHaveBeenCalledWith(['.'], {
-			relativeTo: activatedRoute
+			relativeTo: activatedRoute,
+			queryParams: { page: 1 },
+			queryParamsHandling: 'merge'
 		});
+	});
+
+	it('should paginate players with negative page number', () => {
+		playersComponent.paginatePlayers(-1);
+		expect(playersComponent.players).toHaveSize(0);
+	});
+
+	it('should paginate players with page number greater than total elements', () => {
+		playersComponent.paginatePlayers(2);
+		expect(playersComponent.players).toHaveSize(3);
+	});
+
+	it('should paginate players with new page total equals zero', () => {
+		const playersService = TestBed.inject(PlayersService);
+		const playersCount: number = playersService.getPlayers().length;
+		for (let i: number = 0; i < playersCount; i++) {
+			playersService.deletePlayerById(0);
+		}
+		playersComponent.paginatePlayers(2);
+		expect(playersComponent.players).toHaveSize(0);
+	});
+});
+
+describe('PlayersComponent routed with page number data', () => {
+	let playersComponent: PlayersComponent;
+	let fixture: ComponentFixture<PlayersComponent>;
+
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [
+				CommonModule,
+				RouterTestingModule.withRoutes([
+					{
+						path: 'players',
+						component: PlayersComponent,
+						children: [{ path: ':playerId', component: PlayerComponent }]
+					}
+				])
+			],
+			declarations: [PlayersComponent, PlayerComponent],
+			providers: [
+				{
+					provide: ActivatedRoute,
+					useValue: {
+						params: of({}),
+						queryParams: of({ page: 1 }),
+						snapshot: { params: { playerId: '0' } },
+						url: of([
+							new UrlSegment('/', {}),
+							new UrlSegment('players', { playerId: '0' })
+						]),
+						fragment: of('/players')
+					}
+				},
+				{
+					provide: PlayersService,
+					useClass: MockPlayersService
+				}
+			],
+			schemas: [CUSTOM_ELEMENTS_SCHEMA]
+		}).compileComponents();
+	});
+
+	beforeEach(() => {
+		fixture = TestBed.createComponent(PlayersComponent);
+		playersComponent = fixture.componentInstance;
+		playersComponent.players = [
+			new Player(
+				0,
+				0,
+				0,
+				0,
+				'Joe',
+				'Stanford',
+				'00',
+				PlayerFieldPositionEnum.CENTER_FIELDER,
+				PlayerFieldPositionEnum.CENTER_FIELDER
+			)
+		];
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(playersComponent).toBeTruthy();
 	});
 });
