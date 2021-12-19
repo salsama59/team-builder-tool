@@ -167,3 +167,63 @@ describe('TeamsComponent', () => {
 		expect(teamsComponent.teams).toHaveSize(0);
 	});
 });
+
+describe('TeamsComponent routed with page number data', () => {
+	let teamsComponent: TeamsComponent;
+	let fixture: ComponentFixture<TeamsComponent>;
+	let router: Router;
+
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [
+				CommonModule,
+				RouterTestingModule.withRoutes([
+					{
+						path: 'teams',
+						component: TeamsComponent,
+						children: [{ path: ':teamId', component: TeamComponent }]
+					}
+				])
+			],
+			declarations: [TeamsComponent, TeamComponent],
+			providers: [
+				{
+					provide: ActivatedRoute,
+					useValue: {
+						params: of({}),
+						queryParams: of({ page: 1 }),
+						snapshot: { params: { teamId: '0', mode: 'view' } },
+						url: of([
+							new UrlSegment('/', {}),
+							new UrlSegment('teams', { teamId: '0', mode: 'view' })
+						]),
+						fragment: of('/teams')
+					}
+				},
+				{
+					provide: TeamsService,
+					useClass: MockTeamsService
+				}
+			],
+			schemas: [CUSTOM_ELEMENTS_SCHEMA]
+		}).compileComponents();
+	});
+
+	beforeEach(() => {
+		fixture = TestBed.createComponent(TeamsComponent);
+		teamsComponent = fixture.componentInstance;
+		router = TestBed.inject(Router);
+		teamsComponent.teams = [
+			new Team(0, 'my first team', 'MFT'),
+			new Team(1, 'my second team', 'MST'),
+			new Team(2, 'my third team', 'MTT'),
+			new Team(3, 'my fourth team', 'MFTHT')
+		];
+		router.initialNavigation();
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(teamsComponent).toBeTruthy();
+	});
+});
