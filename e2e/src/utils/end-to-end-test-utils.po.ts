@@ -15,13 +15,7 @@ export class EndToEndTestUtils {
 			if (attributeValue) {
 				return attributeValue;
 			} else {
-				console.log('getAttribute(value) return null so we try a workaround');
 				return browser.executeScript('return arguments[0].value', element);
-				// return browser.executeScript(
-				// 	'function getAttribute(webElement, attributeName) {return webElement.getAttribute(attributeName);}',
-				// 	element,
-				// 	'value'
-				// );
 			}
 		});
 	}
