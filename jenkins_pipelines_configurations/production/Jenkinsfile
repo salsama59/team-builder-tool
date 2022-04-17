@@ -28,13 +28,13 @@ pipeline {
         script {
           def remote = [:]
           remote.name = 'main_server'
-          remote.host = '15.236.247.12'
+          remote.host = "${AWS_LIGTHSAIL_SERVER_IP}"
           remote.allowAnyHosts = true
           withCredentials([sshUserPrivateKey(credentialsId: '0356a688-d313-49c9-919e-227b95f1f068', keyFileVariable: 'keyFile', passphraseVariable: '', usernameVariable: 'username')]) {
             remote.user = username
             remote.identityFile = keyFile
-            sh 'scp -i $keyFile ./dist/team-builder-tool-archive.tar.gz ubuntu@15.236.247.12:/home/apps'
-            sshCommand remote: remote, command: 'cd /home/apps && sudo tar -zxvf team-builder-tool-archive.tar.gz && sudo chmod -R 765 team-builder-tool && sudo chown -R ubuntu:ubuntu team-builder-tool && sudo rm team-builder-tool-archive.tar.gz'
+            sh 'scp -i $keyFile ./dist/team-builder-tool-archive.tar.gz ubuntu@${AWS_LIGTHSAIL_SERVER_IP}:/home/apps'
+            sshCommand remote: remote, command: 'cd /home/apps && sudo rm -r team-builder-tool/* && sudo tar -zxvf team-builder-tool-archive.tar.gz && sudo chmod -R 765 team-builder-tool && sudo chown -R ubuntu:ubuntu team-builder-tool && sudo rm team-builder-tool-archive.tar.gz'
           }
         }
       }
